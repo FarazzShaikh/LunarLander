@@ -24,8 +24,11 @@ export default class Player {
     }
 
     calcModifiers(dt) {
-        this.modifiers.gravity.calculate(dt, this.position, this.velocity, this.mass, this.bounds)
+        if(!this.modifiers.collision.calculate(dt, this.position, this.velocity, this.mass, this.bounds)) {
+            this.modifiers.gravity.calculate(dt, this.position, this.velocity, this.mass, this.bounds)
+        }
         this.modifiers.boost.calculate(dt, this.position, this.velocity, this.mass, this.bounds)
+        
     }
 
     update(delta) {
