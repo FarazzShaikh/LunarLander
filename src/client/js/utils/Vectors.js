@@ -14,6 +14,5 @@ export class Vec2D {
         this.y -= vec.y
     }
 
-
     
 }

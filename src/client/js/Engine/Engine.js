@@ -22,16 +22,15 @@ export default class Engine {
     }
 
     registerPlayer(player) {
+        player.addDomNode()
         player.setContext(this.spriteCanvasContext)
         this.players.push(player)
     }
 
     update() {
-        const delta = this._tick()
+        const delta = this._tick() / 1000
 
-        this.spriteCanvas.clear()
         if(this.terrain.needsUpdate) {
-            this.backgroundCanvas.clear()
             this.terrain.drawTerrain(this.terrain.heightBuffer)
             this.terrain.needsUpdate = false
         }
