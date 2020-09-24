@@ -1,12 +1,19 @@
+import { Vec2D } from "../../utils/Vectors"
+
 export class Collision {
     constructor({terrain, players}) {
         this.terrain = terrain
         this.heightBuffer = terrain.heightBuffer
         this.hitbox = terrain.bounds
-        console.log(this.hitbox)
     }
 
     calculate(dt, position, velocity, mass, bounds) {
+        let nVelocity = new Vec2D(velocity.x, velocity.y)
+
+        // 2s = vt + ut
+        // vt = ut - 2s
+        // v = (ut - 2s) / t
+
         if(
             position.x > this.hitbox.left &&
             position.x < this.hitbox.right &&
@@ -14,13 +21,16 @@ export class Collision {
             position.y < this.hitbox.bottom 
         ) {
             if(this.heightBuffer[Math.floor(position.x)] < position.y) {
-                velocity.y = 0
-                velocity.x = 0
-                return true
+                
+                
+
+                position.y = this.heightBuffer[Math.floor(position.x)]
+                nVelocity.x = 0 
+
+                
             }
-            return false
-        } else {
-            return false
         }
+
+        return nVelocity
     }
 }

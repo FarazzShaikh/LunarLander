@@ -1,3 +1,5 @@
+import { Vec2D } from "../../utils/Vectors";
+
 export class Boost {
     constructor() {
         this.boostStrength = {x: 0, y: 0}
@@ -5,19 +7,19 @@ export class Boost {
         this.framerate = 1 / 60
 
         document.addEventListener("keydown", (e) => {
-            if (!e.repeat) {
+            if (true) {
                 switch (e.code) {
                     case 'Space':
-                        this.boostStrength.y = 5
+                        this.boostStrength.y = -0.5
                         this.active = true
                         break;
                     case 'ArrowRight':
-                        this.boostStrength.x = -1
+                        this.boostStrength.x = 0.1
                         this.boostStrength.y = 0
                         this.active = true
                         break;
                     case 'ArrowLeft':
-                        this.boostStrength.x = 1
+                        this.boostStrength.x = -0.1
                         this.boostStrength.y = 0
                         this.active = true
                         break;
@@ -33,17 +35,26 @@ export class Boost {
     }
 
     calculate(dt, position, velocity, mass, bounds) {
+
+        let nVelocity = new Vec2D(velocity.x, velocity.y)
+        let force = new Vec2D(this.boostStrength.x, this.boostStrength.y)
+
         if (this.active) {
             console.log('boost')
-            if (velocity.y > -100) {
-                velocity.x -= this.boostStrength.x
-                velocity.y -= this.boostStrength.y
-                position.x += velocity.x * this.framerate * 100;
-                position.y += velocity.y * this.framerate * 100;
-            }
+
+            const acc = new Vec2D(
+                force.x / mass,
+                force.y / mass
+            )
+
+            nVelocity.x += acc.x * 1;
+            nVelocity.y += acc.y * 1;
 
         }
+
         this.boostStrength = {x: 0, y: 0}
         this.active = false
+
+        return nVelocity
     }
 }
