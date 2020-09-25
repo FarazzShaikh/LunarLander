@@ -1,7 +1,8 @@
 import { noise as Perlin } from '@chriscourses/perlin-noise'
 
 export default class Terrain {
-    constructor() {
+    constructor({state}) {
+        this.state = state
         this.heightBuffer = []
 
         this.canvas = undefined
@@ -16,7 +17,8 @@ export default class Terrain {
             top: 10E7,
             left: 0,
             right: Number(this.canvas.style.width.split('p')[0]),
-            bottom: Number(this.canvas.style.height.split('p')[0])
+            bottom: Number(this.canvas.style.height.split('p')[0]),
+            lowest: -1
         }
     }
 
@@ -28,10 +30,12 @@ export default class Terrain {
             const noise = (1 * 1 * Perlin(x * 0.01) * 100) + 500
 
             this.bounds.top = noise < this.bounds.top ? noise : this.bounds.top
+            this.bounds.lowest = noise > this.bounds.top ? noise : this.bounds.lowest
 
             this.heightBuffer.push(noise)
 
         }
+        this.state.setState('seaLevel', this.bounds.lowest)
         return this.heightBuffer;
     }
 
