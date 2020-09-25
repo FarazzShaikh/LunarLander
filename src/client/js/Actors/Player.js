@@ -1,10 +1,11 @@
 import { Vec2D } from "../utils/Vectors"
 
 export default class Player {
-    constructor({name, position, size, modifiers, velocity, accleration}) {
+    constructor({name, position, size, modifiers, velocity, accleration, state}) {
         this.name = name ||  `${Math.random()}`
         this.size = size || {w: 50, h: 50}   
         this.bounds = {}
+        this.state = state
 
         this.position = position || new Vec2D(0, 0)
         this.velocity = velocity || new Vec2D(0, 0)
@@ -46,7 +47,7 @@ export default class Player {
         this.playerNode.style.backgroundColor = 'red'
         this.playerNode.style.position = 'absolute'
         this.translate(this.position)
-        document.body.appendChild(this.playerNode)
+        this.canvas.appendChild(this.playerNode)
     }
 
     translate(vec) {
@@ -57,10 +58,16 @@ export default class Player {
         this.translate(this.position)
     }
 
+    setState(dt) {
+        this.state.setState('VelX', this.velocity.x)
+        this.state.setState('VelY', this.velocity.y)
+        this.state.setState('Alt', this.position.y)
+    }
+
     update(delta) {
         this.calcForces(delta)
         this.calsPosition(delta)
-
+        this.setState(delta)
         this.draw()
     }
 }

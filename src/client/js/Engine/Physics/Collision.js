@@ -26,6 +26,7 @@ export class Collision {
 
                 position.y = this.heightBuffer[Math.floor(position.x)]
                 nVelocity.x = 0 
+                nVelocity.y = 0
 
                 
             }

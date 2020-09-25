@@ -1,4 +1,4 @@
-import Player from './App/Player'
+import Player from './Actors/Player'
 import Engine from './Engine/Engine'
 import Renderer, { Layer } from './Engine/Renderer'
 
@@ -6,13 +6,16 @@ import { Boost } from './Engine/Physics/Boost'
 import { Gravity } from './Engine/Physics/Gravity'
 
 import { Vec2D } from './utils/Vectors'
-import Terrain from './App/Terrain'
+import Terrain from './Actors/Terrain'
 import { Collision } from './Engine/Physics/Collision'
 import { Drag } from './Engine/Physics/Drag'
+import HUD from './HUD/HUD'
+import Store from './State/Store'
 
 let renderer, engine
 
 export default function main() {
+    const store = new Store()
     // Init renderer
     renderer = new Renderer({
         layers: [
@@ -20,6 +23,8 @@ export default function main() {
             new Layer({name: 'Background', backgroundColor: 'black'}),
             //layer for Players
             new Layer({name: 'Sprite'}),
+
+            new Layer({name: 'HUD'}),
         ]
     })
     //Get layers as divs
@@ -28,10 +33,17 @@ export default function main() {
     nodes.forEach(n => document.body.append(n))
     
     //Init engine
-    engine = new Engine({renderer: renderer})
+    engine = new Engine({renderer: renderer, state: store})
+    engine.registerHUD(
+        new HUD()
+    )
+    engine.startTimer()
+
     // Register terrain
     engine.registerTerrain(
-        new Terrain()
+        new Terrain({
+            state: store
+        })
     )
     // Register player
     engine.registerPlayer(
@@ -45,9 +57,11 @@ export default function main() {
                 boost: new Boost(),
                 drag: new Drag(),
                 collision: new Collision({terrain: engine.terrain})
-            }
+            },
+            state: store
         })
     )
+
     
     // Iniitial call to render
     render()

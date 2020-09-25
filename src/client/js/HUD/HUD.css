@@ -1,0 +1,56 @@
+.HUD-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.HUD-main {
+    width: 300px;
+
+    margin: 16px;
+    border: 2px solid white;
+    border-radius: 5px;
+
+    color: white;
+    font-family: monospace, sans-serif;
+    white-space: nowrap;
+    font-weight: bold;
+    font-size: 21px;
+}
+
+.HUD-main .HUD-Timer {
+    width: 100%;
+    text-align: center;
+    margin: 8px 0px;
+}
+
+.HUD-main ul {
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 32px;
+}
+
+.HUD-main ul li {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.HUD-main ul li .title {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 15px;
+    font-weight: 300;
+}
+
+.HUD-main ul img {
+    margin: 8px;
+}
