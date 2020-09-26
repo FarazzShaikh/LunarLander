@@ -8,7 +8,7 @@ export class Drag {
     }
 
 
-    calculate(dt, position, velocity, mass, bounds) {
+    calculate(dt, position, velocity, rotation, mass, bounds) {
         let nVelocity = new Vec2D(velocity.x, velocity.y)
 
         const A = (6 * 50**2) / (10000);
@@ -31,5 +31,21 @@ export class Drag {
         nVelocity.y += acc.y * dt;
 
         return nVelocity
+    }
+
+    calcRotation(dt, position, rotation, mass) {
+        let nRotation = rotation
+
+        const A = (6 * 50**2) / (10000);
+
+        let force = -0.5 * this.Cd * A * this.rho * nRotation * nRotation * nRotation / Math.abs(nRotation)
+
+        force = (isNaN(force) ? 0 : force);
+
+        const acc = force / mass
+
+        nRotation += acc * dt;
+
+        return nRotation
     }
 }

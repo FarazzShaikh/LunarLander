@@ -51,6 +51,7 @@ export default function main() {
             name: 'Test1',
             size: {w: 25, h: 25},
             position: new Vec2D(100, 100),
+            velocity: new Vec2D(2, 0),
             // Physics Modifiers
             modifiers: {
                 gravity: new Gravity(),
