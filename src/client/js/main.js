@@ -12,10 +12,10 @@ import { Drag } from './Engine/Physics/Drag'
 import HUD from './HUD/HUD'
 import Store from './State/Store'
 
-let renderer, engine
+let renderer, engine, store
 
 export default function main() {
-    const store = new Store()
+    store = new Store()
     // Init renderer
     renderer = new Renderer({
         layers: [
@@ -55,7 +55,7 @@ export default function main() {
             // Physics Modifiers
             modifiers: {
                 gravity: new Gravity(),
-                boost: new Boost(),
+                boost: new Boost({state: store}),
                 drag: new Drag(),
                 collision: new Collision({terrain: engine.terrain})
             },
@@ -78,6 +78,7 @@ function render() {
     if(!isGameOver) {
         requestAnimationFrame(render)
 
+        store.updateHUD()
         engine.update()
     } else {
         gameOver()

@@ -7,6 +7,7 @@ export default class Player {
         this.bounds = {}
         this.state = state
 
+
         this.position = position || new Vec2D(0, 0)
         this.velocity = velocity || new Vec2D(0, 0)
 
@@ -17,6 +18,7 @@ export default class Player {
         
         this.modifiers = modifiers || {}
         this.framerate = 1 / 60
+        this.state.setState('fuel', 100)
     }
 
     setContext(context) {
@@ -79,6 +81,7 @@ export default class Player {
         this.state.setState('VelX', this.velocity.x)
         this.state.setState('VelY', this.velocity.y)
         this.state.setState('Alt', this.position.y)
+        
     }
 
     update(delta) {

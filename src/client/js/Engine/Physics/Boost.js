@@ -1,7 +1,8 @@
 import { Vec2D } from "../../utils/Vectors";
 
 export class Boost {
-    constructor() {
+    constructor({state}) {
+        this.state = state
         this.boostStrength = 0
         this.rotation = 0
         this.active = false
@@ -11,13 +12,16 @@ export class Boost {
             if (true) {
                 if(e.code == 'Space') {
                     this.boostStrength = -0.3
+                    this.state.setState('fuel', this.state.store.fuel - 0.3)
                     this.active = true
                 }
                 if(e.code == 'ArrowRight') {
                     this.rotation += -0.05
+                    this.state.setState('fuel', this.state.store.fuel - 0.1)
                 }
                 if(e.code == 'ArrowLeft') {
                     this.rotation += 0.05
+                    this.state.setState('fuel', this.state.store.fuel - 0.1)
                 }
             }
         });

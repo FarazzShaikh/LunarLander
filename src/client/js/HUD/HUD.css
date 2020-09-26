@@ -25,12 +25,18 @@
 }
 
 .HUD-main ul {
-
+    
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0px 32px;
 }
+
+.HUD-main ul.singleton {
+    justify-content: center;
+}
+
+
 
 .HUD-main ul li {
     list-style: none;
