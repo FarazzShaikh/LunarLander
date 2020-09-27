@@ -7,7 +7,7 @@ export class Gravity {
     }
 
 
-    calculate(dt, position, velocity, mass, bounds) {
+    calculate(dt, position, velocity, rotation, mass, bounds) {
         let nVelocity = new Vec2D(velocity.x, velocity.y)
 
         let force = new Vec2D(0, mass * this.g)
