@@ -1,8 +1,9 @@
 import { Vec2D } from "../../utils/Vectors"
 
 export class Collision {
-    constructor({terrain, players}) {
+    constructor({terrain, players, state}) {
         this.terrain = terrain
+        this.state = state
         this.heightBuffer = terrain.heightBuffer
         this.hitbox = terrain.bounds
     }
@@ -18,7 +19,7 @@ export class Collision {
         ) {
             if(this.heightBuffer[Math.floor(position.x)] < position.y) {
                 
-                
+                this.state.setState('killplayer',true)
 
                 position.y = this.heightBuffer[Math.floor(position.x)]
                 nVelocity.x = 0 
@@ -41,6 +42,7 @@ export class Collision {
             position.y < this.hitbox.bottom 
         ) {
             if(this.heightBuffer[Math.floor(position.x)] <= position.y) {
+                this.state.setState('killplayer', true)
                 nRotation = 0 
             }
         }
