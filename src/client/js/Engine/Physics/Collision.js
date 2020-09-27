@@ -19,7 +19,7 @@ export class Collision {
         ) {
             if(this.heightBuffer[Math.floor(position.x)] < position.y) {
                 
-                this.state.setState('killplayer',true)
+                this.state.setState('isGameOver',true)
 
                 position.y = this.heightBuffer[Math.floor(position.x)]
                 nVelocity.x = 0 
@@ -42,7 +42,7 @@ export class Collision {
             position.y < this.hitbox.bottom 
         ) {
             if(this.heightBuffer[Math.floor(position.x)] <= position.y) {
-                this.state.setState('killplayer', true)
+                this.state.setState('isGameOver', true)
                 nRotation = 0 
             }
         }

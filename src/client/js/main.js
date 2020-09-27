@@ -75,7 +75,7 @@ function gameOver() {
 
 // Render called every frame
 function render() {
-    if(!store.store.killplayer) {
+    if(!store.store.isGameOver) {
         requestAnimationFrame(render)
 
         store.updateHUD()
