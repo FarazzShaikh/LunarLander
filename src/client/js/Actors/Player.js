@@ -19,6 +19,7 @@ export default class Player {
         this.modifiers = modifiers || {}
         this.framerate = 1 / 60
         this.state.setState('fuel', 100)
+        this.state.setState('isGameOver', false)
     }
 
     setContext(context) {

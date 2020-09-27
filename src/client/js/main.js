@@ -57,7 +57,7 @@ export default function main() {
                 gravity: new Gravity(),
                 boost: new Boost({state: store}),
                 drag: new Drag(),
-                collision: new Collision({terrain: engine.terrain})
+                collision: new Collision({terrain: engine.terrain, state: store})
             },
             state: store
         })
@@ -75,7 +75,7 @@ function gameOver() {
 
 // Render called every frame
 function render() {
-    if(!isGameOver) {
+    if(!store.store.isGameOver) {
         requestAnimationFrame(render)
 
         store.updateHUD()
