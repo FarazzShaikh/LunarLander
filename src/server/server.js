@@ -32,10 +32,10 @@ function joinGame(username) {
     
 }
   
-function handleInput(dir) {
-    game.handleInput(this, dir);
+function handleInput(state) {
+    
 }
   
 function onDisconnect() {
-    game.removePlayer(this);
+    
 }
