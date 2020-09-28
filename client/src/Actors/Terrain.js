@@ -1,7 +1,8 @@
-import { noise as Perlin } from '@chriscourses/perlin-noise'
+import { noise as Perlin, noiseSeed } from '@chriscourses/perlin-noise'
 
 export default class Terrain {
-    constructor({state}) {
+    constructor({state, seed}) {
+        this.seed = seed
         this.state = state
         this.heightBuffer = []
 
@@ -23,6 +24,7 @@ export default class Terrain {
     }
 
     genTerrain() {
+        noiseSeed(this.seed)
         for (let x = 0; x < this.bounds.right; x++) {
             const cratorBig = Math.sin(x * 0.009) > 0 ? (Math.sin(x * 0.009) * 1.5) + 0.7 : 1
             const cratorSmall = Math.sin(x * 0.05) > 0 ? (Math.sin(x * 0.05) * 0.2) + 1 : 1

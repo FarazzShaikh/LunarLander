@@ -5,11 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "npm-run-all --parallel dev:server lint:watch",
-    "dev:server": "webpack-dev-server --hot --inline",
+    "dev:server": "npm run build && node server/dist/server_bundle.js",
+    "dev:hot": "webpack-dev-server --hot --inline",
     "watch": "webpack -w -d",
-    "build": "webpack -p",
-    "lint": "node_modules/.bin/esw webpack.config.* src --color",
-    "lint:watch": "npm run lint -- --watch"
+    "build": "webpack -p"
   },
   "keywords": [
     "es6"
@@ -25,15 +24,19 @@
     "eslint-watch": "^4.0.2",
     "html-loader": "^1.3.1",
     "npm-run-all": "^4.0.2",
+    "source-map-support": "^0.5.19",
     "style-loader": "^1.2.1",
     "webpack": "^4.27.1",
     "webpack-cli": "^3.1.2",
-    "webpack-dev-server": "^3.1.10"
+    "webpack-dev-server": "^3.1.10",
+    "webpack-node-externals": "^2.5.2"
   },
   "dependencies": {
     "@chriscourses/perlin-noise": "^1.0.5",
+    "express": "^4.17.1",
     "socket.io": "^2.3.0",
     "socket.io-client": "^2.3.0",
-    "express": "^4.17.1"
+    "uuid": "^8.3.0",
+    "uuidv4": "^6.2.3"
   }
 }
