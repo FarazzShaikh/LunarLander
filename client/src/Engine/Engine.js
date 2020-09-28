@@ -49,8 +49,8 @@ export default class Engine {
             this.terrain.needsUpdate = false
         }
 
-        
         this.players.forEach(p => {
+            console.log(p)
             p.update(delta)
         })
     }

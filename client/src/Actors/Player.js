@@ -55,7 +55,7 @@ export default class Player {
         this.playerNode = document.createElement('div')
         this.playerNode.style.width = `${this.size.w}px`
         this.playerNode.style.height = `${this.size.h}px`
-        this.playerNode.style.backgroundColor = 'red'
+        this.playerNode.style.backgroundColor = 'white'
         this.playerNode.style.position = 'absolute'
         this.playerNode.style.display = 'flex'
         this.playerNode.style.justifyContent = 'center'
