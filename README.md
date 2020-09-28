@@ -58,5 +58,5 @@ Player-Terrain collision is handled by first checking if the player’s hit-box 
 
 
 ## Debug Instructions
-* `npm install` to install all depenancies
-* `npm run dev:server` to serve app on http://localhost:8080
+* `npm install` to install all depenancies.
+* `npm run dev:server` to serve app on: http://localhost:8080
