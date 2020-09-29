@@ -1,100 +1,56 @@
-import Player from './Actors/Player'
-import Engine from './Engine/Engine'
-import Renderer, { Layer } from './Engine/Renderer'
-
-import { Boost } from './Engine/Physics/Boost'
-import { Gravity } from './Engine/Physics/Gravity'
-
-import { Vec2D } from './utils/Vectors'
-import Terrain from './Actors/Terrain'
-import { Collision } from './Engine/Physics/Collision'
-import { Drag } from './Engine/Physics/Drag'
-import HUD from './HUD/HUD'
-import Store from './State/Store'
-
 import io from 'socket.io-client';
-import { v4 as uuid } from 'uuid';
-
-let renderer, engine, store
+import { EVENTS, REQUEST } from '../../shared/Consts';
+import Engine from './Engine/Engine';
+import Renderer, { Layer } from './Engine/Renderer';
+import Terrain from './Objects/Terrain';
 
 export default function main() {
+    let renderer, engine
+
+    // Spcket io instance
     const socket = io()
-    socket.on('helloClient', () => {
-        socket.emit('helloClient-acknolaged', uuid())
-        store = new Store()
-        // Init renderer
-        renderer = new Renderer({
-            layers: [
-                // Layer for the terrrain
-                new Layer({name: 'Background', backgroundColor: 'black'}),
-                //layer for Players
-                new Layer({name: 'Sprite'}),
     
-                new Layer({name: 'HUD'}),
-            ]
-        })
-        //Get layers as divs
-        const nodes = renderer.getDoccumentNodes()
-        //add Layers to the page
-        nodes.forEach(n => document.body.append(n))
-        
-        //Init engine
-        engine = new Engine({renderer: renderer, state: store})
-    });
-    socket.on('helloClient-drawTerrain', (terrainOptions) => {
-        engine.registerHUD(
-            new HUD()
-        )
-        engine.startTimer()
-    
-        // Register terrain
-        engine.registerTerrain(
-            new Terrain({
-                state: store
-            })
-        )
-        render()
+    // On connect
+    socket.on('connect', () => {
+        console.log('connected')
+
+        // Initialize Renderer
+        renderer = initRenderer()
+        // Initialize Engine
+        engine = new Engine(renderer)
+
+        // Request terrain seed
+        socket.emit(REQUEST.REQUEST_TERRAIN.req)
     })
 
-   
-    
-    // Register player
-    // engine.registerPlayer(
-    //     new Player({
-    //         name: 'Test1',
-    //         size: {w: 25, h: 25},
-    //         position: new Vec2D(100, 100),
-    //         velocity: new Vec2D(2, 0),
-    //         // Physics Modifiers
-    //         modifiers: {
-    //             gravity: new Gravity(),
-    //             boost: new Boost({state: store}),
-    //             drag: new Drag(),
-    //             collision: new Collision({terrain: engine.terrain, state: store})
-    //         },
-    //         state: store
-    //     })
-    // )
+    socket.on(REQUEST.REQUEST_TERRAIN.ack, (seed) => {
+        engine.registerTerrain(
+            new Terrain(seed)
+        )
+    })
 
-    
-    // Iniitial call to render
-
+    // Game Loop
+    socket.on(EVENTS.SERVER_TICK, (dt) => {
+        console.log('server-tick')
+        engine.update(dt)
+    })
 }
 
-const isGameOver = false
-function gameOver() {
-    console.log('gameOver')
-}
 
-// Render called every frame
-function render() {
-    if(!store.store.isGameOver) {
-        requestAnimationFrame(render)
+function initRenderer() {
+    const renderer = new Renderer({
+        layers: [
+            // Layer for the terrrain
+            new Layer({name: 'Background', backgroundColor: 'black'}),
+            //layer for Players
+            new Layer({name: 'Sprite'}),
 
-        store.updateHUD()
-        engine.update()
-    } else {
-        gameOver()
-    }
-    
+            new Layer({name: 'HUD'}),
+        ]
+    })
+    //Get layers as divs
+    const nodes = renderer.getDoccumentNodes()
+    //add Layers to the page
+    nodes.forEach(n => document.body.append(n))
+    return renderer
 }

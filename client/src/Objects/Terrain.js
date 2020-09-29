@@ -1,14 +1,11 @@
 import { noise as Perlin, noiseSeed } from '@chriscourses/perlin-noise'
 
 export default class Terrain {
-    constructor({state, seed}) {
+    constructor(seed) {
         this.seed = seed
-        this.state = state
         this.heightBuffer = []
-
         this.canvas = undefined
         this.bounds = {}
-
         this.needsUpdate = true
     }
 
@@ -37,7 +34,7 @@ export default class Terrain {
             this.heightBuffer.push(noise)
 
         }
-        this.state.setState('seaLevel', this.bounds.lowest)
+
         return this.heightBuffer;
     }
 
