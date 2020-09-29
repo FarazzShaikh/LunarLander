@@ -8,7 +8,7 @@
     "dev:server": "npm run build && node server/dist/server_bundle.js",
     "dev:hot": "webpack-dev-server --hot --inline",
     "watch": "webpack -w -d",
-    "build": "webpack -p",
+    "build": "webpack -p"
 
   },
   "keywords": [
