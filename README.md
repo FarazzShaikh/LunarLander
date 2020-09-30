@@ -15,10 +15,8 @@ Our version of Lunar Lander will be a multiplayer game that allows there to be m
 | [Faraz Shaikh](https://github.com/farazzshaikh)  |   fzs3| Lead Developer  |
 |  [Farhan Alvi](https://github.com/farhansolodev) |  ff15 | Lead Backend Developer  |
 |  [Kishan Bapodra](https://github.com/KishanBapodra) |  bkj2 | Game Developer  |
-|  [Gaurav Nayar](https://github.com/GauravNayar) |  gan4 | Game Developer  |
+|  [Gaurav Nayar](https://github.com/GauravNayar) |  gan4 | Front End Developer  |
 |  [Mostafa Elsayed](https://github.com/TheChosenSir) |  mme10 | Backend Developer  |
-
-
 ### Game Flow
 The players take control of a spacecraft and must land it in relatively “flat” regions on the surface of the Moon. The player will use the Space key to apply thrust and the Left and Right Arrow keys to control rotation of the spacecraft. The Player must conserve fuel, minimize time taken and damage to the craft, and land with minimal velocity.
 ### Look and Feel
@@ -28,6 +26,20 @@ Our remake will also employ the same style, staying true to the original artisti
 Lunar Lander was the most popular game in the “Lunar Lander” sub-Genre. It is classed as a Vehicle Simulation game.
 ### Target Audience
 The game appeals to fans of classics arcade titles, and players who have a deep nostalgia for old school arcade games.
+
+## **Multiplayer**
+### Overview
+Our game withh use the classic Client-Server archicture for handling multiplayer. This Architecture offers many benifits such as Centralized control and Scalibility as well as offering a single source of Truth for all players. Multiplayer is implimented using WebSockets. WebSockets offer fast two-way communication over on TCP connection. This make sit ideal for games where ther is data being transmitted from server to client and then back to the server over 60 times a second.
+All Calculations are done on the server and the resulting Position and rotation vectors are sent to the clients to update their positions.
+### Implimentation
+This project uses Socket.io as an abstraction for native WebSockets. This saves time and enables rapid developent and addition of features.
+We use two methos of communication -
+#### Server Events
+These are standalone events broadcast by the server to all players They are used ot signal update of data related to all players at once.
+#### Request Events
+These are events made by ether the server or the client to request some data from the other. These events are resolved by an _Acknowledgement_ event. These events are used to send specific data to a user for example, the seed for Terrain generation.
+### Limitations of Our Implimentation.
+Our implimention of multiplayer is highly dependant on the processing capability of our server, as we are limited on the resources on our server, this will make the game Scalable but only to a limit. The game will be tested and optimized to acoomodate the maximum amount of players.
 
 ## **Technical Details**
 ### Movement
@@ -56,7 +68,3 @@ Player-Player collision is handled by checking if the bounding boxes of the inte
 
 Player-Terrain collision is handled by first checking if the player’s hit-box (bounding box of the IMG tag) overlaps the hit-box of the terrain.
 
-
-## Debug Instructions
-* `npm install` to install all depenancies.
-* `npm run dev:server` to serve app on: http://localhost:8080

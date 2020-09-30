@@ -1,14 +1,24 @@
 import { noise as Perlin, noiseSeed } from '@chriscourses/perlin-noise'
 
+// Class representing the terrain.
 export default class Terrain {
     constructor(seed) {
+        // Seed for consistant terrain generation across clients.
         this.seed = seed
+        // Array of all height values.
         this.heightBuffer = []
+        // The Container to draw the terrain in.
         this.canvas = undefined
+        // The Rough bounding box of the terrain.
         this.bounds = {}
+        // If the terrain requires a re-draw
         this.needsUpdate = true
     }
 
+    /**
+     * Sets a container to drae the terrain in.
+     * @param {HTMLDivElement} context The container/render layer to render the terrain in.
+     */
     setContext(context) {
         this.canvas = context
         this.bounds = {
@@ -20,6 +30,10 @@ export default class Terrain {
         }
     }
 
+    /**
+     * Generates the height buffer by using perlin noise.
+     * @returns {Array<number>} The generated Height Buffer.
+     */
     genTerrain() {
         noiseSeed(this.seed)
         for (let x = 0; x < this.bounds.right; x++) {
@@ -36,8 +50,13 @@ export default class Terrain {
         }
 
         return this.heightBuffer;
+        
     }
 
+    /**
+     * Draws a given height buffer ot the screen using SVGSVGElement.
+     * @param {Array<number>} terrain The Height Buffer to draw.
+     */
     drawTerrain(terrain) {
         var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
         var polygon = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
@@ -61,6 +80,10 @@ export default class Terrain {
         this.canvas.appendChild(svg)
     }
 
+    /**
+     * Returns value of height buffer at a given index.
+     * @param {number} x The index to sample the Hegight Buffer at.
+     */
     getValue(x) {
         return this.heightBuffer[x]
     }
