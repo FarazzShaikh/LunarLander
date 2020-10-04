@@ -2,7 +2,7 @@
 import { Socket } from 'socket.io';
 
 // Import Objects and Classes
-import { EVENTS } from "../../../shared/Consts"
+import { DEFAULTS, EVENTS } from "../../../shared/Consts"
 import { Player } from "./Player"
 
 // Class representing the Game.
@@ -17,6 +17,7 @@ export default class Game {
         this.terrainSeed = Math.random()
         // Runs the update function every 1/60th of a second.
         setInterval(this.update.bind(this), 1000/60);
+
     }
 
     /**
@@ -47,12 +48,49 @@ export default class Game {
     }
 
     /**
+     * Function that moves the player in responce to Keybpard input
+     * @param {Socket} socket 
+     * @param {String} type 
+     */
+    movePlayer(socket, type) {
+        if(this.players[socket.id]) {
+            switch (type) {
+                case 'BOOST':
+                    this.players[socket.id].applyForce({
+                        x: DEFAULTS.MOVEMENT_STRENGTH.BOOST,
+                        y: DEFAULTS.MOVEMENT_STRENGTH.BOOST
+                    })
+                    break;
+            
+                case 'P_ROTATE':
+                    this.players[socket.id].applyTorque(DEFAULTS.MOVEMENT_STRENGTH.P_ROTATE)
+                    break;
+
+                case 'N_ROTATE':
+                    this.players[socket.id].applyTorque(DEFAULTS.MOVEMENT_STRENGTH.N_ROTATE)
+                    break;
+
+                default:
+                    break;
+            }
+        }
+        
+    }
+
+    /**
      * Update Function called every 1/60th of a second.
      */
     update() {
         const dt = this._tick() / 1000
-        Object.keys(this.players).forEach(k => {
-            this.players[k].socket.emit(EVENTS.SERVER_TICK, dt)
+        Object.values(this.players).forEach(player => {
+            const mustUpdatePlayer = player.update(dt)
+            player.socket.emit(EVENTS.SERVER_TICK, dt)
+            if(mustUpdatePlayer) {
+                player.socket.emit(EVENTS.SERVER_UPDATE_PLAYER, player.getSerialized())
+                player.socket.broadcast.emit(EVENTS.SERVER_UPDATE_PLAYER, player.getSerialized())
+                player.needsUpdate = false
+            }
+            
         })
     }
 

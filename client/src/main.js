@@ -3,6 +3,7 @@ import io from 'socket.io-client';
 
 // Class imports
 import { EVENTS, REQUEST } from '../../shared/Consts';
+import Controller from './Engine/Controller';
 import Engine from './Engine/Engine';
 import Renderer, { Layer } from './Engine/Renderer';
 import Terrain from './Objects/Terrain';
@@ -10,10 +11,12 @@ import Terrain from './Objects/Terrain';
 // Main
 export default function main() {
     // Declaring in scope of main
-    let renderer, engine
+    let renderer, engine, controller
 
     // Create a Socket io instance.
     const socket = io()
+
+    
     
     // Listens for 'connect' event.
     socket.on('connect', () => {
@@ -24,6 +27,7 @@ export default function main() {
         // Initialize Engine
         engine = new Engine(renderer)
 
+        controller = new Controller(socket)
         // Requests terrain options.
         socket.emit(REQUEST.REQUEST_TERRAIN.req)
     })
@@ -42,7 +46,8 @@ export default function main() {
     socket.on(REQUEST.REQUEST_NEW_PLAYER.ack, players => engine.updatePlayers(players))
     // Listens for Update PLayerss event. Then updates list of all players.
     socket.on(EVENTS.SERVER_UPDATE_PLAYERS, players => engine.updatePlayers(players))
-
+    // Listen for Player Update Events and fire the function to update a single player
+    socket.on(EVENTS.SERVER_UPDATE_PLAYER, player => engine.updatePlayer(player))
 
     // GListens for Server Tick events.
     socket.on(EVENTS.SERVER_TICK, (dt) => {

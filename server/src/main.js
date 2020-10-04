@@ -31,6 +31,9 @@ export default function main(http) {
             socket.broadcast.emit(EVENTS.SERVER_UPDATE_PLAYERS, game.getPlayers())
         })
 
+        // Listen for PLayer Moved events and tell game to move the player.
+        socket.on(EVENTS.PLAYER_HAS_MOVED, typeOfMovement => game.movePlayer(socket, typeOfMovement))
+
         // Listens for 'disconnect' events.
         socket.on('disconnect', () => {
             // Removes disconected player from the game.
