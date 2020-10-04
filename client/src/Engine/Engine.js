@@ -41,7 +41,7 @@ export default class Engine {
 
     /**
      * Updates current list of players with a new list of Players.
-     * @param {Array<Player>} players Array of players to update current list of players with.
+     * @param {Array<Object>} players Array of players to update current list of players with.
      */
     updatePlayers(players) {
         console.log('up', players)
@@ -59,6 +59,23 @@ export default class Engine {
     }
 
     /**
+     * Updates a single player in the players list
+     * @param {Object} Player to update in the players list 
+     */
+    updatePlayer(player) {
+        if(this.players[player.id]) {
+            this.players[player.id].removeDomNode()
+            this.players[player.id] = undefined
+            this.registerPlayer(new Player({
+                id: player.id,
+                position: player.position,
+                rotation: player.rotation
+            }))
+        }
+       
+    }
+
+    /**
      * Runs every frame. Calls update method of all players.
      * @param {Number} dt Delta-time.
      */
@@ -71,7 +88,6 @@ export default class Engine {
         }
 
         Object.values(this.players).forEach(p => {
-
             p.update()
         })
     }
