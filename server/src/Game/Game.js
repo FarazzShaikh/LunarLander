@@ -83,14 +83,7 @@ export default class Game {
     update() {
         const dt = this._tick() / 1000
         Object.values(this.players).forEach(player => {
-            const mustUpdatePlayer = player.update(dt)
             player.socket.emit(EVENTS.SERVER_TICK, dt)
-            if(mustUpdatePlayer) {
-                player.socket.emit(EVENTS.SERVER_UPDATE_PLAYER, player.getSerialized())
-                player.socket.broadcast.emit(EVENTS.SERVER_UPDATE_PLAYER, player.getSerialized())
-                player.needsUpdate = false
-            }
-            
         })
     }
 
