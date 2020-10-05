@@ -26,7 +26,7 @@ export default function main() {
         renderer = initRenderer()
         // Initialize Engine
         engine = new Engine(renderer)
-
+        // Initialize Controller
         controller = new Controller(socket)
         // Requests terrain options.
         socket.emit(REQUEST.REQUEST_TERRAIN.req)

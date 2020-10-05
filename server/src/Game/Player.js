@@ -48,10 +48,10 @@ export class Player {
      * Apply a force to the player
      * @param {Object} force 
      */
-    applyForce(force) {
+    applyForce(force, isAlongNormal) {
         this.force = {
-            x: -force.x * -Math.sin(this.rotation), 
-            y: -force.y * Math.cos(this.rotation)
+            x: isAlongNormal ? -force.x * -Math.sin(this.rotation): -force.x, 
+            y: isAlongNormal ? -force.y * Math.cos(this.rotation): -force.y
         }
     }
 

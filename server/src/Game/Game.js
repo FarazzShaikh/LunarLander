@@ -59,7 +59,7 @@ export default class Game {
                     this.players[socket.id].applyForce({
                         x: DEFAULTS.MOVEMENT_STRENGTH.BOOST,
                         y: DEFAULTS.MOVEMENT_STRENGTH.BOOST
-                    })
+                    }, true)
                     break;
             
                 case 'P_ROTATE':
