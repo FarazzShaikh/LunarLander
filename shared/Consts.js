@@ -36,5 +36,9 @@ export const DEFAULTS = {
         BOOST: 0.5,
         P_ROTATE: 0.1,
         N_ROTATE: -0.1
+    },
+    DRAG: {
+        rho = 1.204,
+        cd = 1.05
     }
 }
