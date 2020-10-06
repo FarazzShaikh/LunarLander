@@ -1,3 +1,4 @@
+import PhysicsTest from "./Physics/PhysicsTest"
 
 // Class representing a player.
 export class Player {
@@ -18,6 +19,10 @@ export class Player {
         this.torque = 0
         // Current force being applied
         this.force = {x: 0, y: 0}
+        // List of active Physics bodies on the player.
+        this.physics = {
+            test: new PhysicsTest()
+        }
     }
 
     /**
@@ -40,7 +45,7 @@ export class Player {
     calcRotation(dt) {
         const prevRotation = this.rotation
         this.rotation += this.torque * dt
-        
+
         return this.rotation !== prevRotation
     }
 
@@ -50,8 +55,8 @@ export class Player {
      */
     applyForce(force, isAlongNormal) {
         this.force = {
-            x: isAlongNormal ? -force.x * -Math.sin(this.rotation): -force.x, 
-            y: isAlongNormal ? -force.y * Math.cos(this.rotation): -force.y
+            x: isAlongNormal ? force.x * -Math.sin(this.rotation): force.x, 
+            y: isAlongNormal ? force.y * Math.cos(this.rotation): force.y
         }
     }
 
@@ -59,23 +64,30 @@ export class Player {
      * Apply a torque to the player
      * @param {Number} rot 
      */
-    applyTorque(rot) {
-        return this.torque += rot
+    applyTorque(torque) {
+        return this.torque += torque
     }
 
      /**
      * Calculate the velocity of the player
      */
-    calcVelocity() {
+    calcVelocity(dt) {
         const acc = {
-            x: this.force.x / this.mass,
-            y: this.force.y / this.mass
+            x: -this.force.x / this.mass,
+            y: -this.force.y / this.mass
         }
 
-        this.velocity.x += acc.x 
-        this.velocity.y += acc.y 
+        this.velocity.x += acc.x * dt
+        this.velocity.y += acc.y * dt
 
         this.force = {x: 0, y: 0}
+    }
+
+    calcPhysics(dt) {
+        Object.values(this.physics).forEach(p => {
+            this.force = p.calculateForce(dt)
+            this.torque = p.calculateTorque(dt)
+        })
     }
 
     /**
@@ -96,6 +108,7 @@ export class Player {
      * @param {Number} dt 
      */
     update(dt) {
+        this.calcPhysics(dt)
         this.calcVelocity(dt)
         const didPositionChange = this.calcPosition(dt)
         const didRotationChange = this.calcRotation(dt)
