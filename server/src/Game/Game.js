@@ -86,6 +86,13 @@ export default class Game {
         const dt = this._tick() / 1000
         Object.values(this.players).forEach(player => {
             player.socket.emit(EVENTS.SERVER_TICK, dt)
+            const doesPlayerUpdate = player.update(dt)
+
+            //Checks for player position changes and updates their position
+            if(doesPlayerUpdate){ 
+                player.socket.emit(EVENTS.SERVER_UPDATE_PLAYER, player.getSerialized())
+                player.socket.broadcast.emit(EVENTS.SERVER_UPDATE_PLAYER, player.getSerialized())
+            }
 
         })
     }

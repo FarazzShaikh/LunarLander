@@ -9,7 +9,6 @@
     "dev:hot": "webpack-dev-server --hot --inline",
     "watch": "webpack -w -d",
     "build": "webpack -p"
-
   },
   "keywords": [
     "es6"
