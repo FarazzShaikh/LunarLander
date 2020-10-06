@@ -21,7 +21,7 @@ export class Player {
         this.force = {x: 0, y: 0}
         // List of active Physics bodies on the player.
         this.physics = {
-            test: new PhysicsTest()
+            //test: new PhysicsTest()
         }
     }
 
