@@ -89,8 +89,9 @@ export default class Game {
             const doesPlayerUpdate = player.update(dt)
 
             //Checks for player position changes and updates their position
-            if(pchange){ 
+            if(doesPlayerUpdate){ 
                 player.socket.emit(EVENTS.SERVER_UPDATE_PLAYER, player.getSerialized())
+                player.socket.broadcast.emit(EVENTS.SERVER_UPDATE_PLAYER, player.getSerialized())
             }
 
         })
