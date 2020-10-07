@@ -1,3 +1,6 @@
+import { DEFAULTS } from "../../../../shared/Consts";
+import { Player } from "../Player";
+
 // Parent class of all physics classes
 export default class Physics {
     // Assert Abstract Class
@@ -10,15 +13,27 @@ export default class Physics {
     /**
      * Calculates the force to apply.
      */
-    calculateForce() {
-        throw new Error("Abstract Method has no implementation");
+    calculateForce(dt, velocity) {
+        force = {
+            x: -0.5 * DEFAULTS.DRAG.cd * DEFAULTS.DRAG.rho * DEFAULTS.DRAG.a *
+             Math.pow(velocity.x,2) *
+             (velocity.x/Math.abs(velocity.x)),
+            y: -0.5 * DEFAULTS.DRAG.cd * DEFAULTS.DRAG.rho * DEFAULTS.DRAG.a *
+            Math.pow(velocity.y,2) *
+            (velocity.y/Math.abs(velocity.y))
+        }
+        force.x = (isNaN(force.x) ? 0: force.x);
+        force.y = (isNaN(force.y) ? 0: force.y);
+        return force
     }
 
     /**
      * Calculates the Torque to apply
      */
-    calculateTorque() {
-        throw new Error("Abstract Method has no implementation");
+    calculateTorque(torque) {
+       return -0.5 * DEFAULTS.DRAG.cd * DEFAULTS.DRAG.rho * DEFAULTS.DRAG.a *
+             Math.pow(torque,2) *
+             (torque/Math.abs(torque))
     }
 
 }
