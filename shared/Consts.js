@@ -38,8 +38,8 @@ export const DEFAULTS = {
         N_ROTATE: -0.1
     },
     DRAG: {
-        rho = 1.204,
-        cd = 1.05,
-        a = 6
+        rho: 1.204,
+        cd: 1.05,
+        a: 6
     }
 }
