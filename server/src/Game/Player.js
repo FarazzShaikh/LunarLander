@@ -1,4 +1,3 @@
-import PhysicsTest from "./Physics/PhysicsTest"
 
 // Class representing a player.
 export class Player {
@@ -19,10 +18,6 @@ export class Player {
         this.torque = 0
         // Current force being applied
         this.force = {x: 0, y: 0}
-        // List of active Physics bodies on the player.
-        this.physics = {
-            //test: new PhysicsTest()
-        }
     }
 
     /**
