@@ -21,7 +21,7 @@ export class Player {
         this.force = {x: 0, y: 0}
         // List of active Physics bodies on the player.
         this.physics = {
-            //test: new PhysicsTest()
+            test: new PhysicsTest()
         }
     }
 
@@ -32,8 +32,8 @@ export class Player {
     calcPosition(dt) {
         const prevPosition = {...this.position}
 
-        this.position.x += this.velocity.x * dt * 100;
-        this.position.y += this.velocity.y * dt * 100;
+        this.position.x += this.velocity.x * dt * 1000;
+        this.position.y += this.velocity.y * dt * 1000;
 
         return (this.position.x !== prevPosition.x) || (this.position.y !== prevPosition.y)
     }
@@ -54,10 +54,12 @@ export class Player {
      * @param {Object} force 
      */
     applyForce(force, isAlongNormal) {
-        this.force = {
+        const f = {
             x: isAlongNormal ? force.x * -Math.sin(this.rotation): force.x, 
             y: isAlongNormal ? force.y * Math.cos(this.rotation): force.y
         }
+        this.force.x += f.x
+        this.force.y += f.y
     }
 
     /**
@@ -85,8 +87,11 @@ export class Player {
 
     calcPhysics(dt) {
         Object.values(this.physics).forEach(p => {
-            this.force = p.calculateForce(dt)
-            this.torque = p.calculateTorque(dt)
+            const f = p.calculateForce(dt)
+            const t = p.calculateTorque(dt)
+            this.force.x += f.x
+            this.force.y += f.y
+            this.torque += t
         })
     }
 
