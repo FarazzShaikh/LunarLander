@@ -1,16 +1,8 @@
 import { DEFAULTS } from "../../../../shared/Consts";
-import { Player } from "../Player";
+import Physics from "./_Physics";
 
-// Parent class of all physics classes
-export default class Physics {
-    // Assert Abstract Class
-    constructor() {
-        if (this.constructor == Physics) {
-            throw new Error("Physics is an Abstract classes. Abstract classes can't be instantiated.");
-        }
-    }
-
-    /**
+export default class Drag extends Physics {
+ /**
      * Calculates the force to apply.
      */
     calculateForce(dt, velocity) {
@@ -35,5 +27,4 @@ export default class Physics {
              Math.pow(torque,2) *
              (torque/Math.abs(torque))
     }
-
-}
+ }

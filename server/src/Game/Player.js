@@ -80,8 +80,8 @@ export class Player {
 
     calcPhysics(dt) {
         Object.values(this.physics).forEach(p => {
-            this.force = p.calculateForce(dt)
-            this.torque = p.calculateTorque(dt)
+            this.force = p.calculateForce(dt, this.velocity)
+            this.torque = p.calculateTorque(dt, this.torque)
         })
     }
 

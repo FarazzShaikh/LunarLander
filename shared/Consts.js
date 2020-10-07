@@ -39,6 +39,7 @@ export const DEFAULTS = {
     },
     DRAG: {
         rho = 1.204,
-        cd = 1.05
+        cd = 1.05,
+        a = 6
     }
 }
