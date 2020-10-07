@@ -3,7 +3,7 @@ import Physics from "./_Physics";
 export default class PhysicsTest extends Physics{
     calculateForce(dt) {
         return {
-            x: 0.1,
+            x: 0,
             y: 0
         }
     }
