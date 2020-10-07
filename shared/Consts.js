@@ -33,13 +33,13 @@ export const DEFAULTS = {
         'Space': 'BOOST'
     },
     MOVEMENT_STRENGTH: {
-        BOOST: 0.5,
+        BOOST: 1,
         P_ROTATE: 0.1,
         N_ROTATE: -0.1
     },
     DRAG: {
         rho: 1.204,
         cd: 1.05,
-        a: 6
+        a: 6*(25**2) / (10000)
     }
 }

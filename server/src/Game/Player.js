@@ -1,3 +1,4 @@
+import Drag from "./Physics/Drag"
 
 // Class representing a player.
 export class Player {
@@ -19,7 +20,7 @@ export class Player {
         // Current force being applied
         this.force = {x: 0, y: 0}
         this.physics = {
-            
+            drag: new Drag()
         }
     }
 
@@ -30,8 +31,8 @@ export class Player {
     calcPosition(dt) {
         const prevPosition = {...this.position}
 
-        this.position.x += this.velocity.x * dt * 1000;
-        this.position.y += this.velocity.y * dt * 1000;
+        this.position.x += this.velocity.x * dt * 100;
+        this.position.y += this.velocity.y * dt * 100;
 
         return (this.position.x !== prevPosition.x) || (this.position.y !== prevPosition.y)
     }
@@ -42,7 +43,8 @@ export class Player {
      */
     calcRotation(dt) {
         const prevRotation = this.rotation
-        this.rotation += this.torque * dt
+        const acc = this.torque / this.mass
+        this.rotation += acc * dt
 
         return this.rotation !== prevRotation
     }
@@ -85,8 +87,8 @@ export class Player {
 
     calcPhysics(dt) {
         Object.values(this.physics).forEach(p => {
-            const f = p.calculateForce(dt)
-            const t = p.calculateTorque(dt)
+            const f = p.calculateForce(dt, this.velocity)
+            const t = p.calculateTorque(dt, this.torque)
             this.force.x += f.x
             this.force.y += f.y
             this.torque += t
