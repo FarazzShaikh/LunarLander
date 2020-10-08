@@ -8,10 +8,10 @@ export default class Drag extends Physics {
     calculateForce(dt, velocity) {
         let force = {
             x: 0.5 * DEFAULTS.DRAG.cd * DEFAULTS.DRAG.rho * DEFAULTS.DRAG.a *
-                Math.pow(velocity.x, 2) *
+                velocity.x * velocity.x *
                 (velocity.x / Math.abs(velocity.x)),
             y: 0.5 * DEFAULTS.DRAG.cd * DEFAULTS.DRAG.rho * DEFAULTS.DRAG.a *
-                Math.pow(velocity.y, 2) *
+                velocity.y * velocity.y *
                 (velocity.y / Math.abs(velocity.y))
         }
         force.x = (isNaN(force.x) ? 0 : force.x);
@@ -23,8 +23,8 @@ export default class Drag extends Physics {
      * Calculates the Torque to apply
      */
     calculateTorque(torque) {
-        let force = 0.5 * DEFAULTS.DRAG.cd * DEFAULTS.DRAG.rho * DEFAULTS.DRAG.a *
-            Math.pow(torque, 2) *
+        let force = -0.5 * DEFAULTS.DRAG.cd * DEFAULTS.DRAG.rho * DEFAULTS.DRAG.a *
+            torque * torque *
             (torque / Math.abs(torque))
 
         force = (isNaN(force) ? 0 : force);

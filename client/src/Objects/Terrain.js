@@ -7,6 +7,8 @@ export default class Terrain {
         this.seed = seed
         // Array of all height values.
         this.heightBuffer = []
+
+        this.landingPadBuffer = []
         // The Container to draw the terrain in.
         this.canvas = undefined
         // The Rough bounding box of the terrain.
@@ -36,6 +38,7 @@ export default class Terrain {
      */
     genTerrain() {
         noiseSeed(this.seed)
+
         for (let x = 0; x < this.bounds.right; x++) {
             const cratorBig = Math.sin(x * 0.009) > 0 ? (Math.sin(x * 0.009) * 1.5) + 0.7 : 1
             const cratorSmall = Math.sin(x * 0.05) > 0 ? (Math.sin(x * 0.05) * 0.2) + 1 : 1
@@ -43,14 +46,33 @@ export default class Terrain {
             const noise = (1 * 1 * Perlin(x * 0.01) * 100) + 500
 
             this.bounds.top = noise < this.bounds.top ? noise : this.bounds.top
-            this.bounds.lowest = noise > this.bounds.top ? noise : this.bounds.lowest
+            this.bounds.lowest = noise > this.bounds.lowest ? noise : this.bounds.lowest
 
             this.heightBuffer.push(noise)
 
         }
 
+        const numberOfLandingPads = 5
+        const bufferLength = this.heightBuffer.length
+
+        for (let i = 0; i < numberOfLandingPads; i++) {
+            noiseSeed(i)
+            const intervalStart = Math.floor(Perlin(1000000) * (bufferLength - 110))
+            const intervalWidth = Math.floor(Perlin(1000000) * (100) + 1)
+
+            const interval = this.heightBuffer.slice(intervalStart, intervalStart + intervalWidth)
+            const median = this._getMedian(interval)
+
+            console.log(intervalWidth)
+            this.landingPadBuffer[i] = {
+                s: intervalStart,
+                arr: new Array(intervalWidth).fill(median)
+            }
+            this.heightBuffer.splice(intervalStart, intervalWidth, ...this.landingPadBuffer[i].arr)
+        }
+
         return this.heightBuffer;
-        
+
     }
 
     /**
@@ -74,10 +96,27 @@ export default class Terrain {
             var point = svg.createSVGPoint();
             point.x = x === 0 ? x - 10 : x === this.bounds.right - 1 ? x + 10 : x === 1 ? x - 10 : x === this.bounds.right - 2 ? x + 10 : x;
             point.y = terrain[x];
-            polygon.points.appendItem(point); 
+            polygon.points.appendItem(point);
         }
 
         this.canvas.appendChild(svg)
+        this.drawLandingPads()
+    }
+
+    drawLandingPads() {
+        this.landingPadBuffer.forEach(pad => {
+           
+            const padNode = document.createElement('div')
+            padNode.style.position = 'absolute'
+            padNode.style.top = '0'
+            padNode.style.left = '0'
+            padNode.style.transform = `translate(${pad.s}px,${pad.arr[0]}px)`
+            padNode.style.width = `${pad.arr.length}px`
+            padNode.style.height = '2px'
+            padNode.style.backgroundColor = 'white'
+
+            this.canvas.appendChild(padNode)
+        })
     }
 
     /**
@@ -86,6 +125,12 @@ export default class Terrain {
      */
     getValue(x) {
         return this.heightBuffer[x]
+    }
+
+    _getMedian(arr) {
+        const mid = Math.floor(arr.length / 2)
+        const nums = [...arr].sort((a, b) => a - b);
+        return arr.length % 2 !== 0 ? nums[mid] : (nums[mid - 1] + nums[mid]) / 2;
     }
 
 }

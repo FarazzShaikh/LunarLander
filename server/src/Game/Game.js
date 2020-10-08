@@ -84,7 +84,7 @@ export default class Game {
      */
     update() {
         const dt = this._tick() / 1000
-
+        
         Object.values(this.players).forEach(player => {
             player.socket.emit(EVENTS.SERVER_TICK, dt)
 
