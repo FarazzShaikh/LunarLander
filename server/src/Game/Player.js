@@ -1,4 +1,5 @@
 import Drag from './Physics/Drag';
+import { Wind } from './Physics/Wind';
 
 // Class representing a player.
 export class Player {
@@ -20,6 +21,7 @@ export class Player {
 		this.force = { x: 0, y: 0 };
 		this.physics = {
 			drag: new Drag(),
+			wind: new Wind()
 		};
 	}
 
