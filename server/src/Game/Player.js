@@ -1,6 +1,6 @@
 import Drag from './Physics/Drag';
 import Gravity from './Physics/Gravity';
-import { Wind } from './Physics/Wind';
+import Wind from './Physics/Wind';
 
 // Class representing a player.
 export class Player {
