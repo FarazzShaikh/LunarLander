@@ -13,7 +13,6 @@ Our version of Lunar Lander will be a multiplayer game that allows there to be m
 | Name  | HW Username  | Role  | Tasks |
 |---|---|---|---|
 | [Faraz Shaikh](https://github.com/farazzshaikh)  |   fzs3| Lead Developer  | Implimenting Physics, Overseeing and helping Others in the group. |
-|  [Farhan Alvi](https://github.com/farhansolodev) |  ff15 | Lead Backend Developer  | Implimenting Socket.io and Express.js to build serverside code. |
 |  [Kishan Bapodra](https://github.com/KishanBapodra) |  bkj2 | Game Developer  | Developing game mechinics and intigrating various systems |
 |  [Gaurav Nayar](https://github.com/GauravNayar) |  gan4 | Front End Developer  | Developing art assets and UI. |
 |  [Mostafa Elsayed](https://github.com/TheChosenSir) |  mme10 | Backend Developer  | Helping impliment serverside code |
