@@ -1,0 +1,12 @@
+{
+    "presets": ["@babel/env"],
+    "plugins": [
+        [
+            "@babel/plugin-proposal-class-properties",
+            {
+                "loose": true
+            },
+            "add-module-exports"
+        ]
+    ]
+}

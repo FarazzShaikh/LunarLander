@@ -22,7 +22,7 @@ export class Player {
 		this.force = { x: 0, y: 0 };
 		this.physics = {
 			drag: new Drag(),
-			wind: new Wind(),
+			//wind: new Wind(),
 			gravity: new Gravity(),
 		};
 	}
@@ -58,13 +58,17 @@ export class Player {
 	 * Apply a force to the player
 	 * @param {Object} force
 	 */
-	applyForce(force, isAlongNormal) {
+	applyForce(force, isAlongNormal, dt) {
 		const f = {
 			x: isAlongNormal ? force.x * -Math.sin(this.rotation) : force.x,
 			y: isAlongNormal ? force.y * Math.cos(this.rotation) : force.y,
 		};
 		this.force.x += f.x;
 		this.force.y += f.y;
+
+		this.overrideTerrainCollision = true;
+
+		this.calcVelocity(dt);
 	}
 
 	/**
@@ -117,9 +121,18 @@ export class Player {
 	 * Runs Every frame to perform physics calculations.
 	 * @param {Number} dt
 	 */
-	update(dt) {
+	update(dt, collision) {
 		this.calcPhysics(dt);
 		this.calcVelocity(dt);
+
+		if (collision(this) && !this.overrideTerrainCollision) {
+			this.velocity = {
+				x: 0,
+				y: 0,
+			};
+		}
+
+		this.overrideTerrainCollision = false;
 		const didPositionChange = this.calcPosition(dt);
 		const didRotationChange = this.calcRotation(dt);
 
