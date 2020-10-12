@@ -5,6 +5,8 @@ import { Socket } from 'socket.io';
 import { DEFAULTS, EVENTS } from '../../../shared/Consts';
 import { Player } from './Player';
 
+import Collision from './Collision';
+
 // Class representing the Game.
 export default class Game {
 	constructor() {
@@ -14,8 +16,20 @@ export default class Game {
 		this.players = {};
 		// Seed for terrain. Consistant across all clients.
 		this.terrainSeed = Math.random();
+
+		this.window = {};
+
+		this.collision = undefined;
+		this.didCollide = () => {};
+
 		// Runs the update function every 1/60th of a second.
 		setInterval(this.update.bind(this), 1000 / 60);
+	}
+
+	setWindow(window) {
+		this.window = window;
+		this.collision = new Collision(this.terrainSeed, window);
+		this.didCollide = this.collision.didColide.bind(this.collision);
 	}
 
 	/**
@@ -35,6 +49,7 @@ export default class Game {
 			position: { x: 500 * Math.random(), y: 100 },
 			rotation: 0,
 		});
+		this.collision.setPlayers(this.players);
 	}
 
 	/**
@@ -43,6 +58,7 @@ export default class Game {
 	 */
 	removePlayer(socket) {
 		delete this.players[socket.id];
+		this.collision.setPlayers(this.players);
 	}
 
 	/**
@@ -59,7 +75,8 @@ export default class Game {
 							x: DEFAULTS.MOVEMENT_STRENGTH.BOOST,
 							y: DEFAULTS.MOVEMENT_STRENGTH.BOOST,
 						},
-						true
+						true,
+						this.dt
 					);
 					break;
 
@@ -82,11 +99,13 @@ export default class Game {
 	 */
 	update() {
 		const dt = this._tick() / 1000;
+		this.dt = dt;
 
 		Object.values(this.players).forEach((player) => {
 			player.socket.emit(EVENTS.SERVER_TICK, dt);
 
-			const doesPlayerUpdate = player.update(dt);
+			const doesPlayerUpdate = player.update(dt, this.didCollide);
+
 			//Checks for player position changes and updates their position
 			if (doesPlayerUpdate) {
 				player.socket.emit(EVENTS.SERVER_UPDATE_PLAYER, player.getSerialized());

@@ -27,7 +27,10 @@ export default function main() {
 		// Initialize Controller
 		controller = new Controller(socket);
 		// Requests terrain options.
-		socket.emit(REQUEST.REQUEST_TERRAIN.req);
+		socket.emit(REQUEST.REQUEST_TERRAIN.req, {
+			w: window.innerWidth,
+			h: window.innerHeight,
+		});
 	});
 
 	// Listens for terrain options request acknowledgement.
