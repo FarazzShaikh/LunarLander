@@ -6,6 +6,7 @@ import { EVENTS, REQUEST } from '../../shared/Consts';
 import Controller from './Engine/Controller';
 import Engine from './Engine/Engine';
 import Renderer, { Layer } from './Engine/Renderer';
+import Planet from './Objects/PassiveObjects/Planet';
 import Terrain from './Objects/Terrain';
 
 // Main
@@ -37,6 +38,8 @@ export default function main() {
 	socket.on(REQUEST.REQUEST_TERRAIN.ack, (seed) => {
 		// Registers a terrain with given seed.
 		engine.registerTerrain(new Terrain(seed));
+		// Register Background Elements
+		engine.registerBackground([Planet], seed);
 		// Requests new player.
 		socket.emit(REQUEST.REQUEST_NEW_PLAYER.req);
 	});
@@ -76,6 +79,7 @@ function initRenderer() {
 			new Layer({ name: 'HUD' }),
 		],
 	});
+
 	//Get layers as divs
 	const nodes = renderer.getDoccumentNodes();
 	//add Layers to the page

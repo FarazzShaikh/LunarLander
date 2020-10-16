@@ -30,6 +30,7 @@ export default class Player {
 		this.playerNode.style.position = 'absolute';
 		this.playerNode.style.display = 'flex';
 		this.playerNode.style.justifyContent = 'center';
+		this.playerNode.style.zIndex = '1000';
 		this.transform(this.position, this.rotation);
 		this.canvas.appendChild(this.playerNode);
 

@@ -1,7 +1,7 @@
 # Lunar Lander
 A Remake of Atari's Lunar Lander, but in the Browser.
 
-![Demo](https://media.giphy.com/media/NdAZXuycS1uQflCOCB/giphy.gif)
+![Demo](https://i.imgur.com/LSlUVp7.gif)
 
 ## **Overview**
 ### What is Lunar Lander?
