@@ -1,3 +1,7 @@
+import { DEFAULTS } from '../../../shared/Consts';
+import { noise as Perlin, noiseSeed } from '@chriscourses/perlin-noise';
+import PassiveObject from '../Objects/PassiveObjects/_PassiveObject';
+
 // Class Representing the Renderer
 export default class Renderer {
 	constructor({ layers }) {
@@ -43,5 +47,41 @@ export class Layer {
 	 */
 	getContext() {
 		return this.canvas;
+	}
+
+	/**
+	 * Scatters Nodes Around Randomly
+	 * @param {Array<PassiveObject>} nodes Nodes To Scatter
+	 * @param {Number} seed Random Seed
+	 */
+	scatterNodes(nodes, seed) {
+		for (let i = 0; i < DEFAULTS.SCATTER.N; i++) {
+			nodes.forEach((C, _) => {
+				noiseSeed(i * seed * 10000 + _ + 0.1);
+				console.log(i * seed + _ + 0.1);
+				const n = new C(seed * i);
+
+				const scale = Perlin(100000) * (n.scaleMultiplier || 1);
+
+				n.transform(scale, 1, {
+					x: Perlin(1000) * window.innerWidth,
+					y: Perlin(10000) * 600,
+				});
+
+				n.setContext(this.canvas);
+				n.drawDOMNode();
+			});
+		}
+	}
+
+	/**
+	 * Adds Nodes To Layer
+	 * @param {Array<PassiveObject>} nodes Nodes to add
+	 */
+	addNodes(nodes) {
+		nodes.forEach((n) => {
+			n.setContext(this.canvas);
+			n.drawDOMNode();
+		});
 	}
 }

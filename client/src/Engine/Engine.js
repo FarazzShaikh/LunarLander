@@ -38,6 +38,11 @@ export default class Engine {
 		this.players[player.id] = player;
 	}
 
+	registerBackground(nodes, seed) {
+		const backgroundCanvas = this.renderer.getLayer('Background');
+		backgroundCanvas.scatterNodes(nodes, seed);
+	}
+
 	/**
 	 * Updates current list of players with a new list of Players.
 	 * @param {Array<Object>} players Array of players to update current list of players with.

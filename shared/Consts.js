@@ -32,6 +32,9 @@ export const DEFAULTS = {
 		ArrowRight: 'P_ROTATE',
 		Space: 'BOOST',
 	},
+	SCATTER: {
+		N: 10,
+	},
 	MOVEMENT_STRENGTH: {
 		BOOST: 1,
 		P_ROTATE: 0.1,

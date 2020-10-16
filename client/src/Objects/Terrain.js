@@ -57,7 +57,7 @@ export default class Terrain {
 		const bufferLength = this.heightBuffer.length;
 
 		for (let i = 0; i < numberOfLandingPads; i++) {
-			noiseSeed(i);
+			noiseSeed(i * this.seed + 0.1);
 			const intervalStart = Math.floor(Perlin(1000000) * (bufferLength - 110));
 			const intervalWidth = Math.floor(Perlin(1000000) * 100 + 1);
 
@@ -67,15 +67,15 @@ export default class Terrain {
 			);
 			const median = this._getMedian(interval);
 
-			console.log(intervalWidth);
 			this.landingPadBuffer[i] = {
 				s: intervalStart,
-				arr: new Array(intervalWidth).fill(median),
+				w: intervalWidth,
+				y: median,
 			};
 			this.heightBuffer.splice(
 				intervalStart,
 				intervalWidth,
-				...this.landingPadBuffer[i].arr
+				...new Array(intervalWidth).fill(median)
 			);
 		}
 
@@ -94,10 +94,13 @@ export default class Terrain {
 		);
 		svg.style.width = '100%';
 		svg.style.height = '100%';
+		svg.style.filter = 'drop-shadow(0px -10px 10px rgba(255, 255, 255, 0.2))';
+
 		polygon.style.zIndex = '100';
 		polygon.style.stroke = 'white';
 		polygon.style.strokeWidth = '1px';
 		polygon.style.zIndex = '100';
+
 		svg.appendChild(polygon);
 
 		terrain[0] = this.bounds.bottom + 10;
@@ -122,16 +125,29 @@ export default class Terrain {
 		this.drawLandingPads();
 	}
 
+	/**
+	 * Draws Landing Pads
+	 */
 	drawLandingPads() {
-		this.landingPadBuffer.forEach((pad) => {
+		this.landingPadBuffer.forEach((pad, i) => {
 			const padNode = document.createElement('div');
 			padNode.style.position = 'absolute';
 			padNode.style.top = '0';
 			padNode.style.left = '0';
-			padNode.style.transform = `translate(${pad.s}px,${pad.arr[0]}px)`;
-			padNode.style.width = `${pad.arr.length}px`;
+			padNode.style.transform = `translate(${pad.s}px,${pad.y}px)`;
+			padNode.style.width = `${pad.w}px`;
 			padNode.style.height = '2px';
 			padNode.style.backgroundColor = 'white';
+
+			padNode.innerHTML = require('./Components/PadScoreDisplay.html');
+
+			setTimeout(() => {
+				const scoreContainer = document.querySelectorAll(
+					'.PadScoreDisplay-container'
+				)[i];
+
+				scoreContainer.textContent = 100 - pad.w;
+			}, 100);
 
 			this.canvas.appendChild(padNode);
 		});
