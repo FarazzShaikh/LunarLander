@@ -1,8 +1,17 @@
 // Library Imports.
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
+import * as DB from './db/db';
+
 const express = require('express');
 const { default: main } = require('./src/main');
 const app = express();
 var http = require('http').createServer(app);
+const dotenv = require('dotenv').config();
+
+DB.init();
+// DB.GET().then((d) => console.log(d));
+//DB.POST().then((d) => console.log(d));
 
 // Serves client folder as a static resource at root url.
 app.use('/', express.static('client'));
@@ -12,9 +21,9 @@ app.get('/', (req, res) => {
 });
 
 // Listens for http connections on port 3000.
-http.listen(3000, () => {
+http.listen(process.env.PORT, () => {
 	console.log('\n============================================\n');
-	console.log('|   Listening on *:http://localhost:3000   |\n');
+	console.log(`|   Listening on *:http://localhost:${process.env.PORT}   |\n`);
 	console.log('============================================\n');
 });
 
