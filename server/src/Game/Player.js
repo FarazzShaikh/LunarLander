@@ -120,6 +120,7 @@ export class Player {
 			id: this.socket.id,
 			position: this.position,
 			rotation: this.rotation,
+			fuelAmount: this.fuel,
 		};
 	}
 
