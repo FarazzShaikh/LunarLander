@@ -45,4 +45,10 @@ export const DEFAULTS = {
 		cd: 1.05,
 		a: (6 * 25 ** 2) / 10000,
 	},
+	GRAVITY: {
+		g: -0.098,
+	},
+	WIND: {
+		speed: 0.08,
+	},
 };

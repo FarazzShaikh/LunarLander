@@ -22,11 +22,11 @@ export function init() {
 
 /**
  * Gets users from the Highscores collention
- * @param {String} [user] Get Given user.
+ * @param {String} [uuid] Get Given user.
  * @returns {Promise} Promise containing Data of single user or an array of all users.
  */
-export async function GET(user) {
-	if (!user) {
+export async function GET(uuid) {
+	if (uuid == 'all') {
 		const doc = await client
 			.query(
 				Map(
