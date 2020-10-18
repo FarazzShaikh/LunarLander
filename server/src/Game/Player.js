@@ -1,3 +1,4 @@
+import { DEFAULTS } from '../../../shared/Consts';
 import Drag from './Physics/Drag';
 import Gravity from './Physics/Gravity';
 import Wind from './Physics/Wind';
@@ -25,6 +26,8 @@ export class Player {
 			//wind: new Wind(),
 			gravity: new Gravity(),
 		};
+		//Player fuel value (starts at 100)
+		this.fuel = 100;
 	}
 
 	/**
@@ -55,20 +58,23 @@ export class Player {
 	}
 
 	/**
-	 * Apply a force to the player
+	 * Apply a force to the player only if there is fuel.
 	 * @param {Object} force
 	 */
 	applyForce(force, isAlongNormal, dt) {
-		const f = {
-			x: isAlongNormal ? force.x * -Math.sin(this.rotation) : force.x,
-			y: isAlongNormal ? force.y * Math.cos(this.rotation) : force.y,
-		};
-		this.force.x += f.x;
-		this.force.y += f.y;
-
-		this.overrideTerrainCollision = true;
-
-		this.calcVelocity(dt);
+		if(this.fuel != 0){
+			this.fuel -= DEFAULTS.FUEL.f;
+			const f = {
+				x: isAlongNormal ? force.x * -Math.sin(this.rotation) : force.x,
+				y: isAlongNormal ? force.y * Math.cos(this.rotation) : force.y,
+			};
+			this.force.x += f.x;
+			this.force.y += f.y;
+	
+			this.overrideTerrainCollision = true;
+	
+			this.calcVelocity(dt);
+		}
 	}
 
 	/**
@@ -114,6 +120,7 @@ export class Player {
 			id: this.socket.id,
 			position: this.position,
 			rotation: this.rotation,
+			fuelAmount: this.fuel,
 		};
 	}
 

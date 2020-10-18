@@ -51,4 +51,7 @@ export const DEFAULTS = {
 	WIND: {
 		speed: 0.08,
 	},
+	FUEL: {
+		f: 0.5,
+	}
 };
