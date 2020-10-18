@@ -1,4 +1,6 @@
 // LIbrary Imports
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
 import io from 'socket.io-client';
 
 // Class imports
@@ -20,6 +22,7 @@ export default function main() {
 	// Listens for 'connect' event.
 	socket.on('connect', () => {
 		console.log('connected');
+		//getScore();
 
 		// Initialize Renderer
 		renderer = initRenderer();
@@ -85,4 +88,9 @@ function initRenderer() {
 	//add Layers to the page
 	nodes.forEach((n) => document.body.append(n));
 	return renderer;
+}
+
+async function getScore() {
+	const url = `${window.location.href}scores/all`;
+	console.log(await (await fetch(url)).json());
 }

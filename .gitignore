@@ -3,3 +3,4 @@ client/dist
 server/dist
 sync.sh
 .env
+**/.DS_Store

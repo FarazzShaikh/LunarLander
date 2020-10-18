@@ -10,8 +10,10 @@ var http = require('http').createServer(app);
 const dotenv = require('dotenv').config();
 
 DB.init();
-// DB.GET().then((d) => console.log(d));
-//DB.POST().then((d) => console.log(d));
+
+app.get('/scores/:uuid', async (req, res) => {
+	res.send(await DB.GET(req.params.uuid));
+});
 
 // Serves client folder as a static resource at root url.
 app.use('/', express.static('client'));
