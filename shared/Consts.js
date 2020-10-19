@@ -52,6 +52,6 @@ export const DEFAULTS = {
 		speed: 0.08,
 	},
 	FUEL: {
-		f: 0.5,
-	}
+		f: 1,
+	},
 };

@@ -1,12 +1,10 @@
-// LIbrary Imports
-import 'core-js/stable';
-import 'regenerator-runtime/runtime';
 import io from 'socket.io-client';
 
 // Class imports
 import { EVENTS, REQUEST } from '../../shared/Consts';
 import Controller from './Engine/Controller';
 import Engine from './Engine/Engine';
+import HUD from './Engine/HUD';
 import Renderer, { Layer } from './Engine/Renderer';
 import Planet from './Objects/PassiveObjects/Planet';
 import Terrain from './Objects/Terrain';
@@ -22,7 +20,7 @@ export default function main() {
 	// Listens for 'connect' event.
 	socket.on('connect', () => {
 		console.log('connected');
-		//getScore();
+		getScore();
 
 		// Initialize Renderer
 		renderer = initRenderer();
@@ -30,6 +28,7 @@ export default function main() {
 		engine = new Engine(renderer);
 		// Initialize Controller
 		controller = new Controller(socket);
+
 		// Requests terrain options.
 		socket.emit(REQUEST.REQUEST_TERRAIN.req, {
 			w: window.innerWidth,
@@ -43,6 +42,8 @@ export default function main() {
 		engine.registerTerrain(new Terrain(seed));
 		// Register Background Elements
 		engine.registerBackground([Planet], seed);
+		// Register HUD Element
+		engine.registerHUD(new HUD());
 		// Requests new player.
 		socket.emit(REQUEST.REQUEST_NEW_PLAYER.req);
 	});

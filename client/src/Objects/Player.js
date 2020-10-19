@@ -1,6 +1,6 @@
 // Class representing client side Player.
 export default class Player {
-	constructor({ id, position, rotation }) {
+	constructor({ id, position, rotation, fuel, updateHUD }) {
 		// Unique identifier.
 		this.id = id;
 		// Position vector of player.
@@ -9,6 +9,10 @@ export default class Player {
 		this.rotation = rotation;
 		// Size of rendered player. Just for debugging.
 		this.size = { w: 25, h: 25 };
+		// Fuel of player
+		this.fuel = fuel;
+		// Function to update hud
+		this.updateHUD = updateHUD;
 	}
 
 	/**
@@ -65,6 +69,14 @@ export default class Player {
 	 * @param {Number} dt Delta-time.
 	 */
 	update(dt) {
+		if (this.updateHUD) {
+			this.updateHUD({
+				vel: 0.5,
+				alt: 300,
+				timer: 0,
+				fuel: this.fuel,
+			});
+		}
 		this.transform(this.position, this.rotation);
 	}
 }
