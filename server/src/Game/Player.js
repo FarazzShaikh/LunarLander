@@ -62,7 +62,7 @@ export class Player {
 	 * @param {Object} force
 	 */
 	applyForce(force, isAlongNormal, dt) {
-		if(this.fuel != 0){
+		if (this.fuel != 0) {
 			this.fuel -= DEFAULTS.FUEL.f;
 			const f = {
 				x: isAlongNormal ? force.x * -Math.sin(this.rotation) : force.x,
@@ -70,9 +70,9 @@ export class Player {
 			};
 			this.force.x += f.x;
 			this.force.y += f.y;
-	
+
 			this.overrideTerrainCollision = true;
-	
+
 			this.calcVelocity(dt);
 		}
 	}
@@ -120,7 +120,7 @@ export class Player {
 			id: this.socket.id,
 			position: this.position,
 			rotation: this.rotation,
-			fuelAmount: this.fuel,
+			fuel: this.fuel,
 		};
 	}
 

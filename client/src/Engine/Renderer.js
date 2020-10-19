@@ -58,7 +58,6 @@ export class Layer {
 		for (let i = 0; i < DEFAULTS.SCATTER.N; i++) {
 			nodes.forEach((C, _) => {
 				noiseSeed(i * seed * 10000 + _ + 0.1);
-				console.log(i * seed + _ + 0.1);
 				const n = new C(seed * i);
 
 				const scale = Perlin(100000) * (n.scaleMultiplier || 1);

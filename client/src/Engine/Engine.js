@@ -10,6 +10,16 @@ export default class Engine {
 		this.terrain = undefined;
 		// List of all players. {Player.id: Player}
 		this.players = {};
+		// Get Update function
+		this.updateHUD = () => {};
+	}
+
+	registerHUD(HUD) {
+		const HUDCanvas = this.renderer.getLayer('HUD');
+		const HUDCanvasContext = HUDCanvas.getContext();
+
+		HUD.setContext(HUDCanvasContext);
+		this.updateHUD = HUD.update.bind(HUD);
 	}
 
 	/**
@@ -48,7 +58,6 @@ export default class Engine {
 	 * @param {Array<Object>} players Array of players to update current list of players with.
 	 */
 	updatePlayers(players) {
-		console.log('up', players);
 		Object.values(this.players).forEach((p) => {
 			p.removeDomNode();
 		});
@@ -77,6 +86,8 @@ export default class Engine {
 					id: player.id,
 					position: player.position,
 					rotation: player.rotation,
+					fuel: player.fuel,
+					updateHUD: this.updateHUD,
 				})
 			);
 		}
