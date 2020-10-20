@@ -23,7 +23,7 @@ export default class Game {
 		this.didCollide = () => {};
 
 		// Runs the update function every 1/60th of a second.
-		setInterval(this.update.bind(this), 1000 / 120);
+		setInterval(this.update.bind(this), 1000 / 30);
 	}
 
 	setWindow(window) {

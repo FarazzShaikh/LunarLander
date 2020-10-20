@@ -1,5 +1,4 @@
 import { DEFAULTS } from '../../../shared/Consts';
-import { noise as Perlin, noiseSeed } from '@chriscourses/perlin-noise';
 import PassiveObject from '../Objects/PassiveObjects/_PassiveObject';
 
 // Class Representing the Renderer

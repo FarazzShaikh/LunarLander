@@ -1,11 +1,11 @@
-import { noise as Perlin, noiseSeed } from '@chriscourses/perlin-noise';
+import { DEFAULTS } from '../../../shared/Consts';
+import { makeOctaves, Simple1DNoise } from '../../../shared/SimplexNoise';
 
 // Class representing the terrain.
 export default class Terrain {
 	constructor({ seed, scrollspeed, zIndex }) {
 		// Seed for consistant terrain generation across clients.
 		this.seed = seed;
-		noiseSeed(seed);
 		// Array of all height values.
 		this.heightBuffer = [];
 
@@ -19,6 +19,8 @@ export default class Terrain {
 
 		this.scrollspeed = scrollspeed;
 		this.zIndex = zIndex;
+
+		this.noise = new Simple1DNoise(seed);
 	}
 
 	/**
@@ -72,16 +74,20 @@ export default class Terrain {
 	drawTerrain(offset) {
 		const polygon = this.polygon;
 		const svg = this.svg;
+
 		polygon.points.clear();
-		for (let x = 0; x < this.bounds.right; x += 4) {
+		for (let x = 0; x < this.bounds.right; x += 1) {
 			var point = svg.createSVGPoint();
+			const scale = this.zIndex * (500 - 400 + 1) + 400;
 			point.x = x;
 			point.y =
-				Perlin((x + offset * this.scrollspeed) * 0.01) *
-					(100 * Math.abs(1 - this.zIndex) + 70) +
-				500 +
-				this.zIndex * 150 -
-				100;
+				makeOctaves(this.noise.getVal, x + offset * this.scrollspeed, {
+					octaves: DEFAULTS.GENERATION.OCTAVES,
+					frequency: DEFAULTS.GENERATION.SCALE * this.scrollspeed,
+					lacunarity: DEFAULTS.GENERATION.LACUNARITY,
+					persistence: DEFAULTS.GENERATION.PERSISTANCE,
+					amplitude: 100,
+				}) + scale;
 
 			polygon.points.appendItem(point);
 		}

@@ -1,3 +1,5 @@
+import { DEFAULTS } from '../../../shared/Consts';
+import { makeOctaves, Simple1DNoise } from '../../../shared/SimplexNoise';
 import { noise as Perlin, noiseSeed } from '../../utils/Perlin';
 
 export default class Collision {
@@ -8,6 +10,8 @@ export default class Collision {
 		this.players = {};
 
 		this._genTerrain();
+
+		this.noise = new Simple1DNoise(seed);
 	}
 
 	setPlayers(players) {
@@ -30,7 +34,14 @@ export default class Collision {
 	}
 
 	didColide(player) {
-		const noise = Perlin(player.position.x * 0.01) * 70 + 550;
+		const noise =
+			makeOctaves(this.noise.getVal, player.position.x, {
+				octaves: DEFAULTS.GENERATION.OCTAVES,
+				frequency: DEFAULTS.GENERATION.SCALE,
+				lacunarity: DEFAULTS.GENERATION.LACUNARITY,
+				persistence: DEFAULTS.GENERATION.PERSISTANCE,
+				amplitude: 100,
+			}) + 500;
 		return player.position.y > noise;
 	}
 }

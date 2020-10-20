@@ -44,7 +44,7 @@ export default function main() {
 		engine.registerTerrain(
 			new Terrain({
 				seed: seed,
-				scrollspeed: 0.5,
+				scrollspeed: 0.25,
 				zIndex: 0,
 			})
 		);

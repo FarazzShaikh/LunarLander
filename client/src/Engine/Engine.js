@@ -57,7 +57,7 @@ export default class Engine {
 
 	registerBackground(nodes, seed) {
 		const backgroundCanvas = this.renderer.getLayer('Background');
-		backgroundCanvas.scatterNodes(nodes, seed);
+		//backgroundCanvas.scatterNodes(nodes, seed);
 	}
 
 	/**
@@ -91,8 +91,8 @@ export default class Engine {
 			this.players[player.id] = undefined;
 
 			if (player.id === this.me) {
-				this.offset = player.position.x - this.width / 2;
-				player.position.x = this.width / 2;
+				this.offset = player.position.x - this.width / 4;
+				player.position.x = this.width / 4;
 
 				this.terrain[0].needsUpdate = true;
 				this.terrain[1].needsUpdate = true;
