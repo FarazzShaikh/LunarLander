@@ -3,15 +3,22 @@ import Terrain from '../Objects/Terrain';
 
 // Class Representing the Engine
 export default class Engine {
-	constructor(renderer) {
+	constructor(renderer, me) {
 		// Instance of Renderer class
 		this.renderer = renderer;
 		// Instance of the Terrain class
-		this.terrain = undefined;
+		this.terrain = [];
 		// List of all players. {Player.id: Player}
 		this.players = {};
 		// Get Update function
 		this.updateHUD = () => {};
+
+		this.offset = 0;
+		this.dOffset = 0;
+		this.pOffset = 0;
+
+		this.me = me;
+		this.width = window.innerWidth;
 	}
 
 	registerHUD(HUD) {
@@ -31,8 +38,8 @@ export default class Engine {
 		const backgroundCanvasContext = backgroundCanvas.getContext();
 
 		terrain.setContext(backgroundCanvasContext);
-		terrain.genTerrain();
-		this.terrain = terrain;
+		terrain.genNode();
+		this.terrain.push(terrain);
 	}
 
 	/**
@@ -62,6 +69,7 @@ export default class Engine {
 			p.removeDomNode();
 		});
 		this.players = {};
+
 		players.forEach((p) => {
 			this.registerPlayer(
 				new Player({
@@ -81,6 +89,17 @@ export default class Engine {
 		if (this.players[player.id]) {
 			this.players[player.id].removeDomNode();
 			this.players[player.id] = undefined;
+
+			if (player.id === this.me) {
+				this.offset = player.position.x - this.width / 2;
+				player.position.x = this.width / 2;
+
+				this.terrain[0].needsUpdate = true;
+				this.terrain[1].needsUpdate = true;
+			} else {
+				player.position.x -= this.offset;
+			}
+
 			this.registerPlayer(
 				new Player({
 					id: player.id,
@@ -90,6 +109,9 @@ export default class Engine {
 					updateHUD: this.updateHUD,
 				})
 			);
+
+			this.dOffset = this.offset - this.pOffset;
+			this.pOffset = this.offset;
 		}
 	}
 
@@ -99,10 +121,12 @@ export default class Engine {
 	 */
 	update(dt) {
 		if (this.terrain) {
-			if (this.terrain.needsUpdate) {
-				this.terrain.drawTerrain(this.terrain.heightBuffer);
-				this.terrain.needsUpdate = false;
-			}
+			this.terrain.forEach((t) => {
+				if (t.needsUpdate) {
+					t.drawTerrain(this.offset);
+					t.needsUpdate = false;
+				}
+			});
 		}
 
 		Object.values(this.players).forEach((p) => {

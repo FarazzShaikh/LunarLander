@@ -2,9 +2,10 @@ import { noise as Perlin, noiseSeed } from '@chriscourses/perlin-noise';
 
 // Class representing the terrain.
 export default class Terrain {
-	constructor(seed) {
+	constructor({ seed, scrollspeed, zIndex }) {
 		// Seed for consistant terrain generation across clients.
 		this.seed = seed;
+		noiseSeed(seed);
 		// Array of all height values.
 		this.heightBuffer = [];
 
@@ -15,6 +16,9 @@ export default class Terrain {
 		this.bounds = {};
 		// If the terrain requires a re-draw
 		this.needsUpdate = true;
+
+		this.scrollspeed = scrollspeed;
+		this.zIndex = zIndex;
 	}
 
 	/**
@@ -32,61 +36,7 @@ export default class Terrain {
 		};
 	}
 
-	/**
-	 * Generates the height buffer by using perlin noise.
-	 * @returns {Array<number>} The generated Height Buffer.
-	 */
-	genTerrain() {
-		noiseSeed(this.seed);
-
-		for (let x = 0; x < this.bounds.right; x++) {
-			const cratorBig =
-				Math.sin(x * 0.009) > 0 ? Math.sin(x * 0.009) * 1.5 + 0.7 : 1;
-			const cratorSmall =
-				Math.sin(x * 0.05) > 0 ? Math.sin(x * 0.05) * 0.2 + 1 : 1;
-
-			const noise = 1 * 1 * Perlin(x * 0.01) * 100 + 500;
-
-			this.bounds.top = noise < this.bounds.top ? noise : this.bounds.top;
-			this.bounds.lowest = noise > this.bounds.lowest ? noise : this.bounds.lowest;
-
-			this.heightBuffer.push(noise);
-		}
-
-		const numberOfLandingPads = 5;
-		const bufferLength = this.heightBuffer.length;
-
-		for (let i = 0; i < numberOfLandingPads; i++) {
-			noiseSeed(i * this.seed + 0.1);
-			const intervalStart = Math.floor(Perlin(1000000) * (bufferLength - 110));
-			const intervalWidth = Math.floor(Perlin(1000000) * 100 + 1);
-
-			const interval = this.heightBuffer.slice(
-				intervalStart,
-				intervalStart + intervalWidth
-			);
-			const median = this._getMedian(interval);
-
-			this.landingPadBuffer[i] = {
-				s: intervalStart,
-				w: intervalWidth,
-				y: median,
-			};
-			this.heightBuffer.splice(
-				intervalStart,
-				intervalWidth,
-				...new Array(intervalWidth).fill(median)
-			);
-		}
-
-		return this.heightBuffer;
-	}
-
-	/**
-	 * Draws a given height buffer ot the screen using SVGSVGElement.
-	 * @param {Array<number>} terrain The Height Buffer to draw.
-	 */
-	drawTerrain(terrain) {
+	genNode() {
 		var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
 		var polygon = document.createElementNS(
 			'http://www.w3.org/2000/svg',
@@ -94,63 +44,63 @@ export default class Terrain {
 		);
 		svg.style.width = '100%';
 		svg.style.height = '100%';
-		svg.style.filter = 'drop-shadow(0px -10px 10px rgba(255, 255, 255, 0.2))';
+		svg.style.filter = `drop-shadow(0px -10px 10px rgba(255, 255, 255, ${
+			0.2 * this.zIndex
+		}))`;
+		//svg.style.transform = 'scale(1.1, 1.1)';
+		svg.style.position = 'absolute';
+		svg.style.zIndex = `${this.zIndex}`;
 
 		polygon.style.zIndex = '100';
-		polygon.style.stroke = 'white';
+		polygon.style.stroke = `rgba(255, 255, 255, ${1 * this.zIndex + 0.5})`;
 		polygon.style.strokeWidth = '1px';
 		polygon.style.zIndex = '100';
 
 		svg.appendChild(polygon);
 
-		terrain[0] = this.bounds.bottom + 10;
-		terrain[terrain.length - 1] = this.bounds.bottom + 10;
-		for (let x = 0; x < this.bounds.right; x++) {
-			var point = svg.createSVGPoint();
-			point.x =
-				x === 0
-					? x - 10
-					: x === this.bounds.right - 1
-					? x + 10
-					: x === 1
-					? x - 10
-					: x === this.bounds.right - 2
-					? x + 10
-					: x;
-			point.y = terrain[x];
-			polygon.points.appendItem(point);
-		}
-
 		this.canvas.appendChild(svg);
 		this.drawLandingPads();
+
+		this.svg = svg;
+		this.polygon = polygon;
+	}
+
+	/**
+	 * Draws a given height buffer ot the screen using SVGSVGElement.
+	 * @param {Array<number>} terrain The Height Buffer to draw.
+	 */
+	drawTerrain(offset) {
+		const polygon = this.polygon;
+		const svg = this.svg;
+		polygon.points.clear();
+		for (let x = 0; x < this.bounds.right; x += 4) {
+			var point = svg.createSVGPoint();
+			point.x = x;
+			point.y =
+				Perlin((x + offset * this.scrollspeed) * 0.01) *
+					(100 * Math.abs(1 - this.zIndex) + 70) +
+				500 +
+				this.zIndex * 150 -
+				100;
+
+			polygon.points.appendItem(point);
+		}
+		const lPoint = svg.createSVGPoint();
+		lPoint.x = this.bounds.left;
+		lPoint.y = this.bounds.bottom;
+		const rPoint = svg.createSVGPoint();
+		rPoint.x = this.bounds.right;
+		rPoint.y = this.bounds.bottom;
+
+		polygon.points.appendItem(rPoint);
+		polygon.points.insertItemBefore(lPoint, 0);
 	}
 
 	/**
 	 * Draws Landing Pads
 	 */
 	drawLandingPads() {
-		this.landingPadBuffer.forEach((pad, i) => {
-			const padNode = document.createElement('div');
-			padNode.style.position = 'absolute';
-			padNode.style.top = '0';
-			padNode.style.left = '0';
-			padNode.style.transform = `translate(${pad.s}px,${pad.y}px)`;
-			padNode.style.width = `${pad.w}px`;
-			padNode.style.height = '2px';
-			padNode.style.backgroundColor = 'white';
-
-			padNode.innerHTML = require('./Components/PadScoreDisplay.html');
-
-			setTimeout(() => {
-				const scoreContainer = document.querySelectorAll(
-					'.PadScoreDisplay-container'
-				)[i];
-
-				scoreContainer.textContent = 100 - pad.w;
-			}, 100);
-
-			this.canvas.appendChild(padNode);
-		});
+		// TODO
 	}
 
 	/**

@@ -30,14 +30,7 @@ export default class Collision {
 	}
 
 	didColide(player) {
-		if (this.heightBuffer.length != 0) {
-			if (
-				player.position.y >=
-				this.heightBuffer[Math.floor(player.position.x)] - 1
-			) {
-				return true;
-			}
-		}
-		return false;
+		const noise = Perlin(player.position.x * 0.01) * 70 + 550;
+		return player.position.y > noise;
 	}
 }

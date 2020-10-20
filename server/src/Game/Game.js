@@ -23,7 +23,7 @@ export default class Game {
 		this.didCollide = () => {};
 
 		// Runs the update function every 1/60th of a second.
-		setInterval(this.update.bind(this), 1000 / 60);
+		setInterval(this.update.bind(this), 1000 / 120);
 	}
 
 	setWindow(window) {
@@ -47,7 +47,7 @@ export default class Game {
 		this.players[socket.id] = new Player({
 			socket: socket,
 			position: { x: 500 * Math.random(), y: 100 },
-			rotation: 0,
+			rotation: Math.PI / 2,
 		});
 		this.collision.setPlayers(this.players);
 	}
@@ -109,11 +109,11 @@ export default class Game {
 			//Checks for player position changes and updates their position
 			if (doesPlayerUpdate) {
 				player.socket.emit(EVENTS.SERVER_UPDATE_PLAYER, player.getSerialized());
-				player.socket.broadcast.emit(
-					EVENTS.SERVER_UPDATE_PLAYER,
-					player.getSerialized()
-				);
 			}
+			player.socket.broadcast.emit(
+				EVENTS.SERVER_UPDATE_PLAYER,
+				player.getSerialized()
+			);
 		});
 	}
 

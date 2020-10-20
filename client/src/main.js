@@ -9,6 +9,8 @@ import Renderer, { Layer } from './Engine/Renderer';
 import Planet from './Objects/PassiveObjects/Planet';
 import Terrain from './Objects/Terrain';
 
+var d = new Date();
+
 // Main
 export default function main() {
 	// Declaring in scope of main
@@ -20,12 +22,12 @@ export default function main() {
 	// Listens for 'connect' event.
 	socket.on('connect', () => {
 		console.log('connected');
-		getScore();
+		//getScore();
 
 		// Initialize Renderer
 		renderer = initRenderer();
 		// Initialize Engine
-		engine = new Engine(renderer);
+		engine = new Engine(renderer, socket.id);
 		// Initialize Controller
 		controller = new Controller(socket);
 
@@ -39,7 +41,21 @@ export default function main() {
 	// Listens for terrain options request acknowledgement.
 	socket.on(REQUEST.REQUEST_TERRAIN.ack, (seed) => {
 		// Registers a terrain with given seed.
-		engine.registerTerrain(new Terrain(seed));
+		engine.registerTerrain(
+			new Terrain({
+				seed: seed,
+				scrollspeed: 0.5,
+				zIndex: 0,
+			})
+		);
+
+		engine.registerTerrain(
+			new Terrain({
+				seed: seed,
+				scrollspeed: 1,
+				zIndex: 1,
+			})
+		);
 		// Register Background Elements
 		engine.registerBackground([Planet], seed);
 		// Register HUD Element
@@ -49,9 +65,9 @@ export default function main() {
 	});
 
 	// Listens for new player request acknowledgement. Then updates list of all players.
-	socket.on(REQUEST.REQUEST_NEW_PLAYER.ack, (players) =>
-		engine.updatePlayers(players)
-	);
+	socket.on(REQUEST.REQUEST_NEW_PLAYER.ack, (players) => {
+		engine.updatePlayers(players);
+	});
 	// Listens for Update PLayerss event. Then updates list of all players.
 	socket.on(EVENTS.SERVER_UPDATE_PLAYERS, (players) =>
 		engine.updatePlayers(players)
@@ -63,7 +79,7 @@ export default function main() {
 
 	// GListens for Server Tick events.
 	socket.on(EVENTS.SERVER_TICK, (dt) => {
-		console.log('server-tick');
+		//console.log('server-tick');
 		// Calls engine update on every tick with given delta time.
 		engine.update(dt);
 	});
