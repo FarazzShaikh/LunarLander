@@ -46,7 +46,7 @@ export default class Game {
 	addPlayer(socket) {
 		this.players[socket.id] = new Player({
 			socket: socket,
-			position: { x: 500 * Math.random(), y: 100 },
+			position: { x: 300, y: 100 },
 			rotation: Math.PI / 2,
 		});
 		this.collision.setPlayers(this.players);

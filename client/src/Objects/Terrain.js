@@ -1,5 +1,5 @@
 import { DEFAULTS } from '../../../shared/Consts';
-import { makeOctaves, Simple1DNoise } from '../../../shared/SimplexNoise';
+import { makeOctaves, Simple1DNoise } from '../../../shared/utils/SimplexNoise';
 
 // Class representing the terrain.
 export default class Terrain {
@@ -47,11 +47,12 @@ export default class Terrain {
 		svg.style.width = '100%';
 		svg.style.height = '100%';
 		svg.style.filter = `drop-shadow(0px -10px 10px rgba(255, 255, 255, ${
-			0.2 * this.zIndex
+			0.1 * this.zIndex
 		}))`;
-		//svg.style.transform = 'scale(1.1, 1.1)';
+		svg.style.transform = 'scale(1.01, 1.01)';
 		svg.style.position = 'absolute';
 		svg.style.zIndex = `${this.zIndex}`;
+		svg.style.fill = 'black';
 
 		polygon.style.zIndex = '100';
 		polygon.style.stroke = `rgba(255, 255, 255, ${1 * this.zIndex + 0.5})`;
@@ -76,9 +77,10 @@ export default class Terrain {
 		const svg = this.svg;
 
 		polygon.points.clear();
-		for (let x = 0; x < this.bounds.right; x += 1) {
+		for (let x = 0; x < this.bounds.right; x += 4) {
 			var point = svg.createSVGPoint();
-			const scale = this.zIndex * (500 - 400 + 1) + 400;
+			const scale = (this.zIndex / 2) * (500 - 400 + 1) + 400;
+
 			point.x = x;
 			point.y =
 				makeOctaves(this.noise.getVal, x + offset * this.scrollspeed, {

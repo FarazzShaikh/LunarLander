@@ -16,7 +16,7 @@ export default function main(http) {
 
 		// Listens for a request for terrain informaiton.
 		socket.on(REQUEST.REQUEST_TERRAIN.req, (window) => {
-			game.setWindow(window)
+			game.setWindow(window);
 			// Sends terrain seed as acknowledgement.
 			socket.emit(REQUEST.REQUEST_TERRAIN.ack, game.terrainSeed);
 		});

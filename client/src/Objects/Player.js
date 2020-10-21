@@ -69,14 +69,14 @@ export default class Player {
 	 * @param {Number} dt Delta-time.
 	 */
 	update(dt) {
-		if (this.updateHUD) {
-			this.updateHUD({
-				vel: 0.5,
-				alt: 300,
-				timer: 0,
-				fuel: this.fuel,
-			});
-		}
+		// if (this.updateHUD) {
+		// 	this.updateHUD({
+		// 		vel: 0.5,
+		// 		alt: 300,
+		// 		timer: 0,
+		// 		fuel: this.fuel,
+		// 	});
+		// }
 		this.transform(this.position, this.rotation);
 	}
 }

@@ -34,10 +34,10 @@ export default class Engine {
 	 * @param {Terrain} terrain An instance of Terrain object ot add.
 	 */
 	registerTerrain(terrain) {
-		const backgroundCanvas = this.renderer.getLayer('Background');
-		const backgroundCanvasContext = backgroundCanvas.getContext();
+		const terrainCanvas = this.renderer.getLayer('Terrain');
+		const terrainCanvasContext = terrainCanvas.getContext();
 
-		terrain.setContext(backgroundCanvasContext);
+		terrain.setContext(terrainCanvasContext);
 		terrain.genNode();
 		this.terrain.push(terrain);
 	}
@@ -57,7 +57,7 @@ export default class Engine {
 
 	registerBackground(nodes, seed) {
 		const backgroundCanvas = this.renderer.getLayer('Background');
-		//backgroundCanvas.scatterNodes(nodes, seed);
+		backgroundCanvas.scatterNodes(nodes, seed);
 	}
 
 	/**
@@ -87,11 +87,13 @@ export default class Engine {
 	 */
 	updatePlayer(player) {
 		if (this.players[player.id]) {
+			const pos0 = this.players[player.id].position;
+
 			this.players[player.id].removeDomNode();
 			this.players[player.id] = undefined;
 
 			if (player.id === this.me) {
-				this.offset = player.position.x - this.width / 4;
+				this.offset = player.position.x - pos0.x;
 				player.position.x = this.width / 4;
 
 				this.terrain[0].needsUpdate = true;

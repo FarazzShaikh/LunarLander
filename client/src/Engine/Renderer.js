@@ -1,4 +1,5 @@
 import { DEFAULTS } from '../../../shared/Consts';
+import { Simple1DNoise } from '../../../shared/utils/SimplexNoise';
 import PassiveObject from '../Objects/PassiveObjects/_PassiveObject';
 
 // Class Representing the Renderer
@@ -6,6 +7,10 @@ export default class Renderer {
 	constructor({ layers }) {
 		// Array of Layer objects to add to the renderer.
 		this.layers = layers;
+
+		this.getDoccumentNodes().forEach((l, i) => {
+			l.style.zIndex = `${i * 10}`;
+		});
 	}
 
 	/**
@@ -54,22 +59,23 @@ export class Layer {
 	 * @param {Number} seed Random Seed
 	 */
 	scatterNodes(nodes, seed) {
-		for (let i = 0; i < DEFAULTS.SCATTER.N; i++) {
-			nodes.forEach((C, _) => {
-				noiseSeed(i * seed * 10000 + _ + 0.1);
+		const noise = new Simple1DNoise(seed);
+		nodes.forEach((C, _) => {
+			for (let i = 0; i < DEFAULTS.SCATTER.N; i++) {
 				const n = new C(seed * i);
 
-				const scale = Perlin(100000) * (n.scaleMultiplier || 1);
+				const scale =
+					Math.abs(noise.getVal(i * 100 + seed)) * (n.scaleMultiplier || 1);
 
 				n.transform(scale, 1, {
-					x: Perlin(1000) * window.innerWidth,
-					y: Perlin(10000) * 600,
+					x: Math.abs(noise.getVal(i * 10000 + seed)) * window.innerWidth * 0.5,
+					y: Math.abs(noise.getVal(i * 1000 + seed)) * 300,
 				});
 
 				n.setContext(this.canvas);
 				n.drawDOMNode();
-			});
-		}
+			}
+		});
 	}
 
 	/**

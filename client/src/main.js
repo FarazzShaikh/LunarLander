@@ -53,7 +53,7 @@ export default function main() {
 			new Terrain({
 				seed: seed,
 				scrollspeed: 1,
-				zIndex: 1,
+				zIndex: 2,
 			})
 		);
 		// Register Background Elements
@@ -93,6 +93,8 @@ function initRenderer() {
 		layers: [
 			// Layer for the terrrain
 			new Layer({ name: 'Background', backgroundColor: 'black' }),
+
+			new Layer({ name: 'Terrain' }),
 			// Layer for Players
 			new Layer({ name: 'Sprite' }),
 			// Layer for HUD

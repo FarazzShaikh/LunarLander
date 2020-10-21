@@ -1,3 +1,5 @@
+import RNG from './RNG';
+
 export function Simple1DNoise(seed) {
 	var MAX_VERTICES = 256;
 	var MAX_VERTICES_MASK = MAX_VERTICES - 1;
@@ -5,9 +7,10 @@ export function Simple1DNoise(seed) {
 	var scale = 1;
 
 	var r = [];
+	var rng = new RNG(seed);
 
 	for (var i = 0; i < MAX_VERTICES; ++i) {
-		r.push(Math.random());
+		r.push(rng.random());
 	}
 
 	var getVal = function (x) {
