@@ -1,5 +1,6 @@
 # Lunar Lander
 A Remake of Atari's Lunar Lander, but in the Browser.
+[Launch Lunar Lander](https://lunar-lander-js.herokuapp.com/)
 
 ![Demo](https://i.imgur.com/1ctvXkn.gif)
 
