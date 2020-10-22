@@ -1,7 +1,7 @@
-import PassiveObject from './_PassiveObject';
+import { Node } from '../../Engine/Renderer';
 
-export default class Planet extends PassiveObject {
-	constructor() {
+export default class Planet extends Node {
+	constructor({ name }) {
 		const DOMnode = document.createElement('div');
 		DOMnode.style.width = '50px';
 		DOMnode.style.height = '50px';
@@ -16,7 +16,7 @@ export default class Planet extends PassiveObject {
 		DOMnode.style.top = '0';
 		DOMnode.style.left = '0';
 
-		super(DOMnode);
+		super(name, DOMnode);
 
 		this.scaleMultiplier = 5;
 	}

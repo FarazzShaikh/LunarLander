@@ -10,7 +10,7 @@ export function Simple1DNoise(seed) {
 	var rng = new RNG(seed);
 
 	for (var i = 0; i < MAX_VERTICES; ++i) {
-		r.push(rng.random());
+		r.push(rng.random(1, 100) / 100);
 	}
 
 	var getVal = function (x) {

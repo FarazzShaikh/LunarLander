@@ -23,6 +23,6 @@ export default class Collision {
 				persistence: DEFAULTS.GENERATION.PERSISTANCE,
 				amplitude: 100,
 			}) + 500;
-		return player.position.y > noise;
+		return player.position.y >= noise;
 	}
 }

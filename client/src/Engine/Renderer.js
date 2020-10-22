@@ -1,91 +1,168 @@
-import { DEFAULTS } from '../../../shared/Consts';
 import { Simple1DNoise } from '../../../shared/utils/SimplexNoise';
-import PassiveObject from '../Objects/PassiveObjects/_PassiveObject';
 
-// Class Representing the Renderer
 export default class Renderer {
-	constructor({ layers }) {
-		// Array of Layer objects to add to the renderer.
+	constructor(layers, anchor) {
 		this.layers = layers;
+		this.nodes = {};
+		this.anchor = anchor || null;
 
-		this.getDoccumentNodes().forEach((l, i) => {
-			l.style.zIndex = `${i * 10}`;
+		this.layers.forEach((l) => {
+			document.body.appendChild(l.container);
 		});
+
+		document.body.style.overflow = 'hidden';
 	}
 
-	/**
-	 * Gives div elements for each layer.
-	 * @returns {HTMLDivElement} div elements to add to the dom.
-	 */
-	getDoccumentNodes() {
-		return this.layers.map((l) => l.canvas);
+	setAnchor(nodeName) {
+		const node = this.nodes[nodeName];
+		node.deltaP = { x: 0, y: 0 };
+		this.anchor = node;
 	}
 
-	/**
-	 * Gets a specific layer.
-	 * @param {Sting} name Name of the layer to return.
-	 */
-	getLayer(name) {
-		return this.layers.find((l) => l.name === name);
+	scatterNode({ layerName, Class, options, number, seed }) {
+		const layer = this.layers.filter((l) => l.name === layerName)[0];
+		const noise = new Simple1DNoise(seed);
+
+		for (let i = 0; i < number; i++) {
+			const node = new Class(options);
+			this.nodes[`${layer}-${node.name}-n${i}`] = node;
+
+			const s =
+				Math.abs(noise.getVal(i * 100 + seed)) * (node.scaleMultiplier || 1);
+
+			const p = {
+				x: Math.abs(noise.getVal(i * 10000 + seed)) * window.innerWidth * 0.5,
+				y: Math.abs(noise.getVal(i * 1000 + seed)) * 300,
+			};
+
+			node.HTML.style.transform = `scale(${s},${s}) translate(${p.x}px,${p.y}px) rotate(1rad)`;
+			node.needsUpdate = false;
+
+			layer.container.appendChild(node.HTML);
+		}
+	}
+
+	addNode(layer, node) {
+		this.nodes[`${layer}-${node.name}`] = node;
+
+		this.layers
+			.filter((l) => l.name === layer)[0]
+			.container.appendChild(node.HTML);
+	}
+
+	getNode(name) {
+		return this.nodes[name];
+	}
+
+	getNodes() {
+		return Object.values(this.nodes);
+	}
+
+	render(offset) {
+		for (const key in this.nodes) {
+			if (this.nodes.hasOwnProperty(key)) {
+				const node = this.nodes[key];
+				if (
+					node.name !== 'Planet' &&
+					node.name !== 'ForegroundTerrain' &&
+					node.name !== 'BackgroundTerrain'
+				) {
+					// const bb = node.HTML.getBoundingClientRect();
+					// if (!this._isElementPartiallyInViewport(node.HTML)) {
+					// 	console.log('s');
+					// 	node.HTML.style.display = 'none';
+					// } else {
+					// 	node.HTML.style.display = 'flex';
+					// }
+
+					let p = { ...node.position };
+					const s = node.scale;
+					const r = node.rotation;
+
+					if (this.anchor) {
+						if (this.anchor.name === node.name) {
+							p.x = window.innerWidth / 2;
+							//p.y = window.innerHeight / 2;
+						} else {
+							p.x -= this.anchor.position.x;
+							//p.y -= this.anchor.position.y;
+						}
+					}
+
+					node.HTML.style.transform = `scale(${s},${s}) translate(${p.x}px,${p.y}px) rotate(${r}rad)`;
+					node.needsUpdate = false;
+				}
+			}
+		}
+	}
+
+	_isElementPartiallyInViewport(el) {
+		var rect = el.getBoundingClientRect();
+		var windowHeight =
+			window.innerHeight || document.documentElement.clientHeight;
+		var windowWidth = window.innerWidth || document.documentElement.clientWidth;
+
+		var vertInView = rect.top <= windowHeight && rect.top + rect.height >= 0;
+		var horInView = rect.left <= windowWidth && rect.left + rect.width >= 0;
+
+		return vertInView && horInView;
 	}
 }
 
-// Class representing a Render Layer.
-export class Layer {
-	constructor({ name, backgroundColor }) {
+export class Node {
+	constructor(name, HTML) {
 		this.name = name;
-		this.backgroundColor = backgroundColor;
-		this.canvas = document.createElement('div');
-		this.canvas.style.width = `${window.innerWidth}px`;
-		this.canvas.style.height = `${window.innerHeight}px`;
-		this.canvas.style.position = 'absolute';
-		this.canvas.style.top = '0';
-		this.canvas.style.left = '0';
-		this.canvas.classList += 'canvas ' + this.name;
-		this.canvas.style.backgroundColor = this.backgroundColor || 'transparent';
+		this.HTML = HTML;
+
+		this.position = {
+			x: 0,
+			y: 0,
+		};
+		this.prevP = {
+			x: 0,
+			y: 0,
+		};
+		this.deltaP = {
+			x: 0,
+			y: 0,
+		};
+		this.rotation = 0;
+		this.scale = 1;
+		this.needsUpdate = false;
 	}
 
-	/**
-	 * Gets Underlying div element.
-	 * @returns {HTMLDivElement}
-	 */
-	getContext() {
-		return this.canvas;
+	transform({ position, rotation, scale }) {
+		this.needsUpdate = true;
+
+		this.position = position || this.position;
+		this.rotation = rotation || this.rotation;
+		this.scale = scale || this.scale;
+		this.deltaP = {
+			x: this.position.x - this.prevP.x,
+			y: this.position.y - this.prevP.y,
+		};
+		this.prevP = { ...this.position };
 	}
+}
 
-	/**
-	 * Scatters Nodes Around Randomly
-	 * @param {Array<PassiveObject>} nodes Nodes To Scatter
-	 * @param {Number} seed Random Seed
-	 */
-	scatterNodes(nodes, seed) {
-		const noise = new Simple1DNoise(seed);
-		nodes.forEach((C, _) => {
-			for (let i = 0; i < DEFAULTS.SCATTER.N; i++) {
-				const n = new C(seed * i);
+export class Layer {
+	constructor({ name, zIndex, backgroundColor, scatter }) {
+		this.name = name;
+		this.scatter = scatter || false;
+		this.container = document.createElement('div');
 
-				const scale =
-					Math.abs(noise.getVal(i * 100 + seed)) * (n.scaleMultiplier || 1);
+		this.container.style.width = '100vw';
+		this.container.style.height = '100vh';
 
-				n.transform(scale, 1, {
-					x: Math.abs(noise.getVal(i * 10000 + seed)) * window.innerWidth * 0.5,
-					y: Math.abs(noise.getVal(i * 1000 + seed)) * 300,
-				});
+		this.container.style.position = 'absolute';
+		this.container.style.top = '0';
+		this.container.style.left = '0';
 
-				n.setContext(this.canvas);
-				n.drawDOMNode();
-			}
-		});
-	}
+		this.container.style.backgroundColor = backgroundColor
+			? backgroundColor
+			: 'transparent';
 
-	/**
-	 * Adds Nodes To Layer
-	 * @param {Array<PassiveObject>} nodes Nodes to add
-	 */
-	addNodes(nodes) {
-		nodes.forEach((n) => {
-			n.setContext(this.canvas);
-			n.drawDOMNode();
-		});
+		this.container.style.zIndex = `${zIndex}`;
+		this.container.classList += `layer-${name}`;
 	}
 }

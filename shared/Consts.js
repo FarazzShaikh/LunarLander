@@ -31,7 +31,7 @@ export const DEFAULTS = {
 		SCALE: 0.01,
 		LACUNARITY: 2,
 		PERSISTANCE: 0.5,
-		OCTAVES: 7,
+		OCTAVES: 5,
 	},
 	KEYMAP: {
 		ArrowLeft: 'N_ROTATE',
