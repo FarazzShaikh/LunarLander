@@ -8,6 +8,8 @@ var http = require('http').createServer(app);
 const dotenv = require('dotenv').config();
 const reload = require('reload');
 
+const port = process.env.PORT || 3000;
+
 DB.init();
 
 app.get('/scores/:uuid', async (req, res) => {
@@ -27,9 +29,9 @@ reload(app)
 		// reloadReturned is documented in the returns API in the README
 
 		// Reload started, start web server
-		http.listen(process.env.PORT, () => {
+		http.listen(port, () => {
 			console.log('\n============================================\n');
-			console.log(`|   Listening on *:http://localhost:${process.env.PORT}   |\n`);
+			console.log(`|   Listening on *:http://localhost:${port}   |\n`);
 			console.log('============================================\n');
 		});
 	})

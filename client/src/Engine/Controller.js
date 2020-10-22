@@ -18,6 +18,10 @@ export default class Controller {
 				socket.emit(EVENTS.PLAYER_HAS_MOVED, this.keyMap[e.code]);
 			}
 		});
+
+		// setInterval(() => {
+		// 	socket.emit(EVENTS.PLAYER_HAS_MOVED, this.keyMap.Space);
+		// }, 10);
 	}
 
 	removeListener() {

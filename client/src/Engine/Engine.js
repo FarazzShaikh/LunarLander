@@ -3,54 +3,39 @@ import Terrain from '../Objects/Terrain';
 
 // Class Representing the Engine
 export default class Engine {
-	constructor(renderer) {
-		// Instance of Renderer class
+	constructor(renderer, me) {
+		this.d0 = Date.now();
 		this.renderer = renderer;
-		// Instance of the Terrain class
-		this.terrain = undefined;
-		// List of all players. {Player.id: Player}
+		this.me = me;
+		this.isAnchored = false;
+
+		this.terrain = [];
+		this.offset = 0;
+		this.pOffset = -1;
+
 		this.players = {};
-		// Get Update function
-		this.updateHUD = () => {};
 	}
 
-	registerHUD(HUD) {
-		const HUDCanvas = this.renderer.getLayer('HUD');
-		const HUDCanvasContext = HUDCanvas.getContext();
-
-		HUD.setContext(HUDCanvasContext);
-		this.updateHUD = HUD.update.bind(HUD);
+	addNodes(nodes, layers) {
+		nodes.forEach((n, i) => {
+			if (layers[i] === 'Terrain') {
+				this.terrain.push(n);
+			}
+			if (layers[i] === 'Players') {
+				this.players[n.name] = n;
+			}
+			this.renderer.addNode(layers[i], n);
+		});
 	}
 
-	/**
-	 * Adds a terrain to the game.
-	 * @param {Terrain} terrain An instance of Terrain object ot add.
-	 */
-	registerTerrain(terrain) {
-		const backgroundCanvas = this.renderer.getLayer('Background');
-		const backgroundCanvasContext = backgroundCanvas.getContext();
-
-		terrain.setContext(backgroundCanvasContext);
-		terrain.genTerrain();
-		this.terrain = terrain;
+	setAnchor(anchor) {
+		this.isAnchored = true;
+		this.renderer.setAnchor(anchor);
 	}
 
-	/**
-	 * Adds a player to the game.
-	 * @param {Player} player An instance of Player object ot add.
-	 */
-	registerPlayer(player) {
-		const spriteCanvas = this.renderer.getLayer('Sprite');
-		const spriteCanvasContext = spriteCanvas.getContext();
-
-		player.setContext(spriteCanvasContext);
-		player.addDomNode();
-		this.players[player.id] = player;
-	}
-
-	registerBackground(nodes, seed) {
-		const backgroundCanvas = this.renderer.getLayer('Background');
-		backgroundCanvas.scatterNodes(nodes, seed);
+	applyController(movement) {
+		this.me.applyForce(movement.pos, true, this.dt);
+		this.me.applyTorque(movement.rot);
 	}
 
 	/**
@@ -61,52 +46,76 @@ export default class Engine {
 		Object.values(this.players).forEach((p) => {
 			p.removeDomNode();
 		});
+
 		this.players = {};
+
 		players.forEach((p) => {
-			this.registerPlayer(
-				new Player({
-					id: p.id,
-					position: p.position,
-					rotation: p.rotation,
-				})
+			this.addNodes(
+				[
+					new Player({
+						id: p.id,
+						position: p.position,
+						rotation: p.rotation,
+					}),
+				],
+				['Players']
 			);
 		});
+
+		this.setAnchor(`Players-${this.players[this.me].name}`);
 	}
 
-	/**
-	 * Updates a single player in the players list
-	 * @param {Object} Player to update in the players list
-	 */
 	updatePlayer(player) {
-		if (this.players[player.id]) {
-			this.players[player.id].removeDomNode();
-			this.players[player.id] = undefined;
-			this.registerPlayer(
-				new Player({
-					id: player.id,
-					position: player.position,
+		if (player.id !== this.me) {
+			if (this.players[player.id]) {
+				this.players[player.id].transform({
+					position: {
+						x: player.position.x + window.innerWidth / 2,
+						y: player.position.y,
+					},
 					rotation: player.rotation,
-					fuel: player.fuel,
-					updateHUD: this.updateHUD,
-				})
-			);
+				});
+			}
+			return;
+		}
+		if (this.players[player.id]) {
+			this.players[player.id].transform({
+				position: player.position,
+				rotation: player.rotation,
+			});
 		}
 	}
 
-	/**
-	 * Runs every frame. Calls update method of all players.
-	 * @param {Number} dt Delta-time.
-	 */
-	update(dt) {
-		if (this.terrain) {
-			if (this.terrain.needsUpdate) {
-				this.terrain.drawTerrain(this.terrain.heightBuffer);
-				this.terrain.needsUpdate = false;
+	update() {
+		const dt = this._tick() / 1000;
+		this.dt = dt;
+		if (this.isAnchored) {
+			const me = this.players[this.me];
+			this.offset = me.position.x;
+			if (this.pOffset !== this.offset) {
+				this.terrain[0].needsUpdate = true;
+				this.terrain[1].needsUpdate = true;
+				this.pOffset = this.offset;
 			}
 		}
 
-		Object.values(this.players).forEach((p) => {
-			p.update();
+		this.terrain.forEach((t) => {
+			if (t.needsUpdate) {
+				t.drawTerrain(this.offset);
+				t.needsUpdate = false;
+			}
 		});
+
+		this.renderer.render(this.offset);
+	}
+
+	/**
+	 * @private Used to calculate delta-time (dt, time between consecutive ticks)
+	 */
+	_tick() {
+		var now = Date.now();
+		var dt = now - this.d0;
+		this.d0 = now;
+		return dt;
 	}
 }

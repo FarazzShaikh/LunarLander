@@ -27,6 +27,12 @@ export const REQUEST = {
 
 // Used to store Default values for various physics and other calculations
 export const DEFAULTS = {
+	GENERATION: {
+		SCALE: 0.01,
+		LACUNARITY: 2,
+		PERSISTANCE: 0.5,
+		OCTAVES: 5,
+	},
 	KEYMAP: {
 		ArrowLeft: 'N_ROTATE',
 		ArrowRight: 'P_ROTATE',
@@ -36,9 +42,9 @@ export const DEFAULTS = {
 		N: 10,
 	},
 	MOVEMENT_STRENGTH: {
-		BOOST: 1,
-		P_ROTATE: 0.1,
-		N_ROTATE: -0.1,
+		BOOST: 1.5,
+		P_ROTATE: 0.5,
+		N_ROTATE: -0.5,
 	},
 	DRAG: {
 		rho: 1.204,
@@ -52,6 +58,6 @@ export const DEFAULTS = {
 		speed: 0.08,
 	},
 	FUEL: {
-		f: 1,
+		f: 0.1,
 	},
 };
