@@ -15,7 +15,7 @@ export default class Game {
 		// List of all the players in the game. {Socket.id: Socket}
 		this.players = {};
 		// Seed for terrain. Consistant across all clients.
-		this.terrainSeed = Math.random();
+		this.terrainSeed = 0.4989523467257342;
 
 		this.window = {};
 
@@ -47,6 +47,7 @@ export default class Game {
 		this.players[socket.id] = new Player({
 			socket: socket,
 			position: { x: 0, y: 100 },
+			velocity: { x: 2, y: 0 },
 			rotation: Math.PI / 2,
 		});
 		this.collision.setPlayers(this.players);

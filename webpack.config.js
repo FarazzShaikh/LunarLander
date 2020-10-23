@@ -29,6 +29,14 @@ module.exports = [
 					test: /\.js$/,
 					exclude: /node_modules/,
 				},
+				{
+					test: /\.(png|jpg|gif)$/i,
+					use: [
+						{
+							loader: 'url-loader',
+						},
+					],
+				},
 			],
 		},
 	},
