@@ -2,7 +2,9 @@
 A Remake of Atari's Lunar Lander, but in the Browser.
 [Launch Lunar Lander](https://lunar-lander-js.herokuapp.com/)
 
-![Demo](https://i.imgur.com/1ctvXkn.gif)
+![Demo](https://github.com/FarazzShaikh/LunarLander/blob/master/Assets/Demo.gif)
+
+Althought this gif does not demo it, Lunar Lander is a Relatime Massively multiplayer game.
 
 ## **Overview**
 ### What is Lunar Lander?

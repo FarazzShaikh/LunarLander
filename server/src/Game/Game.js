@@ -15,7 +15,7 @@ export default class Game {
 		// List of all the players in the game. {Socket.id: Socket}
 		this.players = {};
 		// Seed for terrain. Consistant across all clients.
-		this.terrainSeed = Math.random();
+		this.terrainSeed = 0.4989523467257342;
 
 		this.window = {};
 

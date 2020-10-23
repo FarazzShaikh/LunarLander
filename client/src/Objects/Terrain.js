@@ -18,7 +18,7 @@ export default class Terrain extends Node {
 		svg.style.transform = 'scale(1.01, 1.01)';
 		svg.style.position = 'absolute';
 		svg.style.zIndex = `${zIndex + 10}`;
-		svg.style.fill = '#131111';
+		svg.style.fill = zIndex === 0 ? '#202020' : '#191919';
 
 		polygon.style.zIndex = '100';
 		polygon.style.stroke = `rgba(255, 255, 255, ${1 * zIndex + 0.5})`;

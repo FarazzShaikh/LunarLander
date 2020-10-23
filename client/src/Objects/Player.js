@@ -6,7 +6,7 @@ import Char_Fly from '../../Assets/Char/Fly.png';
 export default class Player extends Sprite {
 	constructor({ id, position, rotation, scale }) {
 		super({
-			name: id,
+			name: `${id}`,
 			//sprite: Char_Fly,
 			shadowColor: 'rgba(255, 255, 255, 0.2)',
 			position: position,
@@ -16,6 +16,6 @@ export default class Player extends Sprite {
 	}
 
 	removeDomNode() {
-		document.querySelector(`.Player-${this.name}`).remove();
+		document.querySelector(`.${this.name}`).remove();
 	}
 }

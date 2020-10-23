@@ -1,8 +1,19 @@
 import { Node } from '../Engine/Renderer';
 
 export default class Sprite extends Node {
-	constructor({ name, position, rotation, scale, sprite, shadowColor, zIndex }) {
+	constructor({
+		name,
+		position,
+		rotation,
+		scale,
+		sprite,
+		shadowColor,
+		zIndex,
+		invert,
+	}) {
 		const DOMnode = document.createElement('div');
+		DOMnode.classList += `${name}`;
+
 		if (!sprite) {
 			DOMnode.style.width = '25px';
 			DOMnode.style.height = '25px';
@@ -27,6 +38,10 @@ export default class Sprite extends Node {
 
 		if (shadowColor) {
 			DOMnode.style.filter = `drop-shadow(0px 0px 5px ${shadowColor}`;
+		}
+
+		if (invert) {
+			DOMnode.style.filter += `invert(100)`;
 		}
 
 		if (sprite) {

@@ -34,7 +34,7 @@ export default class Renderer {
 			const o = noise.getVal(i * 100 + seed) + 0.2;
 
 			const p = {
-				x: Math.abs(noise.getVal(i * 10000 + seed)) * window.innerWidth * 0.5,
+				x: Math.abs(noise.getVal(i * 10000 + seed)) * window.innerWidth * 0.8,
 				y: Math.abs(noise.getVal(i * 1000 + seed)) * 300,
 			};
 
