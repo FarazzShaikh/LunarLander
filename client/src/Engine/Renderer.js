@@ -27,15 +27,19 @@ export default class Renderer {
 			const node = new Class(options);
 			this.nodes[`${layer}-${node.name}-n${i}`] = node;
 
-			const s =
-				Math.abs(noise.getVal(i * 100 + seed)) * (node.scaleMultiplier || 1);
+			const s = Math.abs(
+				noise.getVal(i * 100 + seed) * (node.scaleMultiplier || 1)
+			);
+
+			const o = noise.getVal(i * 100 + seed) + 0.2;
 
 			const p = {
 				x: Math.abs(noise.getVal(i * 10000 + seed)) * window.innerWidth * 0.5,
 				y: Math.abs(noise.getVal(i * 1000 + seed)) * 300,
 			};
 
-			node.HTML.style.transform = `scale(${s},${s}) translate(${p.x}px,${p.y}px) rotate(1rad)`;
+			node.HTML.style.transform = `scale(${s},${s}) translate(${p.x}px,${p.y}px) rotate(0rad)`;
+			node.HTML.style.filter += `brightness(${o})`;
 			node.needsUpdate = false;
 
 			layer.container.appendChild(node.HTML);
@@ -62,35 +66,8 @@ export default class Renderer {
 		for (const key in this.nodes) {
 			if (this.nodes.hasOwnProperty(key)) {
 				const node = this.nodes[key];
-				if (
-					node.name !== 'Planet' &&
-					node.name !== 'ForegroundTerrain' &&
-					node.name !== 'BackgroundTerrain'
-				) {
-					// const bb = node.HTML.getBoundingClientRect();
-					// if (!this._isElementPartiallyInViewport(node.HTML)) {
-					// 	console.log('s');
-					// 	node.HTML.style.display = 'none';
-					// } else {
-					// 	node.HTML.style.display = 'flex';
-					// }
-
-					let p = { ...node.position };
-					const s = node.scale;
-					const r = node.rotation;
-
-					if (this.anchor) {
-						if (this.anchor.name === node.name) {
-							p.x = window.innerWidth / 2;
-							//p.y = window.innerHeight / 2;
-						} else {
-							p.x -= this.anchor.position.x;
-							//p.y -= this.anchor.position.y;
-						}
-					}
-
-					node.HTML.style.transform = `scale(${s},${s}) translate(${p.x}px,${p.y}px) rotate(${r}rad)`;
-					node.needsUpdate = false;
+				if (node.needsUpdate) {
+					node.update.call(this, node);
 				}
 			}
 		}
@@ -143,10 +120,34 @@ export class Node {
 		};
 		this.prevP = { ...this.position };
 	}
+
+	update(node) {
+		const self = node;
+		let p = { ...self.position };
+		const s = self.scale;
+		const r = self.rotation;
+
+		if (this.anchor) {
+			if (this.anchor.name === self.name) {
+				p.x = window.innerWidth / 2;
+				//p.y = window.innerHeight / 2;
+			} else {
+				p.x -= this.anchor.position.x;
+				//p.y -= this.anchor.position.y;
+			}
+		}
+
+		self.HTML.style.transform = `scale(${s},${s}) translate(${p.x}px,${p.y}px) rotate(${r}rad)`;
+		self.needsUpdate = false;
+	}
+}
+
+export class SpriteAnimator {
+	constructor() {}
 }
 
 export class Layer {
-	constructor({ name, zIndex, backgroundColor, scatter }) {
+	constructor({ name, zIndex, backgroundColor, scatter, image }) {
 		this.name = name;
 		this.scatter = scatter || false;
 		this.container = document.createElement('div');
@@ -164,5 +165,11 @@ export class Layer {
 
 		this.container.style.zIndex = `${zIndex}`;
 		this.container.classList += `layer-${name}`;
+
+		if (image) {
+			this.container.style.background = `url(${image}) 0px 0px`;
+
+			this.container.style.imageRendering = 'pixelated';
+		}
 	}
 }

@@ -5,7 +5,7 @@ import Wind from './Physics/Wind';
 
 // Class representing a player.
 export class Player {
-	constructor({ socket, position, rotation }) {
+	constructor({ socket, position, rotation, velocity }) {
 		// Socket associated with the player
 		this.socket = socket;
 		// Players position vector in 2D space
@@ -16,7 +16,7 @@ export class Player {
 		// Mass of the player
 		this.mass = 1;
 		// Current velocity applied to player
-		this.velocity = { x: 0, y: 0 };
+		this.velocity = velocity || { x: 0, y: 0 };
 		// Current torque applied to player
 		this.torque = 0;
 		// Current force being applied

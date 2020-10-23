@@ -4,13 +4,20 @@ import io from 'socket.io-client';
 import { EVENTS, REQUEST } from '../../shared/Consts';
 import Controller from './Engine/Controller';
 import Engine from './Engine/Engine';
-import HUD from './Engine/HUD';
 import Renderer, { Layer } from './Engine/Renderer';
-import Planet from './Objects/PassiveObjects/Planet';
-import Player from './Objects/Player';
+import Sprite from './Objects/Sprite';
 import Terrain from './Objects/Terrain';
 
+import Sprite_Earth from '../Assets/Earth.png';
+import Sprite_Baren from '../Assets/Baren.png';
+import Sprite_Ice from '../Assets/Ice.png';
+import Sprite_Lava from '../Assets/Lava.png';
+import Sprite_Background from '../Assets/background-black.png';
+
+import HUD from './Objects/HUD';
+
 var d = new Date();
+let frameCounter = 0;
 
 // Main
 export default function main() {
@@ -56,22 +63,79 @@ export default function main() {
 					zIndex: 2,
 					seed: seed,
 				}),
-				new Player({
-					id: '10',
-					position: { x: 100, y: 100 },
+				new Sprite({
+					name: 'Earth',
+					position: { x: 70, y: 70 },
+					scale: 5,
+					sprite: Sprite_Earth,
+					shadowColor: 'rgba(0, 139, 139, 0.5)',
+					zIndex: 8,
+				}),
+				new Sprite({
+					name: 'Baren',
+					position: { x: 80, y: 75 },
+					scale: 3,
+					sprite: Sprite_Baren,
+					shadowColor: 'rgba(255, 255, 255, 0.2)',
+					zIndex: 9,
+				}),
+				new Sprite({
+					name: 'Ice',
+					position: { x: 500, y: 75 },
+					scale: 2,
+					sprite: Sprite_Ice,
+					shadowColor: 'rgba(255, 255, 255, 0.2)',
+					zIndex: 8,
+				}),
+				new HUD({
+					name: 'FPS',
+					data: {
+						get: () => frameCounter,
+						set: (v) => (frameCounter = v),
+					},
 				}),
 			],
-			['Terrain', 'Terrain', 'Players']
+			['Terrain', 'Terrain', 'Background', 'Background', 'Background', 'HUD']
 		);
 
 		renderer.scatterNode({
 			layerName: 'Background',
-			Class: Planet,
-			options: { name: 'Planet' },
-			number: 10,
+			Class: Sprite,
+			options: {
+				name: 'Ice',
+				sprite: Sprite_Ice,
+				shadowColor: 'rgba(255, 255, 255, 0.2)',
+				zIndex: 5,
+			},
+			number: 6,
+			seed: seed,
+		});
+		renderer.scatterNode({
+			layerName: 'Background',
+			Class: Sprite,
+			options: {
+				name: 'Baren',
+				sprite: Sprite_Baren,
+				shadowColor: 'rgba(255,255,255,0.2)',
+				zIndex: 5,
+			},
+			number: 7,
+			seed: seed,
+		});
+		renderer.scatterNode({
+			layerName: 'Background',
+			Class: Sprite,
+			options: {
+				name: 'Lava',
+				sprite: Sprite_Lava,
+				shadowColor: 'rgba(220,20,60,0.05)',
+				zIndex: 5,
+			},
+			number: 5,
 			seed: seed,
 		});
 
+		console.log(seed);
 		socket.emit(REQUEST.REQUEST_NEW_PLAYER.req);
 	});
 
@@ -91,6 +155,7 @@ export default function main() {
 
 	// GListens for Server Tick events.
 	socket.on(EVENTS.SERVER_TICK, (dt) => {
+		frameCounter++;
 		//console.log('server-tick');
 		// Calls engine update on every tick with given delta time.
 		engine.update(dt);
@@ -106,6 +171,7 @@ function initRenderer() {
 			name: 'Background',
 			backgroundColor: 'black',
 			zIndex: 0,
+			image: Sprite_Background,
 		}),
 
 		new Layer({
