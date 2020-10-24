@@ -2,7 +2,7 @@ import { DEFAULTS, EVENTS } from '../../../shared/Consts';
 
 // Class Representing the COntroller for the game
 export default class Controller {
-	constructor(socket, enableDS4) {
+	constructor(socket, applyController, enableDS4) {
 		// The Socket of the player
 		this.socket = socket;
 		// A Map, mapping the keyboard keys -> movement commands
@@ -14,8 +14,16 @@ export default class Controller {
 		document.addEventListener('keydown', (e) => {
 			// If keycode maps to an input...
 			if (this.keyMap[e.code]) {
+				applyController(this.keyMap[e.code]);
+
 				// ...Send an event telling server Player has moved
 				socket.emit(EVENTS.PLAYER_HAS_MOVED, this.keyMap[e.code]);
+			}
+		});
+
+		document.addEventListener('keyup', (e) => {
+			if (this.keyMap[e.code]) {
+				applyController(null);
 			}
 		});
 

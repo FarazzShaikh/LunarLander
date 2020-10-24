@@ -142,10 +142,6 @@ export class Node {
 	}
 }
 
-export class SpriteAnimator {
-	constructor() {}
-}
-
 export class Layer {
 	constructor({ name, zIndex, backgroundColor, scatter, image }) {
 		this.name = name;

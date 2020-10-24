@@ -22,7 +22,11 @@ export default class Collision {
 				lacunarity: DEFAULTS.GENERATION.LACUNARITY,
 				persistence: DEFAULTS.GENERATION.PERSISTANCE,
 				amplitude: 100,
-			}) + 500;
+			}) +
+			(this.window.h * 0.7 - this.window.h * 0.55) +
+			this.window.h * 0.55 -
+			58;
+
 		return player.position.y >= noise;
 	}
 }

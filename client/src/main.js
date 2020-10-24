@@ -36,7 +36,7 @@ export default function main() {
 		// Initialize Engine
 		engine = new Engine(renderer, socket.id);
 		// Initialize Controller
-		controller = new Controller(socket);
+		controller = new Controller(socket, engine.applyController.bind(engine));
 
 		// Requests terrain options.
 		socket.emit(REQUEST.REQUEST_TERRAIN.req, {
@@ -72,7 +72,7 @@ export default function main() {
 						zIndex: 11,
 						volume: new Volume({
 							background:
-								'linear-gradient(rgba(154,154,154,0) 65%, rgba(255,255,255,0.5) 100%)',
+								'linear-gradient(rgba(154,154,154,0) 70%, rgba(255,255,255,0.5) 100%)',
 						}).getVolume(),
 					}),
 

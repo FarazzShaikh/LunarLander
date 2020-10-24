@@ -49,7 +49,9 @@ export default class Terrain extends Node {
 		polygon.points.clear();
 		for (let x = 0; x < window.innerWidth; x += 4) {
 			var point = svg.createSVGPoint();
-			const scale = (this.zIndex / 2) * (500 - 400) + 400;
+			const scale =
+				(this.zIndex / 2) * (window.innerHeight * 0.7 - window.innerHeight * 0.55) +
+				window.innerHeight * 0.55;
 
 			point.x = x;
 			point.y =
