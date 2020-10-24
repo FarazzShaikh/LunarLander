@@ -4,6 +4,14 @@ A Remake of Atari's Lunar Lander, but in the Browser.
 
 ![Demo](https://github.com/FarazzShaikh/LunarLander/blob/master/Assets/Demo.gif)
 
+
+## **Controls**
+| Action  | Keyboard  | Dualshock4 |
+|---|---|---|
+| Boost | `Space` | `X` |
+| Rotate Left | `Left Arrow Key` | `L1` |
+| Rotate Right | `Right Arrow Key` | `R1` |
+
 Althought this gif does not demo it, Lunar Lander is a Relatime Massively multiplayer game.
 
 ## **Overview**

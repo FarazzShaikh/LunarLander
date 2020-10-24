@@ -62,6 +62,10 @@ export default class Renderer {
 		return Object.values(this.nodes);
 	}
 
+	removeNode(name) {
+		delete this.nodes[name];
+	}
+
 	render(offset) {
 		for (const key in this.nodes) {
 			if (this.nodes.hasOwnProperty(key)) {
@@ -140,10 +144,6 @@ export class Node {
 		self.HTML.style.transform = `scale(${s},${s}) translate(${p.x}px,${p.y}px) rotate(${r}rad)`;
 		self.needsUpdate = false;
 	}
-}
-
-export class SpriteAnimator {
-	constructor() {}
 }
 
 export class Layer {

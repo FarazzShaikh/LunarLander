@@ -33,9 +33,8 @@ export default class Engine {
 		this.renderer.setAnchor(anchor);
 	}
 
-	applyController(movement) {
-		this.me.applyForce(movement.pos, true, this.dt);
-		this.me.applyTorque(movement.rot);
+	applyController(input) {
+		this.players[this.me].setBoostState(input);
 	}
 
 	/**
@@ -45,6 +44,7 @@ export default class Engine {
 	updatePlayers(players) {
 		Object.values(this.players).forEach((p) => {
 			p.removeDomNode();
+			this.renderer.removeNode(p.id);
 		});
 
 		this.players = {};
