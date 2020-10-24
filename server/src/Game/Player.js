@@ -72,6 +72,7 @@ export class Player {
 			this.force.y += f.y;
 
 			this.overrideTerrainCollision = true;
+			this.movementState = null;
 
 			this.calcVelocity(dt);
 		}
@@ -110,6 +111,10 @@ export class Player {
 		});
 	}
 
+	setMovementState(state) {
+		this.movementState = state;
+	}
+
 	/**
 	 * Returns serialized form of Player.
 	 * Easy to transmit over Socket.emit().
@@ -121,6 +126,7 @@ export class Player {
 			position: this.position,
 			rotation: this.rotation,
 			fuel: this.fuel,
+			movementState: this.movementState,
 		};
 	}
 

@@ -92,6 +92,7 @@ export default class Game {
 				default:
 					break;
 			}
+			this.players[socket.id].setMovementState(type);
 		}
 	}
 

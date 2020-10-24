@@ -30,6 +30,7 @@ export default class Controller {
 		document.addEventListener('keyup', (e) => {
 			if (this.keyMap[e.code]) {
 				applyController(null);
+				socket.emit(EVENTS.PLAYER_HAS_MOVED, null);
 			}
 		});
 

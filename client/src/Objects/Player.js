@@ -14,7 +14,7 @@ import Side_booster4 from '../../Assets/RotationBoosters/exhaust4.png';
 
 // Class representing client side Player.
 export default class Player extends Sprite {
-	constructor({ id, position, rotation, scale }) {
+	constructor({ id, position, rotation, scale, movementState }) {
 		super({
 			name: `${id}`,
 			sprite: Char_Fly,

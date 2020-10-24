@@ -75,6 +75,7 @@ export default class Engine {
 					},
 					rotation: player.rotation,
 				});
+				this.players[player.id].setBoostState(player.movementState);
 			}
 			return;
 		}
