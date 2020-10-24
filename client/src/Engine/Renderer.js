@@ -62,6 +62,10 @@ export default class Renderer {
 		return Object.values(this.nodes);
 	}
 
+	removeNode(name) {
+		delete this.nodes[name];
+	}
+
 	render(offset) {
 		for (const key in this.nodes) {
 			if (this.nodes.hasOwnProperty(key)) {

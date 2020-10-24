@@ -37,19 +37,23 @@ export const DEFAULTS = {
 		ArrowLeft: 'N_ROTATE',
 		ArrowRight: 'P_ROTATE',
 		Space: 'BOOST',
+
+		X: 'BOOST',
+		L1: 'N_ROTATE',
+		R1: 'P_ROTATE',
 	},
 	SCATTER: {
 		N: 10,
 	},
 	MOVEMENT_STRENGTH: {
-		BOOST: 1.5,
+		BOOST: 2.5,
 		P_ROTATE: 0.5,
 		N_ROTATE: -0.5,
 	},
 	DRAG: {
 		rho: 1.204,
 		cd: 1.05,
-		a: (6 * 25 ** 2) / 10000,
+		a: (6 * 15 ** 2) / 10000,
 	},
 	GRAVITY: {
 		g: -0.098,

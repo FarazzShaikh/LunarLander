@@ -44,6 +44,7 @@ export default class Engine {
 	updatePlayers(players) {
 		Object.values(this.players).forEach((p) => {
 			p.removeDomNode();
+			this.renderer.removeNode(p.id);
 		});
 
 		this.players = {};
