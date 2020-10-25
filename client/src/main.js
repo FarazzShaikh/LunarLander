@@ -221,6 +221,11 @@ export default function main() {
 
 		engine.update(dt);
 	});
+
+	// Listens for PLAYER HIT GROUND request.
+	socket.on(REQUEST.REQUEST_SERVER_PLAYER_HIT_GROUND.req, () =>
+		console.log('damage')
+	);
 }
 
 /**
