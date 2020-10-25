@@ -76,5 +76,20 @@ export default class Terrain extends Node {
 		polygon.points.insertItemBefore(lPoint, 0);
 	}
 
+	sample(x, offset) {
+		const scale =
+			(this.zIndex / 2) * (window.innerHeight * 0.7 - window.innerHeight * 0.55) +
+			window.innerHeight * 0.55;
+		return (
+			makeOctaves(this.simplex.getVal, x + offset * this.scrollspeed, {
+				octaves: DEFAULTS.GENERATION.OCTAVES,
+				frequency: DEFAULTS.GENERATION.SCALE * this.scrollspeed,
+				lacunarity: DEFAULTS.GENERATION.LACUNARITY,
+				persistence: DEFAULTS.GENERATION.PERSISTANCE,
+				amplitude: 100,
+			}) + scale
+		);
+	}
+
 	update() {}
 }

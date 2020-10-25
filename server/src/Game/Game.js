@@ -6,6 +6,7 @@ import { DEFAULTS, EVENTS } from '../../../shared/Consts';
 import { Player } from './Player';
 
 import Collision from './Collision';
+import { CrashedShip } from './CrashedShip';
 
 // Class representing the Game.
 export default class Game {
@@ -22,14 +23,57 @@ export default class Game {
 		this.collision = undefined;
 		this.didCollide = () => {};
 
+		this.crashedShips = [];
+
 		// Runs the update function every 1/60th of a second.
 		setInterval(this.update.bind(this), 1000 / 30);
+
+		this.genCrachedShips();
+	}
+
+	genCrachedShips() {
+		const number = DEFAULTS.GENERATION.N_CRASHED_SHIPS;
+		const interval = DEFAULTS.GENERATION.INTERVAL_CRASHED_SHIPS;
+
+		this.crashedShips = [];
+		for (let i = 0; i < number * interval; i += interval) {
+			this.crashedShips.push(
+				new CrashedShip({
+					xPosition: i * interval * Math.random() + this.terrainSeed * 100,
+					seed: this.terrainSeed,
+				})
+			);
+		}
+	}
+
+	getCrashedShips() {
+		return this.crashedShips.map((s) => s.getSerialized());
 	}
 
 	setWindow(window) {
 		this.window = window;
 		this.collision = new Collision(this.terrainSeed, window);
 		this.didCollide = this.collision.didColide.bind(this.collision);
+	}
+
+	setResources(id, resources) {
+		// TODO
+		console.log('TODO: DATABASE');
+		this.crashedShips = this._removeByAttr(
+			this.crashedShips,
+			'name',
+			resources.name
+		);
+	}
+
+	async getResources(id) {
+		// TODO
+		console.log('TODO: DATABASE');
+		return {
+			fuel: 100,
+			W: 1000,
+			scrap: 30,
+		};
 	}
 
 	/**
@@ -43,14 +87,17 @@ export default class Game {
 	 * Adds a player to the game.
 	 * @param {Socket} socket Socket of the player to add.
 	 */
-	addPlayer(socket) {
-		this.players[socket.id] = new Player({
-			socket: socket,
-			position: { x: 0, y: 100 },
-			velocity: { x: 2, y: 0 },
-			rotation: Math.PI / 2,
+	async addPlayer(socket) {
+		this.getResources(socket.id).then((r) => {
+			this.players[socket.id] = new Player({
+				socket: socket,
+				position: { x: 0, y: 100 },
+				velocity: { x: 0, y: 0 },
+				rotation: Math.PI / 2,
+				resources: r,
+			});
+			this.collision.setPlayers(this.players);
 		});
-		this.collision.setPlayers(this.players);
 	}
 
 	/**
@@ -127,5 +174,20 @@ export default class Game {
 		var dt = now - this.d0;
 		this.d0 = now;
 		return dt;
+	}
+
+	_removeByAttr(arr, attr, value) {
+		var i = arr.length;
+		while (i--) {
+			if (
+				arr[i] &&
+				arr[i].hasOwnProperty(attr) &&
+				arguments.length > 2 &&
+				arr[i][attr] === value
+			) {
+				arr.splice(i, 1);
+			}
+		}
+		return arr;
 	}
 }

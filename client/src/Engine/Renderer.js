@@ -63,6 +63,10 @@ export default class Renderer {
 	}
 
 	removeNode(name) {
+		if (this.nodes[name]) {
+			this.nodes[name].HTML.remove();
+		}
+
 		delete this.nodes[name];
 	}
 

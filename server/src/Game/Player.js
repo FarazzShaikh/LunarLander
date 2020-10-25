@@ -5,9 +5,10 @@ import Wind from './Physics/Wind';
 
 // Class representing a player.
 export class Player {
-	constructor({ socket, position, rotation, velocity }) {
+	constructor({ socket, position, rotation, velocity, resources }) {
 		// Socket associated with the player
 		this.socket = socket;
+
 		// Players position vector in 2D space
 		this.position = position || { x: 0, y: 0 };
 		// Players rotation in radians.
@@ -27,7 +28,7 @@ export class Player {
 			gravity: new Gravity(),
 		};
 		//Player fuel value (starts at 100)
-		this.fuel = 100;
+		this.resources = resources;
 	}
 
 	/**
@@ -62,8 +63,8 @@ export class Player {
 	 * @param {Object} force
 	 */
 	applyForce(force, isAlongNormal, dt) {
-		if (this.fuel != 0) {
-			this.fuel -= DEFAULTS.FUEL.f;
+		if (this.resources.fuel != 0) {
+			this.resources.fuel -= DEFAULTS.FUEL.f;
 			const f = {
 				x: isAlongNormal ? force.x * -Math.sin(this.rotation) : force.x,
 				y: isAlongNormal ? force.y * Math.cos(this.rotation) : force.y,
@@ -125,8 +126,8 @@ export class Player {
 			id: this.socket.id,
 			position: this.position,
 			rotation: this.rotation,
-			fuel: this.fuel,
 			movementState: this.movementState,
+			resources: this.resources,
 		};
 	}
 

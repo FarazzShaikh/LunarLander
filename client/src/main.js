@@ -16,6 +16,8 @@ import Sprite_Ice from '../Assets/Planets/Ice.png';
 import Sprite_Lava from '../Assets/Planets/Lava.png';
 import Sprite_Background from '../Assets/Planets/background-black.png';
 
+import Radar from './Objects/Radar';
+
 let frameCounter = 0;
 
 // Main
@@ -30,11 +32,12 @@ export default function main() {
 	socket.on('connect', () => {
 		console.log('connected');
 		//getScore();
+		socket.id = replaceAt(socket.id, 0, 'A');
 
 		// Initialize Renderer
 		renderer = initRenderer();
 		// Initialize Engine
-		engine = new Engine(renderer, socket.id);
+		engine = new Engine(renderer, socket.id, socket);
 
 		// Initialize Controller
 		controller = new Controller(
@@ -127,6 +130,9 @@ export default function main() {
 						set: (v) => (frameCounter = v),
 					},
 				}),
+				new Radar({
+					name: 'Radar',
+				}),
 			],
 			[
 				'PostProcess',
@@ -137,6 +143,7 @@ export default function main() {
 				'Background',
 				'Background',
 				'Background',
+				'HUD',
 				'HUD',
 			]
 		);
@@ -183,8 +190,15 @@ export default function main() {
 	});
 
 	// Listens for new player request acknowledgement. Then updates list of all players.
-	socket.on(REQUEST.REQUEST_NEW_PLAYER.ack, (players) => {
-		engine.updatePlayers(players);
+	socket.on(REQUEST.REQUEST_NEW_PLAYER.ack, (players) =>
+		engine.updatePlayers(players)
+	);
+
+	socket.on(EVENTS.SERVER_SEND_CRASHED_SHIPS, (ships) => {
+		const node = engine.getNode('HUD-Radar');
+
+		node.setShips(ships);
+		engine.addCrashedShips(ships, node.addDot.bind(node));
 	});
 
 	// Listens for Update PLayerss event. Then updates list of all players.
@@ -244,7 +258,7 @@ function initRenderer() {
 			zIndex: '',
 		}),
 		new Layer({
-			name: 'Particles',
+			name: 'CrashedShips',
 			zIndex: 40,
 		}),
 	]);
@@ -255,4 +269,10 @@ function initRenderer() {
 async function getScore() {
 	const url = `${window.location.href}scores/all`;
 	console.log(await (await fetch(url)).json());
+}
+
+function replaceAt(str, index, replacement) {
+	return (
+		str.substr(0, index) + replacement + str.substr(index + replacement.length)
+	);
 }

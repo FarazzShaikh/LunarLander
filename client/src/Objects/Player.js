@@ -142,6 +142,7 @@ export default class Player extends Sprite {
 	}
 
 	removeDomNode() {
+		console.log(this.name);
 		document.querySelector(`.${this.name}`).remove();
 	}
 
