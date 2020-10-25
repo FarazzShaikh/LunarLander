@@ -36,11 +36,7 @@ export default function main(http) {
 			game.movePlayer(socket, typeOfMovement)
 		);
 
-		// Listens for Game_Over event
-		socket.on(EVENTS.GAME_OVER, () => 
-			game.removePlayer(socket)
-		);
-
+		
 		// Listens for 'disconnect' events.
 		socket.on('disconnect', () => {
 			// Removes disconected player from the game.

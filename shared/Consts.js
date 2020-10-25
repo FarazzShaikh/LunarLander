@@ -23,6 +23,10 @@ export const REQUEST = {
 		req: 'REQUEST-DELETE-PLAYER',
 		ack: 'REQUEST-DELETE-PLAYER-ACK',
 	},
+	REQUEST_SERVER_PLAYER_HIT_GROUND: {
+		req: 'REQUEST_SERVER_PLAYER_HIT_GROUND',
+		ack: 'REQUEST_SERVER_PLAYER_HIT_GROUND-ACK',
+	}
 };
 
 // Used to store Default values for various physics and other calculations
