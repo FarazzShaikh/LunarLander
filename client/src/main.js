@@ -16,6 +16,8 @@ import Sprite_Ice from '../Assets/Planets/Ice.png';
 import Sprite_Lava from '../Assets/Planets/Lava.png';
 import Sprite_Background from '../Assets/Planets/background-black.png';
 
+import Radar from './Objects/Radar';
+
 let frameCounter = 0;
 
 // Main
@@ -127,6 +129,9 @@ export default function main() {
 						set: (v) => (frameCounter = v),
 					},
 				}),
+				new Radar({
+					name: 'Radar',
+				}),
 			],
 			[
 				'PostProcess',
@@ -137,6 +142,7 @@ export default function main() {
 				'Background',
 				'Background',
 				'Background',
+				'HUD',
 				'HUD',
 			]
 		);
@@ -185,6 +191,13 @@ export default function main() {
 	// Listens for new player request acknowledgement. Then updates list of all players.
 	socket.on(REQUEST.REQUEST_NEW_PLAYER.ack, (players) => {
 		engine.updatePlayers(players);
+	});
+
+	socket.on(EVENTS.SERVER_SEND_CRASHED_SHIPS, (ships) => {
+		const node = engine.getNode('HUD-Radar');
+		node.setShips(ships);
+		console.log(ships.map((s) => s.xPosition));
+		engine.addCrashedShips(ships, node.addDot.bind(node));
 	});
 
 	// Listens for Update PLayerss event. Then updates list of all players.
@@ -239,7 +252,7 @@ function initRenderer() {
 			zIndex: '',
 		}),
 		new Layer({
-			name: 'Particles',
+			name: 'CrashedShips',
 			zIndex: 40,
 		}),
 	]);

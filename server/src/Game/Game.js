@@ -6,6 +6,7 @@ import { DEFAULTS, EVENTS } from '../../../shared/Consts';
 import { Player } from './Player';
 
 import Collision from './Collision';
+import { CrashedShip } from './CrashedShip';
 
 // Class representing the Game.
 export default class Game {
@@ -22,8 +23,31 @@ export default class Game {
 		this.collision = undefined;
 		this.didCollide = () => {};
 
+		this.crashedShips = [];
+
 		// Runs the update function every 1/60th of a second.
 		setInterval(this.update.bind(this), 1000 / 30);
+
+		this.genCrachedShips();
+	}
+
+	genCrachedShips() {
+		const number = DEFAULTS.GENERATION.N_CRASHED_SHIPS;
+		const interval = DEFAULTS.GENERATION.INTERVAL_CRASHED_SHIPS;
+
+		this.crashedShips = [];
+		for (let i = 0; i < number * interval; i += interval) {
+			this.crashedShips.push(
+				new CrashedShip({
+					xPosition: i * interval * Math.random() + this.terrainSeed * 100,
+					seed: this.terrainSeed,
+				})
+			);
+		}
+	}
+
+	getCrashedShips() {
+		return this.crashedShips.map((s) => s.getSerialized());
 	}
 
 	setWindow(window) {
@@ -47,7 +71,7 @@ export default class Game {
 		this.players[socket.id] = new Player({
 			socket: socket,
 			position: { x: 0, y: 100 },
-			velocity: { x: 2, y: 0 },
+			velocity: { x: 0, y: 0 },
 			rotation: Math.PI / 2,
 		});
 		this.collision.setPlayers(this.players);

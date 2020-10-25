@@ -1,3 +1,4 @@
+import CrashedShip from '../Objects/CrashedShip';
 import Player from '../Objects/Player';
 import Terrain from '../Objects/Terrain';
 
@@ -28,6 +29,10 @@ export default class Engine {
 		});
 	}
 
+	getNode(name) {
+		return this.renderer.getNode(name);
+	}
+
 	setAnchor(anchor) {
 		this.isAnchored = true;
 		this.renderer.setAnchor(anchor);
@@ -35,6 +40,31 @@ export default class Engine {
 
 	applyController(input) {
 		this.players[this.me].setBoostState(input);
+	}
+
+	addCrashedShips(ships, addDot) {
+		ships.forEach((s, i) => {
+			this.addNodes(
+				[
+					new CrashedShip({
+						name: `CrashedShip-${i}`,
+						position: {
+							x: s.xPosition + window.innerWidth / 2,
+							y: this.terrain[1].sample(s.xPosition, this.offset) - 20,
+						},
+					}),
+				],
+				['CrashedShips']
+			);
+
+			addDot(s.xPosition, this.players[this.me].position.x);
+		});
+
+		addDot(
+			this.players[this.me].position.x,
+			this.players[this.me].position.x,
+			true
+		);
 	}
 
 	/**

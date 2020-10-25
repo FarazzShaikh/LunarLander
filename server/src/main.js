@@ -29,6 +29,8 @@ export default function main(http) {
 			socket.emit(REQUEST.REQUEST_NEW_PLAYER.ack, game.getPlayers());
 			// Sends a list of all players in the game to the rest of the players in the game.
 			socket.broadcast.emit(EVENTS.SERVER_UPDATE_PLAYERS, game.getPlayers());
+
+			socket.emit(EVENTS.SERVER_SEND_CRASHED_SHIPS, game.getCrashedShips());
 		});
 
 		// Listen for PLayer Moved events and tell game to move the player.
