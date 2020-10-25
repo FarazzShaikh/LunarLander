@@ -7,6 +7,7 @@ export const EVENTS = {
 	SERVER_SEND_CRASHED_SHIPS: 'SERVER-SEND-CRASHED-SHIPS',
 
 	PLAYER_HAS_MOVED: 'PLAYER-HAS-MOVED',
+	PLAYER_SEND_RESOURCES: 'PLAYER-SEND-RESOURCES',
 };
 
 // Used for Socket.io events where ether Client or Server wants to request data
@@ -34,7 +35,7 @@ export const DEFAULTS = {
 		PERSISTANCE: 0.5,
 		OCTAVES: 5,
 
-		N_CRASHED_SHIPS: 30,
+		N_CRASHED_SHIPS: 20,
 		INTERVAL_CRASHED_SHIPS: 173,
 	},
 	KEYMAP: {

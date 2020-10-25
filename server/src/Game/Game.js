@@ -56,6 +56,26 @@ export default class Game {
 		this.didCollide = this.collision.didColide.bind(this.collision);
 	}
 
+	setResources(id, resources) {
+		// TODO
+		console.log('TODO: DATABASE');
+		this.crashedShips = this._removeByAttr(
+			this.crashedShips,
+			'name',
+			resources.name
+		);
+	}
+
+	async getResources(id) {
+		// TODO
+		console.log('TODO: DATABASE');
+		return {
+			fuel: 100,
+			W: 1000,
+			scrap: 30,
+		};
+	}
+
 	/**
 	 * @returns All players in the game.
 	 */
@@ -67,14 +87,17 @@ export default class Game {
 	 * Adds a player to the game.
 	 * @param {Socket} socket Socket of the player to add.
 	 */
-	addPlayer(socket) {
-		this.players[socket.id] = new Player({
-			socket: socket,
-			position: { x: 0, y: 100 },
-			velocity: { x: 0, y: 0 },
-			rotation: Math.PI / 2,
+	async addPlayer(socket) {
+		this.getResources(socket.id).then((r) => {
+			this.players[socket.id] = new Player({
+				socket: socket,
+				position: { x: 0, y: 100 },
+				velocity: { x: 0, y: 0 },
+				rotation: Math.PI / 2,
+				resources: r,
+			});
+			this.collision.setPlayers(this.players);
 		});
-		this.collision.setPlayers(this.players);
 	}
 
 	/**
@@ -151,5 +174,20 @@ export default class Game {
 		var dt = now - this.d0;
 		this.d0 = now;
 		return dt;
+	}
+
+	_removeByAttr(arr, attr, value) {
+		var i = arr.length;
+		while (i--) {
+			if (
+				arr[i] &&
+				arr[i].hasOwnProperty(attr) &&
+				arguments.length > 2 &&
+				arr[i][attr] === value
+			) {
+				arr.splice(i, 1);
+			}
+		}
+		return arr;
 	}
 }

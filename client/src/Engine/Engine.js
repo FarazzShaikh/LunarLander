@@ -1,11 +1,14 @@
+import { EVENTS } from '../../../shared/Consts';
 import CrashedShip from '../Objects/CrashedShip';
 import Player from '../Objects/Player';
 import Terrain from '../Objects/Terrain';
 
 // Class Representing the Engine
 export default class Engine {
-	constructor(renderer, me) {
+	constructor(renderer, me, socket) {
 		this.d0 = Date.now();
+
+		this.socket = socket;
 		this.renderer = renderer;
 		this.me = me;
 		this.isAnchored = false;
@@ -15,6 +18,8 @@ export default class Engine {
 		this.pOffset = -1;
 
 		this.players = {};
+		this.ships = [];
+		this.radar = null;
 	}
 
 	addNodes(nodes, layers) {
@@ -42,16 +47,35 @@ export default class Engine {
 		this.players[this.me].setBoostState(input);
 	}
 
+	collectResource(ship) {
+		this.renderer.removeNode(`CrashedShips-${ship.name}`);
+
+		this.ships = this._removeByAttr(this.ships, 'name', `${ship.name}`);
+
+		this.socket.emit(EVENTS.PLAYER_SEND_RESOURCES, {
+			resources: ship.resources,
+			name: `${ship.name}`,
+		});
+	}
+
 	addCrashedShips(ships, addDot) {
+		this.ships.forEach((s, i) => {
+			this.renderer.removeNode(`CrashedShips-${s.name}`);
+		});
+
+		this.ships = ships;
+
 		ships.forEach((s, i) => {
 			this.addNodes(
 				[
 					new CrashedShip({
-						name: `CrashedShip-${i}`,
+						name: `${s.name}`,
 						position: {
 							x: s.xPosition + window.innerWidth / 2,
 							y: this.terrain[1].sample(s.xPosition, this.offset) - 20,
 						},
+						resources: s.resources,
+						collectResource: this.collectResource.bind(this),
 					}),
 				],
 				['CrashedShips']
@@ -148,5 +172,20 @@ export default class Engine {
 		var dt = now - this.d0;
 		this.d0 = now;
 		return dt;
+	}
+
+	_removeByAttr(arr, attr, value) {
+		var i = arr.length;
+		while (i--) {
+			if (
+				arr[i] &&
+				arr[i].hasOwnProperty(attr) &&
+				arguments.length > 2 &&
+				arr[i][attr] === value
+			) {
+				arr.splice(i, 1);
+			}
+		}
+		return arr;
 	}
 }

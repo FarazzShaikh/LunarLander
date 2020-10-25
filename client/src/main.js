@@ -32,11 +32,12 @@ export default function main() {
 	socket.on('connect', () => {
 		console.log('connected');
 		//getScore();
+		socket.id = replaceAt(socket.id, 0, 'A');
 
 		// Initialize Renderer
 		renderer = initRenderer();
 		// Initialize Engine
-		engine = new Engine(renderer, socket.id);
+		engine = new Engine(renderer, socket.id, socket);
 
 		// Initialize Controller
 		controller = new Controller(
@@ -189,14 +190,14 @@ export default function main() {
 	});
 
 	// Listens for new player request acknowledgement. Then updates list of all players.
-	socket.on(REQUEST.REQUEST_NEW_PLAYER.ack, (players) => {
-		engine.updatePlayers(players);
-	});
+	socket.on(REQUEST.REQUEST_NEW_PLAYER.ack, (players) =>
+		engine.updatePlayers(players)
+	);
 
 	socket.on(EVENTS.SERVER_SEND_CRASHED_SHIPS, (ships) => {
 		const node = engine.getNode('HUD-Radar');
+
 		node.setShips(ships);
-		console.log(ships.map((s) => s.xPosition));
 		engine.addCrashedShips(ships, node.addDot.bind(node));
 	});
 
@@ -263,4 +264,10 @@ function initRenderer() {
 async function getScore() {
 	const url = `${window.location.href}scores/all`;
 	console.log(await (await fetch(url)).json());
+}
+
+function replaceAt(str, index, replacement) {
+	return (
+		str.substr(0, index) + replacement + str.substr(index + replacement.length)
+	);
 }
