@@ -1,4 +1,4 @@
-import { DEFAULTS } from '../../../shared/Consts';
+import { DEFAULTS, REQUEST } from '../../../shared/Consts';
 import { makeOctaves, Simple1DNoise } from '../../../shared/utils/SimplexNoise';
 
 export default class Collision {
@@ -26,7 +26,10 @@ export default class Collision {
 			(this.window.h * 0.7 - this.window.h * 0.55) +
 			this.window.h * 0.55 -
 			58;
-
+		
+		if(player.position.y >= noise && player.velocity.y>1) {
+			player.socket.emit(REQUEST.REQUEST_SERVER_PLAYER_HIT_GROUND.req)		
+		}
 		return player.position.y >= noise;
 	}
 }
