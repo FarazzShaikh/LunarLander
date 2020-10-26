@@ -32,7 +32,10 @@ export default function main(http) {
 			// Sends a list of all players in the game to the rest of the players in the game.
 			socket.broadcast.emit(EVENTS.SERVER_UPDATE_PLAYERS, game.getPlayers());
 
-			socket.emit(EVENTS.SERVER_SEND_CRASHED_SHIPS, game.getCrashedShips());
+			socket.emit(EVENTS.SERVER_SEND_CRASHED_SHIPS, {
+				ships: game.getCrashedShips(),
+				recharge: game.getRechargeStations(),
+			});
 		});
 
 		// Listen for PLayer Moved events and tell game to move the player.
@@ -43,10 +46,10 @@ export default function main(http) {
 		socket.on(EVENTS.PLAYER_SEND_RESOURCES, (resources) => {
 			game.setResources(socket.id, resources);
 
-			socket.broadcast.emit(
-				EVENTS.SERVER_SEND_CRASHED_SHIPS,
-				game.getCrashedShips()
-			);
+			socket.broadcast.emit(EVENTS.SERVER_SEND_CRASHED_SHIPS, {
+				ships: game.getCrashedShips(),
+				recharge: game.getRechargeStations(),
+			});
 		});
 
 		// Listens for 'disconnect' events.

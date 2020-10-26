@@ -1,5 +1,5 @@
 import { EVENTS } from '../../../shared/Consts';
-import CrashedShip from '../Objects/CrashedShip';
+import Resource from '../Objects/Resource';
 import Player from '../Objects/Player';
 import Terrain from '../Objects/Terrain';
 
@@ -19,6 +19,7 @@ export default class Engine {
 
 		this.players = {};
 		this.ships = [];
+		this.rechargeStations = [];
 		this.radar = null;
 	}
 
@@ -43,14 +44,23 @@ export default class Engine {
 		this.renderer.setAnchor(anchor);
 	}
 
+	setRadar(radar) {
+		this.radar = radar;
+	}
+
 	applyController(input) {
 		this.players[this.me].setBoostState(input);
 	}
 
 	collectResource(ship) {
-		this.renderer.removeNode(`CrashedShips-${ship.name}`);
+		this.renderer.removeNode(`Resources-${ship.name}`);
 
 		this.ships = this._removeByAttr(this.ships, 'name', `${ship.name}`);
+		this.rechargeStations = this._removeByAttr(
+			this.rechargeStations,
+			'name',
+			`${ship.name}`
+		);
 
 		this.socket.emit(EVENTS.PLAYER_SEND_RESOURCES, {
 			resources: ship.resources,
@@ -58,17 +68,36 @@ export default class Engine {
 		});
 	}
 
-	addCrashedShips(ships, addDot) {
-		this.ships.forEach((s, i) => {
-			this.renderer.removeNode(`CrashedShips-${s.name}`);
-		});
+	addResources(resources, type) {
+		switch (type) {
+			case 'CrashedShip': {
+				this.radar.setShips(resources);
+				this.ships.forEach((s, i) => {
+					this.renderer.removeNode(`Resources-${s.name}`);
+				});
 
-		this.ships = ships;
+				this.ships = resources;
+				break;
+			}
 
-		ships.forEach((s, i) => {
+			case 'RechargeStation': {
+				this.radar.setRechargeStations(resources);
+				this.rechargeStations.forEach((s, i) => {
+					this.renderer.removeNode(`Resources-${s.name}`);
+				});
+
+				this.rechargeStations = resources;
+				break;
+			}
+
+			default:
+				break;
+		}
+
+		resources.forEach((s, i) => {
 			this.addNodes(
 				[
-					new CrashedShip({
+					new Resource({
 						name: `${s.name}`,
 						position: {
 							x: s.xPosition + window.innerWidth / 2,
@@ -78,17 +107,11 @@ export default class Engine {
 						collectResource: this.collectResource.bind(this),
 					}),
 				],
-				['CrashedShips']
+				['Resources']
 			);
 
-			addDot(s.xPosition, this.players[this.me].position.x);
+			this.radar.addDot(s.xPosition, this.players[this.me].position.x);
 		});
-
-		addDot(
-			this.players[this.me].position.x,
-			this.players[this.me].position.x,
-			true
-		);
 	}
 
 	/**
@@ -103,7 +126,11 @@ export default class Engine {
 
 		this.players = {};
 
+		let radarPlayers = [];
 		players.forEach((p) => {
+			if (p.id !== this.me) {
+				radarPlayers.push(p);
+			}
 			this.addNodes(
 				[
 					new Player({
@@ -116,10 +143,14 @@ export default class Engine {
 			);
 		});
 
-		this.setAnchor(`Players-${this.players[this.me].name}`);
+		this.radar.setPlayers(radarPlayers);
+		setTimeout(() => {
+			this.setAnchor(`Players-${this.players[this.me].name}`);
+		}, 10);
 	}
 
 	updatePlayer(player) {
+		let radarPlayers = this.radar.players;
 		if (player.id !== this.me) {
 			if (this.players[player.id]) {
 				this.players[player.id].transform({
@@ -131,6 +162,9 @@ export default class Engine {
 				});
 				this.players[player.id].setBoostState(player.movementState);
 			}
+
+			radarPlayers = this._removeByAttr(radarPlayers, 'id', player.id);
+			radarPlayers.push(player);
 			return;
 		}
 		if (this.players[player.id]) {

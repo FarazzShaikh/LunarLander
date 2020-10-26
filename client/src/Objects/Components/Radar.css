@@ -8,6 +8,7 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	flex-direction: column;
 
 	padding: 16px 0px;
 }
@@ -39,4 +40,24 @@
 	border-radius: 15px;
 	position: absolute;
 	background-color: white;
+	list-style: none;
+	transform: translate(40.5vw, 0px);
+}
+
+.Radar-otherPlayer {
+	height: 15px;
+	width: 15px;
+	border-radius: 15px;
+	position: absolute;
+	border: 1px solid #eeabab;
+	background-color: #202020;
+}
+
+.Radar-RS {
+	height: 15px;
+	width: 15px;
+	border-radius: 15px;
+	position: absolute;
+	border: 1px solid #eeedab;
+	background-color: #202020;
 }

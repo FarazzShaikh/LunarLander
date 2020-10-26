@@ -7,7 +7,6 @@ import Engine from './Engine/Engine';
 import Renderer, { Layer } from './Engine/Renderer';
 import Sprite from './Objects/Sprite';
 import Terrain from './Objects/Terrain';
-import HUD from './Objects/HUD';
 import PostProcess, { Volume } from './Objects/PostProcess';
 
 import Sprite_Earth from '../Assets/Planets/Earth.png';
@@ -16,14 +15,17 @@ import Sprite_Ice from '../Assets/Planets/Ice.png';
 import Sprite_Lava from '../Assets/Planets/Lava.png';
 import Sprite_Background from '../Assets/Planets/background-black.png';
 
-import Radar from './Objects/Radar';
+import Radar from './Objects/HUD/Radar';
+import FPS from './Objects/HUD/FPS';
+import HUD from './Objects/HUD/_HUD';
 
 let frameCounter = 0;
 
 // Main
 export default function main() {
 	// Declaring in scope of main
-	let renderer, engine, controller, gamepad;
+	let renderer, engine, controller, gamepad, hud;
+	const name = String(Math.random());
 
 	// Create a Socket io instance.
 	const socket = io();
@@ -36,8 +38,26 @@ export default function main() {
 
 		// Initialize Renderer
 		renderer = initRenderer();
+
+		hud = new HUD({
+			name: 'HUD',
+			components: {
+				radar: { class: Radar, options: {} },
+				fps: {
+					class: FPS,
+					options: {
+						data: {
+							get: () => frameCounter,
+							set: (v) => (frameCounter = v),
+						},
+					},
+				},
+			},
+		});
+
 		// Initialize Engine
 		engine = new Engine(renderer, socket.id, socket);
+		engine.setRadar(hud.components.radar);
 
 		// Initialize Controller
 		controller = new Controller(
@@ -123,16 +143,7 @@ export default function main() {
 					shadowColor: 'rgba(255, 255, 255, 0.2)',
 					zIndex: 8,
 				}),
-				new HUD({
-					name: 'FPS',
-					data: {
-						get: () => frameCounter,
-						set: (v) => (frameCounter = v),
-					},
-				}),
-				new Radar({
-					name: 'Radar',
-				}),
+				hud,
 			],
 			[
 				'PostProcess',
@@ -143,7 +154,6 @@ export default function main() {
 				'Background',
 				'Background',
 				'Background',
-				'HUD',
 				'HUD',
 			]
 		);
@@ -185,30 +195,29 @@ export default function main() {
 			seed: seed * 8,
 		});
 
-		console.log(seed);
 		socket.emit(REQUEST.REQUEST_NEW_PLAYER.req);
 	});
 
 	// Listens for new player request acknowledgement. Then updates list of all players.
-	socket.on(REQUEST.REQUEST_NEW_PLAYER.ack, (players) =>
-		engine.updatePlayers(players)
-	);
+	socket.on(REQUEST.REQUEST_NEW_PLAYER.ack, (players) => {
+		engine.updatePlayers(players);
+	});
 
-	socket.on(EVENTS.SERVER_SEND_CRASHED_SHIPS, (ships) => {
-		const node = engine.getNode('HUD-Radar');
-
-		node.setShips(ships);
-		engine.addCrashedShips(ships, node.addDot.bind(node));
+	socket.on(EVENTS.SERVER_SEND_CRASHED_SHIPS, ({ ships, recharge }) => {
+		engine.addResources(ships, 'CrashedShip');
+		if (recharge) {
+			engine.addResources(recharge, 'RechargeStation');
+		}
 	});
 
 	// Listens for Update PLayerss event. Then updates list of all players.
-	socket.on(EVENTS.SERVER_UPDATE_PLAYERS, (players) =>
-		engine.updatePlayers(players)
-	);
+	socket.on(EVENTS.SERVER_UPDATE_PLAYERS, (players) => {
+		engine.updatePlayers(players);
+	});
 	// Listen for Player Update Events and fire the function to update a single player
-	socket.on(EVENTS.SERVER_UPDATE_PLAYER, (player) =>
-		engine.updatePlayer(player)
-	);
+	socket.on(EVENTS.SERVER_UPDATE_PLAYER, (player) => {
+		engine.updatePlayer(player);
+	});
 
 	// GListens for Server Tick events.
 	socket.on(EVENTS.SERVER_TICK, (dt) => {
@@ -258,7 +267,7 @@ function initRenderer() {
 			zIndex: '',
 		}),
 		new Layer({
-			name: 'CrashedShips',
+			name: 'Resources',
 			zIndex: 40,
 		}),
 	]);

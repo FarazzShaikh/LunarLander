@@ -11,6 +11,7 @@ import Side_booster1 from '../../Assets/RotationBoosters/exhaust1.png';
 import Side_booster2 from '../../Assets/RotationBoosters/exhaust2.png';
 import Side_booster3 from '../../Assets/RotationBoosters/exhaust3.png';
 import Side_booster4 from '../../Assets/RotationBoosters/exhaust4.png';
+import { DEFAULTS } from '../../../shared/Consts';
 
 // Class representing client side Player.
 export default class Player extends Sprite {
@@ -67,6 +68,8 @@ export default class Player extends Sprite {
 
 		this.HTML.appendChild(this.booserR);
 		this.HTML.appendChild(this.booserL);
+
+		this.framerate = DEFAULTS.CORE.FRAMERATE;
 	}
 
 	animate(i) {
@@ -86,10 +89,17 @@ export default class Player extends Sprite {
 			this.booserL.style.opacity = '0';
 		}
 
-		if (i % 2 === 0) {
-			this.flame.src = this.flameFrames[(i / 2) % this.flameFrames.length];
-			this.booserR.src = this.booserFrames[(i / 2) % this.booserFrames.length];
-			this.booserL.src = this.booserFrames[(i / 2) % this.booserFrames.length];
+		const frameRateCompensation = this.framerate / 15;
+		if (i % frameRateCompensation === 0) {
+			this.flame.src = this.flameFrames[
+				(i / frameRateCompensation) % this.flameFrames.length
+			];
+			this.booserR.src = this.booserFrames[
+				(i / frameRateCompensation) % this.booserFrames.length
+			];
+			this.booserL.src = this.booserFrames[
+				(i / frameRateCompensation) % this.booserFrames.length
+			];
 		}
 		if (!this.isOffscreen) {
 			if (this.HTML.style.backgroundColor !== 'transparent') {
@@ -142,7 +152,6 @@ export default class Player extends Sprite {
 	}
 
 	removeDomNode() {
-		console.log(this.name);
 		document.querySelector(`.${this.name}`).remove();
 	}
 
