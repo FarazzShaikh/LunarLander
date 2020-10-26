@@ -7,7 +7,6 @@ import Engine from './Engine/Engine';
 import Renderer, { Layer } from './Engine/Renderer';
 import Sprite from './Objects/Sprite';
 import Terrain from './Objects/Terrain';
-import HUD from './Objects/HUD';
 import PostProcess, { Volume } from './Objects/PostProcess';
 
 import Sprite_Earth from '../Assets/Planets/Earth.png';
@@ -16,14 +15,17 @@ import Sprite_Ice from '../Assets/Planets/Ice.png';
 import Sprite_Lava from '../Assets/Planets/Lava.png';
 import Sprite_Background from '../Assets/Planets/background-black.png';
 
-import Radar from './Objects/Radar';
+import Radar from './Objects/HUD/Radar';
+import FPS from './Objects/HUD/FPS';
+import HUD from './Objects/HUD/_HUD';
 
 let frameCounter = 0;
 
 // Main
 export default function main() {
 	// Declaring in scope of main
-	let renderer, engine, controller, gamepad, radar;
+	let renderer, engine, controller, gamepad, hud;
+	const name = String(Math.random());
 
 	// Create a Socket io instance.
 	const socket = io();
@@ -37,12 +39,25 @@ export default function main() {
 		// Initialize Renderer
 		renderer = initRenderer();
 
-		radar = new Radar({
-			name: 'Radar',
+		hud = new HUD({
+			name: 'HUD',
+			components: {
+				radar: { class: Radar, options: {} },
+				fps: {
+					class: FPS,
+					options: {
+						data: {
+							get: () => frameCounter,
+							set: (v) => (frameCounter = v),
+						},
+					},
+				},
+			},
 		});
+
 		// Initialize Engine
 		engine = new Engine(renderer, socket.id, socket);
-		engine.setRadar(radar);
+		engine.setRadar(hud.components.radar);
 
 		// Initialize Controller
 		controller = new Controller(
@@ -128,14 +143,7 @@ export default function main() {
 					shadowColor: 'rgba(255, 255, 255, 0.2)',
 					zIndex: 8,
 				}),
-				new HUD({
-					name: 'FPS',
-					data: {
-						get: () => frameCounter,
-						set: (v) => (frameCounter = v),
-					},
-				}),
-				radar,
+				hud,
 			],
 			[
 				'PostProcess',
@@ -146,7 +154,6 @@ export default function main() {
 				'Background',
 				'Background',
 				'Background',
-				'HUD',
 				'HUD',
 			]
 		);
@@ -198,7 +205,9 @@ export default function main() {
 
 	socket.on(EVENTS.SERVER_SEND_CRASHED_SHIPS, ({ ships, recharge }) => {
 		engine.addResources(ships, 'CrashedShip');
-		engine.addResources(recharge, 'RechargeStation');
+		if (recharge) {
+			engine.addResources(recharge, 'RechargeStation');
+		}
 	});
 
 	// Listens for Update PLayerss event. Then updates list of all players.

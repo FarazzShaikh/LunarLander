@@ -32,6 +32,7 @@
 		"express": "^4.17.1",
 		"fantasy-name-generator": "^2.0.0",
 		"faunadb": "^3.0.1",
+		"numeral": "^2.0.6",
 		"reload": "^3.1.1",
 		"socket.io": "^2.3.0",
 		"socket.io-client": "^2.3.1",

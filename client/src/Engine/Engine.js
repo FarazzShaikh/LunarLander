@@ -112,12 +112,6 @@ export default class Engine {
 
 			this.radar.addDot(s.xPosition, this.players[this.me].position.x);
 		});
-
-		this.radar.addDot(
-			this.players[this.me].position.x,
-			this.players[this.me].position.x,
-			'Player'
-		);
 	}
 
 	/**

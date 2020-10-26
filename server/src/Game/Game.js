@@ -28,10 +28,22 @@ export default class Game {
 		this.rechargeStations = [];
 
 		// Runs the update function every 1/60th of a second.
-		setInterval(this.update.bind(this), 1000 / 30);
+		setInterval(this.update.bind(this), 1000 / DEFAULTS.CORE.FRAMERATE);
 
-		this.genCrachedShips();
 		this.genRechargeStations();
+
+		setInterval(() => {
+			this.genCrachedShips();
+			for (const key in this.players) {
+				if (this.players.hasOwnProperty(key)) {
+					const player = this.players[key];
+					player.socket.emit(EVENTS.SERVER_SEND_CRASHED_SHIPS, {
+						ships: this.getCrashedShips(),
+						recharge: null,
+					});
+				}
+			}
+		}, 1.8e6);
 	}
 
 	genCrachedShips() {
@@ -118,8 +130,8 @@ export default class Game {
 		this.getResources(socket.id).then((r) => {
 			this.players[socket.id] = new Player({
 				socket: socket,
-				position: { x: 0, y: 100 },
-				velocity: { x: 0, y: 0 },
+				position: { x: Math.random() * 10000, y: 100 },
+				velocity: { x: 2, y: 0 },
 				rotation: Math.PI / 2,
 				resources: r,
 			});

@@ -1,11 +1,15 @@
-import { Node } from '../Engine/Renderer.js';
-import './Components/Radar.css';
+import numeral from 'numeral';
 
-export default class Radar extends Node {
-	constructor({ name, data }) {
+import { Node } from '../../Engine/Renderer';
+import '../Components/Radar.css';
+
+export default class Radar {
+	constructor(container) {
 		const node = document.createElement('div');
-		node.innerHTML = require('./Components/Radar.html');
-		super(name, node.children[0]);
+		node.innerHTML = require('../Components/Radar.html');
+		container.appendChild(node);
+
+		this.HTML = node.children[0];
 		this.dots = [];
 
 		this.ships = [];
@@ -27,7 +31,7 @@ export default class Radar extends Node {
 
 	addDot(ship, player, type) {
 		const containerWidth = window.innerWidth * 0.8;
-		const shipPos = containerWidth / 2 - (player - ship) / 20;
+		const shipPos = containerWidth / 2 - (player - ship) / 10;
 
 		if (
 			shipPos < containerWidth - 10 &&
@@ -35,12 +39,7 @@ export default class Radar extends Node {
 		) {
 			const dot = document.createElement('div');
 			dot.style.transform = `translate(${shipPos}px, 0px)`;
-
 			switch (type) {
-				case 'Player':
-					dot.classList += 'Radar-line';
-					break;
-
 				case 'OtherPlayer':
 					dot.classList += 'Radar-otherPlayer';
 					break;
@@ -60,7 +59,6 @@ export default class Radar extends Node {
 
 			this.dots.push(dot);
 			container.appendChild(dot);
-			this.needsUpdate = true;
 		}
 	}
 
@@ -69,25 +67,32 @@ export default class Radar extends Node {
 		this.dots = [];
 	}
 
-	update(node) {
-		const self = node;
-		self.removeDots();
-		if (self.ships) {
-			self.ships.forEach((s) => {
-				self.addDot(s.xPosition, this.anchor.position.x, 'CrashedShip');
-			});
-			self.addDot(this.anchor.position.x, this.anchor.position.x, 'Player');
-		}
-		if (self.players) {
-			self.players.forEach((p) => {
-				self.addDot(p.position.x, this.anchor.position.x, 'OtherPlayer');
-			});
-		}
+	update(anchor) {
+		this.removeDots();
+		if (anchor) {
+			if (this.ships) {
+				this.ships.forEach((s) => {
+					this.addDot(s.xPosition, anchor.position.x, 'CrashedShip');
+				});
+			}
+			if (this.players) {
+				this.players.forEach((p) => {
+					this.addDot(p.position.x, anchor.position.x, 'OtherPlayer');
+				});
+			}
 
-		if (self.rechargeStations) {
-			self.rechargeStations.forEach((s) => {
-				self.addDot(s.xPosition, this.anchor.position.x, 'RechargeStations');
-			});
+			if (this.rechargeStations) {
+				this.rechargeStations.forEach((s) => {
+					this.addDot(s.xPosition, anchor.position.x, 'RechargeStations');
+				});
+			}
+
+			const p = {
+				x: numeral(anchor.position.x).format('+0.00'),
+				y: numeral(window.innerHeight * 0.5 - anchor.position.y).format('+0.00'),
+			};
+
+			this.HTML.children[1].children[0].textContent = `{ ${p.x}, ${p.y} }`;
 		}
 	}
 }

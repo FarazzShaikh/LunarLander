@@ -33,6 +33,9 @@ export const REQUEST = {
 
 // Used to store Default values for various physics and other calculations
 export const DEFAULTS = {
+	CORE: {
+		FRAMERATE: 30,
+	},
 	GENERATION: {
 		SCALE: 0.01,
 		LACUNARITY: 2,

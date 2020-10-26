@@ -43,19 +43,19 @@ export default class CrashedShip extends Sprite {
 				p.x -= this.anchor.position.x;
 				//p.y -= this.anchor.position.y;
 			}
+
+			const screenPosX = self.position.x - window.innerWidth / 2;
+
+			if (
+				this.anchor.position.x < screenPosX + 10 &&
+				this.anchor.position.x > screenPosX - 40 &&
+				this.anchor.position.y < self.position.y + 100 &&
+				this.anchor.position.y > self.position.y - 100
+			) {
+				self.collectResource(self);
+			}
+
+			self.HTML.style.transform = `scale(${s},${s}) translate(${p.x}px,${p.y}px) rotate(${r}rad)`;
 		}
-
-		const screenPosX = self.position.x - window.innerWidth / 2;
-
-		if (
-			this.anchor.position.x < screenPosX + 10 &&
-			this.anchor.position.x > screenPosX - 40 &&
-			this.anchor.position.y < self.position.y + 100 &&
-			this.anchor.position.y > self.position.y - 100
-		) {
-			self.collectResource(self);
-		}
-
-		self.HTML.style.transform = `scale(${s},${s}) translate(${p.x}px,${p.y}px) rotate(${r}rad)`;
 	}
 }
