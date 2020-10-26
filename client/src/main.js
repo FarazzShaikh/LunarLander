@@ -37,11 +37,11 @@ export default function main() {
 		// Initialize Renderer
 		renderer = initRenderer();
 
-		(radar = new Radar({
+		radar = new Radar({
 			name: 'Radar',
-		})),
-			// Initialize Engine
-			(engine = new Engine(renderer, socket.id, socket));
+		});
+		// Initialize Engine
+		engine = new Engine(renderer, socket.id, socket);
 		engine.setRadar(radar);
 
 		// Initialize Controller
@@ -188,7 +188,6 @@ export default function main() {
 			seed: seed * 8,
 		});
 
-		console.log(seed);
 		socket.emit(REQUEST.REQUEST_NEW_PLAYER.req);
 	});
 
@@ -197,11 +196,9 @@ export default function main() {
 		engine.updatePlayers(players);
 	});
 
-	socket.on(EVENTS.SERVER_SEND_CRASHED_SHIPS, (ships) => {
-		const node = engine.getNode('HUD-Radar');
-
-		node.setShips(ships);
-		engine.addCrashedShips(ships, node.addDot.bind(node));
+	socket.on(EVENTS.SERVER_SEND_CRASHED_SHIPS, ({ ships, recharge }) => {
+		engine.addResources(ships, 'CrashedShip');
+		engine.addResources(recharge, 'RechargeStation');
 	});
 
 	// Listens for Update PLayerss event. Then updates list of all players.
@@ -261,7 +258,7 @@ function initRenderer() {
 			zIndex: '',
 		}),
 		new Layer({
-			name: 'CrashedShips',
+			name: 'Resources',
 			zIndex: 40,
 		}),
 	]);

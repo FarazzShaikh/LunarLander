@@ -49,3 +49,12 @@
 	border: 1px solid #eeabab;
 	background-color: #202020;
 }
+
+.Radar-RS {
+	height: 15px;
+	width: 15px;
+	border-radius: 15px;
+	position: absolute;
+	border: 1px solid #eeedab;
+	background-color: #202020;
+}

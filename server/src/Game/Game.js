@@ -7,6 +7,7 @@ import { Player } from './Player';
 
 import Collision from './Collision';
 import { CrashedShip } from './CrashedShip';
+import RechargeStation from './RechargeStation';
 
 // Class representing the Game.
 export default class Game {
@@ -24,11 +25,13 @@ export default class Game {
 		this.didCollide = () => {};
 
 		this.crashedShips = [];
+		this.rechargeStations = [];
 
 		// Runs the update function every 1/60th of a second.
 		setInterval(this.update.bind(this), 1000 / 30);
 
 		this.genCrachedShips();
+		this.genRechargeStations();
 	}
 
 	genCrachedShips() {
@@ -46,8 +49,27 @@ export default class Game {
 		}
 	}
 
+	genRechargeStations() {
+		const number = DEFAULTS.GENERATION.N_RECHARGE_STATION;
+		const interval = DEFAULTS.GENERATION.INTERVAL_RECHARGE_STATION;
+
+		this.rechargeStations = [];
+		for (let i = 0; i < number * interval; i += interval) {
+			this.rechargeStations.push(
+				new RechargeStation({
+					xPosition: i * interval * Math.random() + this.terrainSeed * 100,
+					seed: this.terrainSeed,
+				})
+			);
+		}
+	}
+
 	getCrashedShips() {
 		return this.crashedShips.map((s) => s.getSerialized());
+	}
+
+	getRechargeStations() {
+		return this.rechargeStations.map((s) => s.getSerialized());
 	}
 
 	setWindow(window) {
@@ -61,6 +83,11 @@ export default class Game {
 		console.log('TODO: DATABASE');
 		this.crashedShips = this._removeByAttr(
 			this.crashedShips,
+			'name',
+			resources.name
+		);
+		this.rechargeStations = this._removeByAttr(
+			this.rechargeStations,
 			'name',
 			resources.name
 		);

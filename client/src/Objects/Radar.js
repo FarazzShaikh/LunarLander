@@ -10,6 +10,7 @@ export default class Radar extends Node {
 
 		this.ships = [];
 		this.players = [];
+		this.rechargeStations = [];
 	}
 
 	setShips(ships) {
@@ -20,7 +21,11 @@ export default class Radar extends Node {
 		this.players = players;
 	}
 
-	addDot(ship, player, isPLayer, isOtherPlayer) {
+	setRechargeStations(stations) {
+		this.rechargeStations = stations;
+	}
+
+	addDot(ship, player, type) {
 		const containerWidth = window.innerWidth * 0.8;
 		const shipPos = containerWidth / 2 - (player - ship) / 20;
 
@@ -31,13 +36,26 @@ export default class Radar extends Node {
 			const dot = document.createElement('div');
 			dot.style.transform = `translate(${shipPos}px, 0px)`;
 
-			if (isPLayer) {
-				dot.classList += 'Radar-line';
-			} else if (isOtherPlayer) {
-				dot.classList += 'Radar-otherPlayer';
-			} else {
-				dot.classList += 'Radar-dot';
+			switch (type) {
+				case 'Player':
+					dot.classList += 'Radar-line';
+					break;
+
+				case 'OtherPlayer':
+					dot.classList += 'Radar-otherPlayer';
+					break;
+
+				case 'CrashedShip':
+					dot.classList += 'Radar-dot';
+					break;
+
+				case 'RechargeStations':
+					dot.classList += 'Radar-RS';
+					break;
+				default:
+					break;
 			}
+
 			const container = this.HTML.children[0].children[0];
 
 			this.dots.push(dot);
@@ -56,13 +74,19 @@ export default class Radar extends Node {
 		self.removeDots();
 		if (self.ships) {
 			self.ships.forEach((s) => {
-				self.addDot(s.xPosition, this.anchor.position.x);
+				self.addDot(s.xPosition, this.anchor.position.x, 'CrashedShip');
 			});
-			self.addDot(this.anchor.position.x, this.anchor.position.x, true);
+			self.addDot(this.anchor.position.x, this.anchor.position.x, 'Player');
 		}
 		if (self.players) {
 			self.players.forEach((p) => {
-				self.addDot(p.position.x, this.anchor.position.x, false, true);
+				self.addDot(p.position.x, this.anchor.position.x, 'OtherPlayer');
+			});
+		}
+
+		if (self.rechargeStations) {
+			self.rechargeStations.forEach((s) => {
+				self.addDot(s.xPosition, this.anchor.position.x, 'RechargeStations');
 			});
 		}
 	}
