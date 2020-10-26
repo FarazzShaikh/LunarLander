@@ -40,3 +40,12 @@
 	position: absolute;
 	background-color: white;
 }
+
+.Radar-otherPlayer {
+	height: 15px;
+	width: 15px;
+	border-radius: 15px;
+	position: absolute;
+	border: 1px solid #eeabab;
+	background-color: #202020;
+}

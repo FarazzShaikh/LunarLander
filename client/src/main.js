@@ -23,7 +23,7 @@ let frameCounter = 0;
 // Main
 export default function main() {
 	// Declaring in scope of main
-	let renderer, engine, controller, gamepad;
+	let renderer, engine, controller, gamepad, radar;
 
 	// Create a Socket io instance.
 	const socket = io();
@@ -36,8 +36,13 @@ export default function main() {
 
 		// Initialize Renderer
 		renderer = initRenderer();
-		// Initialize Engine
-		engine = new Engine(renderer, socket.id, socket);
+
+		(radar = new Radar({
+			name: 'Radar',
+		})),
+			// Initialize Engine
+			(engine = new Engine(renderer, socket.id, socket));
+		engine.setRadar(radar);
 
 		// Initialize Controller
 		controller = new Controller(
@@ -130,9 +135,7 @@ export default function main() {
 						set: (v) => (frameCounter = v),
 					},
 				}),
-				new Radar({
-					name: 'Radar',
-				}),
+				radar,
 			],
 			[
 				'PostProcess',
@@ -190,9 +193,9 @@ export default function main() {
 	});
 
 	// Listens for new player request acknowledgement. Then updates list of all players.
-	socket.on(REQUEST.REQUEST_NEW_PLAYER.ack, (players) =>
-		engine.updatePlayers(players)
-	);
+	socket.on(REQUEST.REQUEST_NEW_PLAYER.ack, (players) => {
+		engine.updatePlayers(players);
+	});
 
 	socket.on(EVENTS.SERVER_SEND_CRASHED_SHIPS, (ships) => {
 		const node = engine.getNode('HUD-Radar');
@@ -202,13 +205,13 @@ export default function main() {
 	});
 
 	// Listens for Update PLayerss event. Then updates list of all players.
-	socket.on(EVENTS.SERVER_UPDATE_PLAYERS, (players) =>
-		engine.updatePlayers(players)
-	);
+	socket.on(EVENTS.SERVER_UPDATE_PLAYERS, (players) => {
+		engine.updatePlayers(players);
+	});
 	// Listen for Player Update Events and fire the function to update a single player
-	socket.on(EVENTS.SERVER_UPDATE_PLAYER, (player) =>
-		engine.updatePlayer(player)
-	);
+	socket.on(EVENTS.SERVER_UPDATE_PLAYER, (player) => {
+		engine.updatePlayer(player);
+	});
 
 	// GListens for Server Tick events.
 	socket.on(EVENTS.SERVER_TICK, (dt) => {

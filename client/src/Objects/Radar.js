@@ -7,14 +7,20 @@ export default class Radar extends Node {
 		node.innerHTML = require('./Components/Radar.html');
 		super(name, node.children[0]);
 		this.dots = [];
+
 		this.ships = [];
+		this.players = [];
 	}
 
 	setShips(ships) {
 		this.ships = ships;
 	}
 
-	addDot(ship, player, isPLayer) {
+	setPlayers(players) {
+		this.players = players;
+	}
+
+	addDot(ship, player, isPLayer, isOtherPlayer) {
 		const containerWidth = window.innerWidth * 0.8;
 		const shipPos = containerWidth / 2 - (player - ship) / 20;
 
@@ -22,17 +28,16 @@ export default class Radar extends Node {
 			shipPos < containerWidth - 10 &&
 			shipPos > window.innerWidth - containerWidth
 		) {
-			let dot;
-			if (isPLayer) {
-				dot = document.createElement('div');
-				dot.classList += 'Radar-line';
-				dot.style.transform = `translate(${shipPos}px, 0px)`;
-			} else {
-				dot = document.createElement('div');
-				dot.classList += 'Radar-dot';
-				dot.style.transform = `translate(${shipPos}px, 0px)`;
-			}
+			const dot = document.createElement('div');
+			dot.style.transform = `translate(${shipPos}px, 0px)`;
 
+			if (isPLayer) {
+				dot.classList += 'Radar-line';
+			} else if (isOtherPlayer) {
+				dot.classList += 'Radar-otherPlayer';
+			} else {
+				dot.classList += 'Radar-dot';
+			}
 			const container = this.HTML.children[0].children[0];
 
 			this.dots.push(dot);
@@ -54,6 +59,11 @@ export default class Radar extends Node {
 				self.addDot(s.xPosition, this.anchor.position.x);
 			});
 			self.addDot(this.anchor.position.x, this.anchor.position.x, true);
+		}
+		if (self.players) {
+			self.players.forEach((p) => {
+				self.addDot(p.position.x, this.anchor.position.x, false, true);
+			});
 		}
 	}
 }

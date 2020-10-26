@@ -43,6 +43,10 @@ export default class Engine {
 		this.renderer.setAnchor(anchor);
 	}
 
+	setRadar(radar) {
+		this.radar = radar;
+	}
+
 	applyController(input) {
 		this.players[this.me].setBoostState(input);
 	}
@@ -103,7 +107,11 @@ export default class Engine {
 
 		this.players = {};
 
+		let radarPlayers = [];
 		players.forEach((p) => {
+			if (p.id !== this.me) {
+				radarPlayers.push(p);
+			}
 			this.addNodes(
 				[
 					new Player({
@@ -116,10 +124,12 @@ export default class Engine {
 			);
 		});
 
+		this.radar.setPlayers(radarPlayers);
 		this.setAnchor(`Players-${this.players[this.me].name}`);
 	}
 
 	updatePlayer(player) {
+		let radarPlayers = this.radar.players;
 		if (player.id !== this.me) {
 			if (this.players[player.id]) {
 				this.players[player.id].transform({
@@ -131,6 +141,9 @@ export default class Engine {
 				});
 				this.players[player.id].setBoostState(player.movementState);
 			}
+
+			radarPlayers = this._removeByAttr(radarPlayers, 'id', player.id);
+			radarPlayers.push(player);
 			return;
 		}
 		if (this.players[player.id]) {
