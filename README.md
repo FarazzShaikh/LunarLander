@@ -1,28 +1,14 @@
-<div style="font-size: 30px; text-align: center; font-weight: bold; font-family: Sans-Serif, Areal">
-Lunar Lander
-</div>
+# ***Lunar Lander***
+*A Remake of Atari's Lunar Lander, but in the Browser.*
 
-<div style="font-size: 17px; text-align: center; font-weight: 300; font-style: italic; font-family: Sans-Serif, Areal">
-A Remake of Atari's Lunar Lander, but in the Browser.
-</div>
+![uses-javascript](https://badgen.net/badge/Uses/Javascript/f0db4f)
+![uses-Node](https://badgen.net/badge/Uses/NodeJS/80bd01)
+![uses-npm](https://badgen.net/badge/Uses/npm/e32e37)
+![uses-Firebase](https://badgen.net/badge/Uses/Cloud-Functions/4285f4)
 
+[Launch Lunar Lander Pre-Alpha](https://lunar-lander-js.herokuapp.com/)
 
-<div style="text-align: center;">
-    <img src="https://badgen.net/badge/Uses/Javascript/f0db4f"></img>
-    <img src="https://badgen.net/badge/Uses/NodeJS/80bd01"></img>
-    <img src="https://badgen.net/badge/Uses/npm/e32e37"></img>
-    <img src="https://badgen.net/badge/Uses/Cloud-Functions/4285f4"></img>
-</div>
-
-<div style="font-size: 17px; text-align: center; font-family: Sans-Serif, Areal">
-    <a href="https://lunar-lander-js.herokuapp.com/"> Launch Lunar Lander Pre-Alpha</a>
-</div>
-
-
-<div style="text-align: center;">
-    <img src="https://github.com/FarazzShaikh/LunarLander/blob/master/Assets/Demo.gif"></img>
-</div>
-
+![Demo](https://github.com/FarazzShaikh/LunarLander/blob/master/Assets/Demo.gif)
 
 ## **Controls**
 | Action  | Keyboard  | Dualshock4 |
