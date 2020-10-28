@@ -17,7 +17,7 @@ const {
  * Initialized DB with API key
  */
 export function init() {
-	client = new faunadb.Client({ secret: process.env.API_KEY });
+	client = new faunadb.Client({ secret: process.env.DB_KEY });
 }
 
 /**
