@@ -203,11 +203,13 @@ export default function main() {
 		engine.updatePlayers(players);
 	});
 
-	socket.on(EVENTS.SERVER_SEND_CRASHED_SHIPS, ({ ships, recharge }) => {
-		engine.addResources(ships, 'CrashedShip');
-		if (recharge) {
-			engine.addResources(recharge, 'RechargeStation');
-		}
+	socket.on(EVENTS.SERVER_SEND_CRASHED_SHIPS, ({ recharge }) => {
+		getCrashedShips().then((s) => {
+			engine.addResources(s, 'CrashedShip');
+			if (recharge) {
+				engine.addResources(recharge, 'RechargeStation');
+			}
+		});
 	});
 
 	// Listens for Update PLayerss event. Then updates list of all players.
@@ -276,8 +278,15 @@ function initRenderer() {
 }
 
 async function getScore() {
-	const url = `${window.location.href}scores/all`;
+	const url = `${window.location.href}scores/`;
 	console.log(await (await fetch(url)).json());
+}
+
+async function getCrashedShips() {
+	const url = `${window.location.href}CrashedShips`;
+	const data = await fetch(url);
+	console.log(data);
+	return await data.json();
 }
 
 function replaceAt(str, index, replacement) {
