@@ -10,10 +10,17 @@ const reload = require('reload');
 
 const port = process.env.PORT || 3000;
 
+// Init Database
 DB.init();
 
+// Endpoint to get all Scores or Scores with uuid
 app.get('/scores/:uuid', async (req, res) => {
-	res.send(await DB.GET(req.params.uuid));
+	res.send(await DB.GET(req.params.uuid, 'HighScores'));
+});
+
+// Endpoint to get all Crashed Ship Locations
+app.get('/CrashedShips/', async (req, res) => {
+	res.send(await DB.GET(undefined, 'CronStore'));
 });
 
 // Serves client folder as a static resource at root url.

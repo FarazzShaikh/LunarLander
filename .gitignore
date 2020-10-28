@@ -4,3 +4,4 @@ server/dist
 sync.sh
 .env
 **/.DS_Store
+ui-debug.log

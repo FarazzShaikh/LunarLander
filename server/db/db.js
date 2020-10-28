@@ -25,18 +25,17 @@ export function init() {
  * @param {String} [uuid] Get Given user.
  * @returns {Promise} Promise containing Data of single user or an array of all users.
  */
-export async function GET(uuid) {
-	if (uuid == 'all') {
-		const doc = await client
+export async function GET(uuid, collection) {
+	if (!uuid) {
+		return client
 			.query(
 				Map(
-					Paginate(Documents(Collection('HighScores'))),
+					Paginate(Documents(Collection(collection))),
 					Lambda((x) => Get(x))
 				)
 			)
+			.then((doc) => doc.data.map((item) => item.data))
 			.catch((e) => console.log(e));
-
-		return doc.data.map((item) => item.data);
 	}
 }
 
@@ -46,16 +45,10 @@ export async function GET(uuid) {
  * @param {Number} score Score of the player
  * @returns {Promise} Promise containing the added document
  */
-export async function POST(username, score) {
-	const uuid = uuidv4();
+export async function POST(id, collection, data) {
 	const doc = await client.query(
-		Create(Ref(Collection('HighScores'), uuid), {
-			data: {
-				uuid: uuid,
-				userName: username,
-				score: score,
-				time: new Date().toISOString(),
-			},
+		Create(Ref(Collection(collection), id), {
+			data: data,
 		})
 	);
 

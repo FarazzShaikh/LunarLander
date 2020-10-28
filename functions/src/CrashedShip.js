@@ -1,7 +1,7 @@
-import { v4 as uuidv4 } from 'uuid';
-import { nameByRace } from 'fantasy-name-generator';
+const uuidv4 = require('uuid').v4;
+const { nameByRace } = require('fantasy-name-generator');
 
-export class CrashedShip {
+module.exports = class CrashedShip {
 	constructor({ xPosition, seed }) {
 		this.xPosition = xPosition;
 
@@ -23,4 +23,4 @@ export class CrashedShip {
 			resources: this.resources,
 		};
 	}
-}
+};
