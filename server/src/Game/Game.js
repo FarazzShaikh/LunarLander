@@ -6,7 +6,6 @@ import { DEFAULTS, EVENTS } from '../../../shared/Consts';
 import { Player } from './Player';
 
 import Collision from './Collision';
-import { CrashedShip } from './CrashedShip';
 import RechargeStation from './RechargeStation';
 
 // Class representing the Game.
@@ -24,41 +23,12 @@ export default class Game {
 		this.collision = undefined;
 		this.didCollide = () => {};
 
-		this.crashedShips = [];
 		this.rechargeStations = [];
 
 		// Runs the update function every 1/60th of a second.
 		setInterval(this.update.bind(this), 1000 / DEFAULTS.CORE.FRAMERATE);
 
 		this.genRechargeStations();
-
-		setInterval(() => {
-			this.genCrachedShips();
-			for (const key in this.players) {
-				if (this.players.hasOwnProperty(key)) {
-					const player = this.players[key];
-					player.socket.emit(EVENTS.SERVER_SEND_CRASHED_SHIPS, {
-						ships: this.getCrashedShips(),
-						recharge: null,
-					});
-				}
-			}
-		}, 1.8e6);
-	}
-
-	genCrachedShips() {
-		const number = DEFAULTS.GENERATION.N_CRASHED_SHIPS;
-		const interval = DEFAULTS.GENERATION.INTERVAL_CRASHED_SHIPS;
-
-		this.crashedShips = [];
-		for (let i = 0; i < number * interval; i += interval) {
-			this.crashedShips.push(
-				new CrashedShip({
-					xPosition: i * interval * Math.random() + this.terrainSeed * 100,
-					seed: this.terrainSeed,
-				})
-			);
-		}
 	}
 
 	genRechargeStations() {
@@ -74,10 +44,6 @@ export default class Game {
 				})
 			);
 		}
-	}
-
-	getCrashedShips() {
-		return this.crashedShips.map((s) => s.getSerialized());
 	}
 
 	getRechargeStations() {

@@ -33,7 +33,6 @@ export default function main(http) {
 			socket.broadcast.emit(EVENTS.SERVER_UPDATE_PLAYERS, game.getPlayers());
 
 			socket.emit(EVENTS.SERVER_SEND_CRASHED_SHIPS, {
-				ships: game.getCrashedShips(),
 				recharge: game.getRechargeStations(),
 			});
 		});
@@ -47,7 +46,6 @@ export default function main(http) {
 			game.setResources(socket.id, resources);
 
 			socket.broadcast.emit(EVENTS.SERVER_SEND_CRASHED_SHIPS, {
-				ships: game.getCrashedShips(),
 				recharge: game.getRechargeStations(),
 			});
 		});
