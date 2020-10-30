@@ -145,7 +145,10 @@ export class Node {
 			}
 		}
 
-		self.HTML.style.transform = `scale(${s},${s}) translate(${p.x}px,${p.y}px) rotate(${r}rad)`;
+		self.HTML.style.transform = `translate(${p.x}px,${p.y}px) rotate(${r}rad)`;
+		self.HTML.style.width = `${
+			s * Number(self.HTML.style.width.split('p')[0])
+		}px`;
 		self.needsUpdate = false;
 	}
 }

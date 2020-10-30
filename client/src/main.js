@@ -205,9 +205,9 @@ export default function main() {
 
 	socket.on(EVENTS.SERVER_SEND_CRASHED_SHIPS, ({ recharge }) => {
 		getCrashedShips().then((s) => {
-			engine.addResources(s, 'CrashedShip');
+			engine.addShips(s);
 			if (recharge) {
-				engine.addResources(recharge, 'RechargeStation');
+				engine.addRechargeStation(recharge);
 			}
 		});
 	});
@@ -270,7 +270,7 @@ function initRenderer() {
 		}),
 		new Layer({
 			name: 'Resources',
-			zIndex: 40,
+			zIndex: '',
 		}),
 	]);
 
@@ -285,7 +285,6 @@ async function getScore() {
 async function getCrashedShips() {
 	const url = `${window.location.href}CrashedShips`;
 	const data = await fetch(url);
-	console.log(data);
 	return await data.json();
 }
 

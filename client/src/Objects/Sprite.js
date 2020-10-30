@@ -61,6 +61,10 @@ export default class Sprite extends Node {
 		const r = rotation || 0;
 		const s = scale || 1;
 
+		this.size = {
+			w: 25,
+			h: 25,
+		};
 		this.transform({ position: p, rotation: r, scale: s });
 		this.scaleMultiplier = 3;
 	}
