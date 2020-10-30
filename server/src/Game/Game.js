@@ -96,7 +96,7 @@ export default class Game {
 		this.getResources(socket.id).then((r) => {
 			this.players[socket.id] = new Player({
 				socket: socket,
-				position: { x: 0, y: 100 },
+				position: { x: 0, y: 0 },
 				velocity: { x: 0, y: 0 },
 				rotation: Math.PI / 2,
 				resources: r,

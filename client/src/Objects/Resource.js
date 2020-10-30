@@ -10,6 +10,8 @@ export default class Resource extends Sprite {
 		shadowColor,
 		zIndex,
 		invert,
+		size,
+		type,
 
 		resources,
 		collectResource,
@@ -24,6 +26,8 @@ export default class Resource extends Sprite {
 			shadowColor,
 			zIndex,
 			invert,
+			size,
+			type,
 		});
 
 		this.resources = resources;

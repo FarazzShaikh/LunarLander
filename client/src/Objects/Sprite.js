@@ -10,6 +10,8 @@ export default class Sprite extends Node {
 		shadowColor,
 		zIndex,
 		invert,
+		size,
+		type,
 	}) {
 		const DOMnode = document.createElement('div');
 		DOMnode.classList += `${name}`;
@@ -45,14 +47,34 @@ export default class Sprite extends Node {
 		}
 
 		if (sprite) {
-			const img = document.createElement('img');
-			img.style.minWidth = '100%';
-			img.style.minHeight = '100%';
-			img.style.flexShrink = '0';
-			img.style.imageRendering = 'pixelated';
-			img.src = sprite;
+			if (type === 'gif') {
+				const vid = document.createElement('video');
+				vid.style.minWidth = '100%';
+				vid.style.minHeight = '100%';
+				vid.style.flexShrink = '0';
+				vid.style.imageRendering = 'pixelated';
 
-			DOMnode.appendChild(img);
+				vid.autoplay = true;
+				vid.loop = true;
+				vid.muted = true;
+				vid.playsinline = true;
+
+				const src = document.createElement('source');
+				src.src = sprite;
+				src.type = 'video/webm';
+
+				vid.appendChild(src);
+				DOMnode.appendChild(vid);
+			} else {
+				const img = document.createElement('img');
+				img.style.minWidth = '100%';
+				img.style.minHeight = '100%';
+				img.style.flexShrink = '0';
+				img.style.imageRendering = 'pixelated';
+				img.src = sprite;
+
+				DOMnode.appendChild(img);
+			}
 		}
 
 		super(name, DOMnode);
@@ -61,7 +83,7 @@ export default class Sprite extends Node {
 		const r = rotation || 0;
 		const s = scale || 1;
 
-		this.size = {
+		this.size = size || {
 			w: 25,
 			h: 25,
 		};

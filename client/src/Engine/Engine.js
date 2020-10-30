@@ -4,6 +4,7 @@ import Player from '../Objects/Player';
 import Terrain from '../Objects/Terrain';
 
 import sprite_rechargeStation from '../../Assets/Misc/RechargeStation/Gif.gif';
+import sprite_ships from '../../Assets/Misc/Ships/Ships.webm';
 
 // Class Representing the Engine
 export default class Engine {
@@ -118,8 +119,8 @@ export default class Engine {
 					new Resource({
 						name: `${s.name}`,
 						position: {
-							x: s.xPosition + window.innerWidth / 2,
-							y: this.terrain[1].sample(s.xPosition, this.offset) - 20,
+							x: s.xPosition + window.innerWidth / 2 - 300,
+							y: this.terrain[1].sample(s.xPosition, this.offset) - 300,
 						},
 						hitbox: {
 							x: s.xPosition + window.innerWidth / 2 - 20,
@@ -127,7 +128,15 @@ export default class Engine {
 						},
 						resources: s.resources,
 						collectResource: this.collectResource.bind(this),
-						zIndex: 40,
+						size: {
+							w: 100,
+							h: 100,
+						},
+						scale: 5,
+						rotation: -0.5 + Math.random() * 0.2,
+						zIndex: 10,
+						sprite: sprite_ships,
+						type: 'gif',
 					}),
 				],
 				['Resources']
@@ -204,6 +213,7 @@ export default class Engine {
 		if (this.isAnchored) {
 			const me = this.players[this.me];
 			this.offset = me.position.x;
+
 			if (this.pOffset !== this.offset) {
 				this.terrain[0].needsUpdate = true;
 				this.terrain[1].needsUpdate = true;
