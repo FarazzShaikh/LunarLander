@@ -46,9 +46,11 @@ export default class FPS {
 	calcShapes(value, ele, mul) {
 		const a = new Array(20).fill(false);
 
-		ele.r.textContent = '';
-		ele.y.textContent = '';
-		ele.g.textContent = '';
+		if (ele.r && ele.y && ele.g) {
+			ele.r.textContent = '';
+			ele.y.textContent = '';
+			ele.g.textContent = '';
+		}
 
 		for (let i = 0; i < Math.round(value * mul); i++) {
 			a[a.length - i] = true;
