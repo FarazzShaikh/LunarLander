@@ -24,12 +24,12 @@ export default class Collision {
 				amplitude: 100,
 			}) +
 			(this.window.h * 0.7 - this.window.h * 0.55) +
-			this.window.h * 0.55 -
-			58;
-		
-		if(player.position.y >= noise && player.velocity.y>1) {
-			player.socket.emit(REQUEST.REQUEST_SERVER_PLAYER_HIT_GROUND.req)		
+			this.window.h * 0.55;
+
+		if (player.position.y >= noise && player.velocity.y > 1) {
+			player.socket.emit(REQUEST.REQUEST_SERVER_PLAYER_HIT_GROUND.req);
 		}
-		return player.position.y >= noise;
+
+		return player.position.y + 25 / 2 >= noise;
 	}
 }

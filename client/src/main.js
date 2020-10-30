@@ -39,6 +39,9 @@ export default function main() {
 		// Initialize Renderer
 		renderer = initRenderer();
 
+		// Initialize Engine
+		engine = new Engine(renderer, socket.id, socket);
+
 		hud = new HUD({
 			name: 'HUD',
 			components: {
@@ -49,14 +52,13 @@ export default function main() {
 						data: {
 							get: () => frameCounter,
 							set: (v) => (frameCounter = v),
+							velocity: () => engine.getVelocity(),
 						},
 					},
 				},
 			},
 		});
 
-		// Initialize Engine
-		engine = new Engine(renderer, socket.id, socket);
 		engine.setRadar(hud.components.radar);
 
 		// Initialize Controller
@@ -205,9 +207,9 @@ export default function main() {
 
 	socket.on(EVENTS.SERVER_SEND_CRASHED_SHIPS, ({ recharge }) => {
 		getCrashedShips().then((s) => {
-			engine.addResources(s, 'CrashedShip');
+			engine.addShips(s);
 			if (recharge) {
-				engine.addResources(recharge, 'RechargeStation');
+				engine.addRechargeStation(recharge);
 			}
 		});
 	});
@@ -270,7 +272,7 @@ function initRenderer() {
 		}),
 		new Layer({
 			name: 'Resources',
-			zIndex: 40,
+			zIndex: '',
 		}),
 	]);
 
@@ -285,7 +287,6 @@ async function getScore() {
 async function getCrashedShips() {
 	const url = `${window.location.href}CrashedShips`;
 	const data = await fetch(url);
-	console.log(data);
 	return await data.json();
 }
 

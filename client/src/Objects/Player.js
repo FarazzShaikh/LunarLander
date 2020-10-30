@@ -15,7 +15,7 @@ import { DEFAULTS } from '../../../shared/Consts';
 
 // Class representing client side Player.
 export default class Player extends Sprite {
-	constructor({ id, position, rotation, scale, movementState }) {
+	constructor({ id, position, rotation, velocity, scale, movementState }) {
 		super({
 			name: `${id}`,
 			sprite: Char_Fly,
@@ -44,6 +44,7 @@ export default class Player extends Sprite {
 		flame.style.transition = 'opacity 300ms ease-in-out';
 		flame.style.transform = 'rotate(90deg) translate(45px, 0px)';
 
+		this.velocity = velocity;
 		this.flame = flame;
 		this.frameIndex = 0;
 		this.flameFrames = [
@@ -118,6 +119,10 @@ export default class Player extends Sprite {
 
 	setBoostState(state) {
 		this.boostState = state;
+	}
+
+	setVelocity(velocity) {
+		this.velocity = velocity;
 	}
 
 	update(node) {
