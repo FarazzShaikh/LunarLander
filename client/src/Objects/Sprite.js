@@ -58,6 +58,7 @@ export default class Sprite extends Node {
 				vid.loop = true;
 				vid.muted = true;
 				vid.playsinline = true;
+				vid.playbackRate = 0.5;
 
 				const src = document.createElement('source');
 				src.src = sprite;

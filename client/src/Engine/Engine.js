@@ -3,7 +3,7 @@ import Resource from '../Objects/Resource';
 import Player from '../Objects/Player';
 import Terrain from '../Objects/Terrain';
 
-import sprite_rechargeStation from '../../Assets/Misc/RechargeStation/Gif.gif';
+import sprite_rechargeStation from '../../Assets/Misc/RechargeStation/RechargeStation.webm';
 import sprite_ships from '../../Assets/Misc/Ships/Ships.webm';
 
 // Class Representing the Engine
@@ -99,9 +99,10 @@ export default class Engine {
 						},
 						resources: s.resources,
 						collectResource: this.collectResource.bind(this),
-						sprite: sprite_rechargeStation,
 						scale: 3,
 						zIndex: 11,
+						sprite: sprite_rechargeStation,
+						type: 'gif',
 					}),
 				],
 				['Resources']
