@@ -50,19 +50,19 @@ export default class FPS {
 			ele.r.textContent = '';
 			ele.y.textContent = '';
 			ele.g.textContent = '';
-		}
 
-		for (let i = 0; i < Math.round(value * mul); i++) {
-			a[a.length - i] = true;
-		}
+			for (let i = 0; i < Math.round(value * mul); i++) {
+				a[a.length - i] = true;
+			}
 
-		for (let i = 0; i < 20; i++) {
-			if (i < 4) {
-				ele.r.textContent += a[i] ? '□' : '•';
-			} else if (i < 8) {
-				ele.y.textContent += a[i] ? '□' : '•';
-			} else {
-				ele.g.textContent += a[i] ? '□' : '•';
+			for (let i = 0; i < 20; i++) {
+				if (i < 4) {
+					ele.r.textContent += a[i] ? '□' : '•';
+				} else if (i < 8) {
+					ele.y.textContent += a[i] ? '□' : '•';
+				} else {
+					ele.g.textContent += a[i] ? '□' : '•';
+				}
 			}
 		}
 	}
