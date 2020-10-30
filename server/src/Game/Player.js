@@ -126,6 +126,7 @@ export class Player {
 			id: this.socket.id,
 			position: this.position,
 			rotation: this.rotation,
+			velocity: this.velocity,
 			movementState: this.movementState,
 			resources: this.resources,
 		};

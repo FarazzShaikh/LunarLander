@@ -1,12 +1,22 @@
-.Gague-FPS-text {
+.Gague-main {
+	width: 100vw;
+
 	position: absolute;
 	bottom: 0;
 	left: 0;
-	padding: 8px;
+
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-end;
+
 	margin: 8px;
-	color: white;
+}
+
+.Gague-FPS-text {
+	padding: 8px;
 	min-width: 100px;
 
+	color: white;
 	font-family: monospace;
 	font-weight: bold;
 
@@ -19,27 +29,58 @@
 }
 
 .Gague-container {
-	width: 100vw;
-	height: 50px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 
-	position: absolute;
-	bottom: 0;
-	left: 0;
+	color: white;
+	font-family: monospace;
+	font-weight: bold;
+	font-size: 21px;
 }
 
-.Gague-Velocity-container {
-	position: absolute;
-	bottom: 0;
-	right: 50%;
-	transform: translate(50%, 0%);
+.Gague-container table tbody tr .text {
+	font-weight: 300;
+	font-size: 15px;
+}
 
-	padding: 8px;
-	margin: 8px;
-	color: white;
-	min-width: 100px;
+.Gague-container table tbody tr td {
+	text-align: left;
+}
 
+.Gague-container table tbody tr .text.flip {
+	text-align: right;
+}
+
+.Gague-container table tbody tr .shape {
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
+}
+
+.Gague-container table tbody tr .shape.flip {
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
+	transform: scaleX(-1);
+}
+
+.Gague-container table tbody tr .red {
+	color: #ff8e8e;
+}
+
+.Gague-container table tbody tr .yellow {
+	color: #ffe18e;
+}
+
+.Gague-container table tbody tr .white {
+	color: #ceff8e;
+}
+
+.Song-Display {
 	width: 100px;
-	height: 50px;
+	height: 100%;
 
-	background-color: aliceblue;
+	background-color: blue;
+	padding: 8px;
 }

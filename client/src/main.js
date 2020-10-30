@@ -39,6 +39,9 @@ export default function main() {
 		// Initialize Renderer
 		renderer = initRenderer();
 
+		// Initialize Engine
+		engine = new Engine(renderer, socket.id, socket);
+
 		hud = new HUD({
 			name: 'HUD',
 			components: {
@@ -49,14 +52,13 @@ export default function main() {
 						data: {
 							get: () => frameCounter,
 							set: (v) => (frameCounter = v),
+							velocity: () => engine.getVelocity(),
 						},
 					},
 				},
 			},
 		});
 
-		// Initialize Engine
-		engine = new Engine(renderer, socket.id, socket);
 		engine.setRadar(hud.components.radar);
 
 		// Initialize Controller

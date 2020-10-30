@@ -42,6 +42,12 @@ export default class Engine {
 		return this.renderer.getNode(name);
 	}
 
+	getVelocity() {
+		if (this.players[this.me]) {
+			return this.players[this.me].velocity;
+		}
+	}
+
 	setAnchor(anchor) {
 		this.isAnchored = true;
 		this.renderer.setAnchor(anchor);
@@ -169,6 +175,7 @@ export default class Engine {
 						id: p.id,
 						position: p.position,
 						rotation: p.rotation,
+						velocity: p.velocity,
 					}),
 				],
 				['Players']
@@ -199,11 +206,14 @@ export default class Engine {
 			radarPlayers.push(player);
 			return;
 		}
+
 		if (this.players[player.id]) {
 			this.players[player.id].transform({
 				position: player.position,
 				rotation: player.rotation,
 			});
+
+			this.players[player.id].setVelocity(player.velocity);
 		}
 	}
 
