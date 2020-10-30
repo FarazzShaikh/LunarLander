@@ -35,7 +35,7 @@ export default class FPS {
 					'.Gague-container table tbody tr .shape.vely .white'
 				),
 			};
-		}, 100);
+		}, 2000);
 
 		setInterval(() => {
 			this.HTML.children[0].children[0].textContent = `${this.data.get()}fps`;
