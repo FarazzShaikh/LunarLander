@@ -29,6 +29,7 @@ export class Player {
 		};
 		//Player fuel value (starts at 100)
 		this.resources = resources;
+		this.health = 100;
 	}
 
 	/**
@@ -63,7 +64,7 @@ export class Player {
 	 * @param {Object} force
 	 */
 	applyForce(force, isAlongNormal, dt) {
-		if (this.resources.fuel != 0) {
+		if (this.resources.fuel > 0) {
 			this.resources.fuel -= DEFAULTS.FUEL.f;
 			const f = {
 				x: isAlongNormal ? force.x * -Math.sin(this.rotation) : force.x,
@@ -84,7 +85,10 @@ export class Player {
 	 * @param {Number} rot
 	 */
 	applyTorque(torque) {
-		return (this.torque += torque);
+		if (this.resources.fuel > 0) {
+			this.resources.fuel -= DEFAULTS.FUEL.ft;
+			return (this.torque += torque);
+		}
 	}
 
 	/**
@@ -113,7 +117,11 @@ export class Player {
 	}
 
 	setMovementState(state) {
-		this.movementState = state;
+		if (this.resources.fuel > 0) {
+			this.movementState = state;
+		} else {
+			this.movementState = null;
+		}
 	}
 
 	/**
@@ -129,6 +137,7 @@ export class Player {
 			velocity: this.velocity,
 			movementState: this.movementState,
 			resources: this.resources,
+			health: this.health,
 		};
 	}
 

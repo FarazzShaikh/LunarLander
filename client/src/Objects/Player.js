@@ -15,7 +15,16 @@ import { DEFAULTS } from '../../../shared/Consts';
 
 // Class representing client side Player.
 export default class Player extends Sprite {
-	constructor({ id, position, rotation, velocity, scale, movementState }) {
+	constructor({
+		id,
+		position,
+		rotation,
+		velocity,
+		scale,
+		movementState,
+		fuel,
+		health,
+	}) {
 		super({
 			name: `${id}`,
 			sprite: Char_Fly,
@@ -71,49 +80,57 @@ export default class Player extends Sprite {
 		this.HTML.appendChild(this.booserL);
 
 		this.framerate = DEFAULTS.CORE.FRAMERATE;
+		this.fuel = fuel;
+		this.health = health;
 	}
 
 	animate(i) {
-		if (this.boostState === 'BOOST') {
-			this.flame.style.opacity = '1';
-		} else {
-			this.flame.style.opacity = '0';
-		}
-		if (this.boostState === 'N_ROTATE') {
-			this.booserR.style.opacity = '0';
-			this.booserL.style.opacity = '1';
-		} else if (this.boostState === 'P_ROTATE') {
-			this.booserR.style.opacity = '1';
-			this.booserL.style.opacity = '0';
-		} else {
-			this.booserR.style.opacity = '0';
-			this.booserL.style.opacity = '0';
-		}
+		if (this.fuel > 0) {
+			if (this.boostState === 'BOOST') {
+				this.flame.style.opacity = '1';
+			} else {
+				this.flame.style.opacity = '0';
+			}
+			if (this.boostState === 'N_ROTATE') {
+				this.booserR.style.opacity = '0';
+				this.booserL.style.opacity = '1';
+			} else if (this.boostState === 'P_ROTATE') {
+				this.booserR.style.opacity = '1';
+				this.booserL.style.opacity = '0';
+			} else {
+				this.booserR.style.opacity = '0';
+				this.booserL.style.opacity = '0';
+			}
 
-		const frameRateCompensation = this.framerate / 15;
-		if (i % frameRateCompensation === 0) {
-			this.flame.src = this.flameFrames[
-				(i / frameRateCompensation) % this.flameFrames.length
-			];
-			this.booserR.src = this.booserFrames[
-				(i / frameRateCompensation) % this.booserFrames.length
-			];
-			this.booserL.src = this.booserFrames[
-				(i / frameRateCompensation) % this.booserFrames.length
-			];
-		}
-		if (!this.isOffscreen) {
-			if (this.HTML.style.backgroundColor !== 'transparent') {
-				this.HTML.style.backgroundColor = 'transparent';
-				this.HTML.style.border = '0px solid white';
-				this.HTML.style.width = '';
-				this.HTML.style.height = '';
-				this.HTML.style.overflow = 'visible';
+			const frameRateCompensation = this.framerate / 15;
+			if (i % frameRateCompensation === 0) {
+				this.flame.src = this.flameFrames[
+					(i / frameRateCompensation) % this.flameFrames.length
+				];
+				this.booserR.src = this.booserFrames[
+					(i / frameRateCompensation) % this.booserFrames.length
+				];
+				this.booserL.src = this.booserFrames[
+					(i / frameRateCompensation) % this.booserFrames.length
+				];
+			}
+			if (!this.isOffscreen) {
+				if (this.HTML.style.backgroundColor !== 'transparent') {
+					this.HTML.style.backgroundColor = 'transparent';
+					this.HTML.style.border = '0px solid white';
+					this.HTML.style.width = '';
+					this.HTML.style.height = '';
+					this.HTML.style.overflow = 'visible';
+				}
+			} else {
+				this.HTML.style.backgroundColor = '#191919';
+				this.HTML.style.border = '1px solid white';
+				this.HTML.style.overflow = 'hidden';
 			}
 		} else {
-			this.HTML.style.backgroundColor = '#191919';
-			this.HTML.style.border = '1px solid white';
-			this.HTML.style.overflow = 'hidden';
+			this.flame.style.opacity = '0';
+			this.booserR.style.opacity = '0';
+			this.booserL.style.opacity = '0';
 		}
 	}
 
@@ -123,6 +140,11 @@ export default class Player extends Sprite {
 
 	setVelocity(velocity) {
 		this.velocity = velocity;
+	}
+
+	setSystems({ fuel, health }) {
+		this.fuel = fuel;
+		this.health = health;
 	}
 
 	update(node) {

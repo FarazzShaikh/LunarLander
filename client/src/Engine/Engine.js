@@ -48,6 +48,15 @@ export default class Engine {
 		}
 	}
 
+	getSystems() {
+		if (this.players[this.me]) {
+			return {
+				fuel: this.players[this.me].fuel,
+				health: this.players[this.me].health,
+			};
+		}
+	}
+
 	setAnchor(anchor) {
 		this.isAnchored = true;
 		this.renderer.setAnchor(anchor);
@@ -177,6 +186,8 @@ export default class Engine {
 						position: p.position,
 						rotation: p.rotation,
 						velocity: p.velocity,
+						fuel: p.resources.fuel,
+						health: p.health,
 					}),
 				],
 				['Players']
@@ -215,6 +226,10 @@ export default class Engine {
 			});
 
 			this.players[player.id].setVelocity(player.velocity);
+			this.players[player.id].setSystems({
+				fuel: player.resources.fuel,
+				health: player.health,
+			});
 		}
 	}
 

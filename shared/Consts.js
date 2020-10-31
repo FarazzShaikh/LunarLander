@@ -78,5 +78,6 @@ export const DEFAULTS = {
 	},
 	FUEL: {
 		f: 0.1,
+		ft: 0.05,
 	},
 };
