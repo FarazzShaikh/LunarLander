@@ -53,6 +53,7 @@ export default function main() {
 							get: () => frameCounter,
 							set: (v) => (frameCounter = v),
 							velocity: () => engine.getVelocity(),
+							systems: () => engine.getSystems(),
 						},
 					},
 				},
@@ -236,8 +237,8 @@ export default function main() {
 	});
 
 	// Listens for PLAYER HIT GROUND request.
-	socket.on(REQUEST.REQUEST_SERVER_PLAYER_HIT_GROUND.req, () =>
-		console.log('damage')
+	socket.on(REQUEST.REQUEST_SERVER_PLAYER_HIT_GROUND.req, (vel) =>
+		console.log('damage', vel * 100)
 	);
 }
 

@@ -26,8 +26,11 @@ export default class Collision {
 			(this.window.h * 0.7 - this.window.h * 0.55) +
 			this.window.h * 0.55;
 
-		if (player.position.y >= noise && player.velocity.y > 1) {
-			player.socket.emit(REQUEST.REQUEST_SERVER_PLAYER_HIT_GROUND.req);
+		if (player.position.y + 25 / 2 >= noise && player.velocity.y > 0.3) {
+			player.socket.emit(
+				REQUEST.REQUEST_SERVER_PLAYER_HIT_GROUND.req,
+				player.velocity.y
+			);
 		}
 
 		return player.position.y + 25 / 2 >= noise;

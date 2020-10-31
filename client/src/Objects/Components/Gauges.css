@@ -40,7 +40,7 @@
 }
 
 .Gague-container table tbody tr .text {
-	font-weight: 300;
+	font-weight: bold;
 	font-size: 15px;
 }
 
@@ -50,6 +50,11 @@
 
 .Gague-container table tbody tr .text.flip {
 	text-align: right;
+}
+
+.Gague-container table tbody tr .text.label {
+	font-weight: 300;
+	font-size: 12px;
 }
 
 .Gague-container table tbody tr .shape {
