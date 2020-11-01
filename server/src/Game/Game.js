@@ -8,6 +8,8 @@ import { Player } from './Player';
 import Collision from './Collision';
 import RechargeStation from './RechargeStation';
 
+import * as DB from '../../db/db';
+
 // Class representing the Game.
 export default class Game {
 	constructor() {
@@ -71,14 +73,8 @@ export default class Game {
 		);
 	}
 
-	async getResources(id) {
-		// TODO
-		console.log('TODO: DATABASE');
-		return {
-			fuel: 100,
-			W: 1000,
-			scrap: 30,
-		};
+	async getResources(data) {
+		return DB.GET(data.uuid, 'HighScores').then((r) => r.resources);
 	}
 
 	/**
@@ -92,17 +88,16 @@ export default class Game {
 	 * Adds a player to the game.
 	 * @param {Socket} socket Socket of the player to add.
 	 */
-	async addPlayer(socket) {
-		this.getResources(socket.id).then((r) => {
-			this.players[socket.id] = new Player({
-				socket: socket,
-				position: { x: 0, y: 0 },
-				velocity: { x: 0, y: 0 },
-				rotation: Math.PI / 2,
-				resources: r,
-			});
-			this.collision.setPlayers(this.players);
+	async addPlayer(socket, data) {
+		const resources = await this.getResources(data);
+		this.players[socket.id] = new Player({
+			socket: socket,
+			position: { x: 0, y: 0 },
+			velocity: { x: 0, y: 0 },
+			rotation: Math.PI / 2,
+			resources: resources,
 		});
+		this.collision.setPlayers(this.players);
 	}
 
 	/**
