@@ -3,8 +3,14 @@
 
 ![uses-javascript](https://badgen.net/badge/Uses/Javascript/f0db4f)
 ![uses-Node](https://badgen.net/badge/Uses/NodeJS/80bd01)
+![uses-Express](https://badgen.net/badge/Uses/ExpressJS/f0db4f)
+![uses-SocketIO](https://badgen.net/badge/Uses/Socket.IO/323fcb)
 ![uses-npm](https://badgen.net/badge/Uses/npm/e32e37)
-![uses-Firebase](https://badgen.net/badge/Uses/Cloud-Functions/4285f4)
+![uses-CloudFunctions](https://badgen.net/badge/Uses/Cloud-Functions/4285f4)
+![uses-FaunaDB](https://badgen.net/badge/Uses/FaunaDB/323fcb)
+![uses-Webpack](https://badgen.net/badge/Uses/Webpack/8ed6fb)
+![uses-Heroku](https://badgen.net/badge/Uses/Heroku/5a1db2)
+
 
 [Launch Lunar Lander Pre-Alpha](https://lunar-lander-js.herokuapp.com/)
 

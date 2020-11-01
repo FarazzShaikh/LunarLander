@@ -8,6 +8,7 @@ import Renderer, { Layer } from './Engine/Renderer';
 import Sprite from './Objects/Sprite';
 import Terrain from './Objects/Terrain';
 import PostProcess, { Volume } from './Objects/PostProcess';
+import * as Cookies from './Engine/Cookies';
 
 import Sprite_Earth from '../Assets/Planets/Earth.png';
 import Sprite_Baren from '../Assets/Planets/Baren.png';
@@ -25,7 +26,6 @@ let frameCounter = 0;
 export default function main() {
 	// Declaring in scope of main
 	let renderer, engine, controller, gamepad, hud;
-	const name = String(Math.random());
 
 	// Create a Socket io instance.
 	const socket = io();
@@ -125,7 +125,7 @@ export default function main() {
 				new Sprite({
 					name: 'Earth',
 					position: { x: 70, y: 70 },
-					scale: 5,
+					scale: 4,
 					sprite: Sprite_Earth,
 					shadowColor: 'rgba(0, 139, 139, 0.5)',
 					zIndex: 8,
@@ -198,13 +198,18 @@ export default function main() {
 			seed: seed * 8,
 		});
 
-		socket.emit(REQUEST.REQUEST_NEW_PLAYER.req);
+		const cookies = Cookies.getCookies();
+		socket.emit(REQUEST.REQUEST_NEW_PLAYER.req, {
+			name: cookies.name,
+			fingerprint: cookies.fingerprint,
+			uuid: cookies.uuid,
+		});
 	});
 
 	// Listens for new player request acknowledgement. Then updates list of all players.
-	socket.on(REQUEST.REQUEST_NEW_PLAYER.ack, (players) => {
-		engine.updatePlayers(players);
-	});
+	socket.on(REQUEST.REQUEST_NEW_PLAYER.ack, (players) =>
+		engine.updatePlayers(players)
+	);
 
 	socket.on(EVENTS.SERVER_SEND_CRASHED_SHIPS, ({ recharge }) => {
 		getCrashedShips().then((s) => {
@@ -216,13 +221,13 @@ export default function main() {
 	});
 
 	// Listens for Update PLayerss event. Then updates list of all players.
-	socket.on(EVENTS.SERVER_UPDATE_PLAYERS, (players) => {
-		engine.updatePlayers(players);
-	});
+	socket.on(EVENTS.SERVER_UPDATE_PLAYERS, (players) =>
+		engine.updatePlayers(players)
+	);
 	// Listen for Player Update Events and fire the function to update a single player
-	socket.on(EVENTS.SERVER_UPDATE_PLAYER, (player) => {
-		engine.updatePlayer(player);
-	});
+	socket.on(EVENTS.SERVER_UPDATE_PLAYER, (player) =>
+		engine.updatePlayer(player)
+	);
 
 	// GListens for Server Tick events.
 	socket.on(EVENTS.SERVER_TICK, (dt) => {
@@ -281,12 +286,12 @@ function initRenderer() {
 }
 
 async function getScore() {
-	const url = `${window.location.href}scores/`;
+	const url = `${window.location.href}api/scores/`;
 	console.log(await (await fetch(url)).json());
 }
 
 async function getCrashedShips() {
-	const url = `${window.location.href}CrashedShips`;
+	const url = `${window.location.href}api/CrashedShips/`;
 	const data = await fetch(url);
 	return await data.json();
 }

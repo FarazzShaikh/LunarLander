@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from 'uuid';
 const faunadb = require('faunadb');
 let client = undefined;
 
@@ -26,7 +25,7 @@ export function init() {
  * @returns {Promise} Promise containing Data of single user or an array of all users.
  */
 export async function GET(uuid, collection) {
-	if (!uuid) {
+	if (uuid === 'null') {
 		return client
 			.query(
 				Map(
@@ -35,6 +34,11 @@ export async function GET(uuid, collection) {
 				)
 			)
 			.then((doc) => doc.data.map((item) => item.data))
+			.catch((e) => console.log(e));
+	} else {
+		return client
+			.query(Get(Ref(Collection(collection), uuid)))
+			.then((d) => d.data)
 			.catch((e) => console.log(e));
 	}
 }
