@@ -236,9 +236,9 @@ export default function main() {
 		engine.update(dt);
 	});
 
-	// Listens for PLAYER HIT GROUND request.
-	socket.on(REQUEST.REQUEST_SERVER_PLAYER_HIT_GROUND.req, (vel) =>
-		console.log('damage', vel * 100)
+	// Listens for Delete_Player event
+	socket.on(REQUEST.REQUEST_DELETE_PLAYER.req, () => 
+		console.log('Dead')	
 	);
 }
 
