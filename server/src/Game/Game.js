@@ -91,6 +91,7 @@ export default class Game {
 	async addPlayer(socket, data) {
 		const resources = await this.getResources(data);
 		this.players[socket.id] = new Player({
+			name: data.name,
 			socket: socket,
 			position: { x: 0, y: 0 },
 			velocity: { x: 0, y: 0 },

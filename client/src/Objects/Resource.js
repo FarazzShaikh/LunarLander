@@ -50,15 +50,9 @@ export default class Resource extends Sprite {
 				//p.y -= this.anchor.position.y;
 			}
 
-			const screenPosX = self.hitbox.x - window.innerWidth / 2;
-
-			if (
-				this.anchor.position.x < screenPosX + 10 &&
-				this.anchor.position.x > screenPosX - 40 &&
-				this.anchor.position.y < self.hitbox.y + 100 &&
-				this.anchor.position.y > self.hitbox.y - 100
-			) {
+			if (AABB.collide(self.HTML, this.anchor.HTML)) {
 				self.collectResource(self);
+				console.log('s');
 			}
 
 			self.HTML.style.transform = `translate(${p.x}px,${p.y}px) rotate(${r}rad)`;
@@ -67,3 +61,33 @@ export default class Resource extends Sprite {
 		}
 	}
 }
+
+var AABB = {
+	collide: function (el1, el2) {
+		var rect1 = el1.getBoundingClientRect();
+		var rect2 = el2.getBoundingClientRect();
+
+		return !(
+			rect1.top > rect2.bottom ||
+			rect1.right < rect2.left ||
+			rect1.bottom < rect2.top ||
+			rect1.left > rect2.right
+		);
+	},
+
+	inside: function (el1, el2) {
+		var rect1 = el1.getBoundingClientRect();
+		var rect2 = el2.getBoundingClientRect();
+
+		return (
+			rect2.top <= rect1.top &&
+			rect1.top <= rect2.bottom &&
+			rect2.top <= rect1.bottom &&
+			rect1.bottom <= rect2.bottom &&
+			rect2.left <= rect1.left &&
+			rect1.left <= rect2.right &&
+			rect2.left <= rect1.right &&
+			rect1.right <= rect2.right
+		);
+	},
+};

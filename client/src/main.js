@@ -280,6 +280,10 @@ function initRenderer() {
 			name: 'Resources',
 			zIndex: '',
 		}),
+		new Layer({
+			name: 'NameTags',
+			zIndex: 50,
+		}),
 	]);
 
 	return renderer;

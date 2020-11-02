@@ -24,6 +24,7 @@ export default class Player extends Sprite {
 		movementState,
 		fuel,
 		health,
+		nameTag,
 	}) {
 		super({
 			name: `${id}`,
@@ -82,6 +83,7 @@ export default class Player extends Sprite {
 		this.framerate = DEFAULTS.CORE.FRAMERATE;
 		this.fuel = fuel;
 		this.health = health;
+		this.nameTag = nameTag;
 	}
 
 	animate(i) {

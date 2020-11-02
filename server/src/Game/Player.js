@@ -5,7 +5,7 @@ import Wind from './Physics/Wind';
 
 // Class representing a player.
 export class Player {
-	constructor({ socket, position, rotation, velocity, resources }) {
+	constructor({ socket, position, rotation, velocity, resources, name }) {
 		// Socket associated with the player
 		this.socket = socket;
 
@@ -30,6 +30,7 @@ export class Player {
 		//Player fuel value (starts at 100)
 		this.resources = resources;
 		this.health = 100;
+		this.name = name;
 	}
 
 	/**
@@ -131,6 +132,7 @@ export class Player {
 	 */
 	getSerialized() {
 		return {
+			name: this.name,
 			id: this.socket.id,
 			position: this.position,
 			rotation: this.rotation,

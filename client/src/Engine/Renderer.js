@@ -19,6 +19,10 @@ export default class Renderer {
 		this.anchor = node;
 	}
 
+	getLayer(name) {
+		return this.layers.filter((l) => l.name === name)[0];
+	}
+
 	scatterNode({ layerName, Class, options, number, seed }) {
 		const layer = this.layers.filter((l) => l.name === layerName)[0];
 		const noise = new Simple1DNoise(seed);
@@ -48,7 +52,6 @@ export default class Renderer {
 
 	addNode(layer, node) {
 		this.nodes[`${layer}-${node.name}`] = node;
-
 		this.layers
 			.filter((l) => l.name === layer)[0]
 			.container.appendChild(node.HTML);
@@ -178,5 +181,16 @@ export class Layer {
 
 			this.container.style.imageRendering = 'pixelated';
 		}
+		this.isHidden = false;
+	}
+
+	hide() {
+		this.container.style.opacity = 0;
+		this.isHidden = true;
+	}
+
+	show() {
+		this.container.style.opacity = 1;
+		this.isHidden = false;
 	}
 }
