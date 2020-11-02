@@ -52,6 +52,7 @@ export const DEFAULTS = {
 		ArrowLeft: 'N_ROTATE',
 		ArrowRight: 'P_ROTATE',
 		Space: 'BOOST',
+		KeyE: 'TOGGLE-TAGS',
 
 		X: 'BOOST',
 		L1: 'N_ROTATE',

@@ -37,6 +37,7 @@ export default class Resource extends Sprite {
 	}
 	update(node) {
 		const self = node;
+
 		let p = { ...self.position };
 		const s = self.scale;
 		const r = self.rotation;
@@ -55,9 +56,14 @@ export default class Resource extends Sprite {
 				console.log('s');
 			}
 
-			self.HTML.style.transform = `translate(${p.x}px,${p.y}px) rotate(${r}rad)`;
-			self.HTML.style.width = `${s * self.size.w}px`;
-			self.HTML.style.height = `${s * self.size.h}px`;
+			if (self._isInViewport(p, self.hitbox.w * 2)) {
+				if (self.HTML.style.display !== 'block') self.HTML.style.display = 'block';
+				self.HTML.style.transform = `translate(${p.x}px,${p.y}px) rotate(${r}rad)`;
+				self.HTML.style.width = `${s * self.size.w}px`;
+				self.HTML.style.height = `${s * self.size.h}px`;
+			} else {
+				if (self.HTML.style.display !== 'none') self.HTML.style.display = 'none';
+			}
 		}
 	}
 }

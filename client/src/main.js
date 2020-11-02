@@ -63,11 +63,12 @@ export default function main() {
 		engine.setRadar(hud.components.radar);
 
 		// Initialize Controller
-		controller = new Controller(
-			socket,
-			engine.applyController.bind(engine),
-			true
-		);
+		controller = new Controller({
+			socket: socket,
+			applyController: engine.applyController.bind(engine),
+			enableDS4: true,
+			toggleLayer: engine.toggleLayer.bind(engine),
+		});
 
 		// Requests terrain options.
 		socket.emit(REQUEST.REQUEST_TERRAIN.req, {

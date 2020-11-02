@@ -16,7 +16,7 @@ export default class NameTag extends Node {
 		node.style.fontWeight = '100';
 
 		node.style.color = color;
-		node.style.textShadow = `0px 0px 13px ${color}`;
+		//node.style.textShadow = `0px 0px 13px ${color}`;
 		node.innerHTML = string;
 
 		super(name, node);
@@ -44,7 +44,12 @@ export default class NameTag extends Node {
 			}
 		}
 
-		self.HTML.style.transform = `scale(${s},${s}) translate(${p.x}px,${p.y}px) rotate(${r}rad)`;
+		if (self._isInViewport(p, 300 * 2)) {
+			if (self.HTML.style.display !== 'block') self.HTML.style.display = 'block';
+			self.HTML.style.transform = `scale(${s},${s}) translate(${p.x}px,${p.y}px) rotate(${r}rad)`;
+		} else {
+			if (self.HTML.style.display !== 'none') self.HTML.style.display = 'none';
+		}
 	}
 }
 

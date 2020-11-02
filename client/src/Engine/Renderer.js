@@ -83,18 +83,6 @@ export default class Renderer {
 			}
 		}
 	}
-
-	_isElementPartiallyInViewport(el) {
-		var rect = el.getBoundingClientRect();
-		var windowHeight =
-			window.innerHeight || document.documentElement.clientHeight;
-		var windowWidth = window.innerWidth || document.documentElement.clientWidth;
-
-		var vertInView = rect.top <= windowHeight && rect.top + rect.height >= 0;
-		var horInView = rect.left <= windowWidth && rect.left + rect.width >= 0;
-
-		return vertInView && horInView;
-	}
 }
 
 export class Node {
@@ -154,6 +142,13 @@ export class Node {
 		}px`;
 		self.needsUpdate = false;
 	}
+
+	_isInViewport(p, offset) {
+		return (
+			p.x >= -offset &&
+			p.x <= (window.innerWidth || document.documentElement.clientWidth)
+		);
+	}
 }
 
 export class Layer {
@@ -182,15 +177,18 @@ export class Layer {
 			this.container.style.imageRendering = 'pixelated';
 		}
 		this.isHidden = false;
+		if (this.name === 'NameTags') {
+			this.hide();
+		}
 	}
 
 	hide() {
-		this.container.style.opacity = 0;
+		this.container.style.display = 'none';
 		this.isHidden = true;
 	}
 
 	show() {
-		this.container.style.opacity = 1;
+		this.container.style.display = 'block';
 		this.isHidden = false;
 	}
 }
