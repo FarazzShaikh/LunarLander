@@ -80,4 +80,7 @@ export const DEFAULTS = {
 		f: 0.1,
 		ft: 0.05,
 	},
+	COLLISION: {
+		dmg: 50,
+	},
 };
