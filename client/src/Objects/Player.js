@@ -24,6 +24,7 @@ export default class Player extends Sprite {
 		movementState,
 		fuel,
 		health,
+		nameTag,
 	}) {
 		super({
 			name: `${id}`,
@@ -82,6 +83,7 @@ export default class Player extends Sprite {
 		this.framerate = DEFAULTS.CORE.FRAMERATE;
 		this.fuel = fuel;
 		this.health = health;
+		this.nameTag = nameTag;
 	}
 
 	animate(i) {
@@ -174,8 +176,13 @@ export default class Player extends Sprite {
 			}
 		}
 
-		self.HTML.style.transform = `scale(${s},${s}) translate(${p.x}px,${p.y}px) rotate(${r}rad)`;
-		self.needsUpdate = false;
+		if (self._isInViewport(p, 300 * 2)) {
+			if (self.HTML.style.display !== 'block') self.HTML.style.display = 'block';
+			self.HTML.style.transform = `scale(${s},${s}) translate(${p.x}px,${p.y}px) rotate(${r}rad)`;
+			self.needsUpdate = false;
+		} else {
+			if (self.HTML.style.display !== 'none') self.HTML.style.display = 'none';
+		}
 	}
 
 	removeDomNode() {

@@ -304,3 +304,19 @@ export const noiseSeed = function (seed) {
 		perlin[i] = lcg.rand();
 	}
 };
+
+export function makeOctaves(
+	func,
+	x,
+	{ amplitude, frequency, octaves, persistence, lacunarity }
+) {
+	let value = 0;
+	for (let octave = 0; octave < octaves; octave++) {
+		value += func(x * frequency, 1) * amplitude;
+
+		frequency *= lacunarity;
+		amplitude *= persistence;
+	}
+	value = value / (2 - 1 / Math.pow(2, octaves - 1));
+	return value;
+}

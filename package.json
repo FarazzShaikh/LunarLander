@@ -28,6 +28,7 @@
 		"webpack-node-externals": "^2.5.2"
 	},
 	"dependencies": {
+		"@chriscourses/perlin-noise": "^1.0.5",
 		"@fingerprintjs/fingerprintjs": "^3.0.0",
 		"dotenv": "^8.2.0",
 		"express": "^4.17.1",

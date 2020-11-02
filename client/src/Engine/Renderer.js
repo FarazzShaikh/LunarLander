@@ -1,4 +1,4 @@
-import { Simple1DNoise } from '../../../shared/utils/SimplexNoise';
+import { noise, noiseSeed } from '../../../shared/utils/noise';
 
 export default class Renderer {
 	constructor(layers, anchor) {
@@ -19,23 +19,24 @@ export default class Renderer {
 		this.anchor = node;
 	}
 
+	getLayer(name) {
+		return this.layers.filter((l) => l.name === name)[0];
+	}
+
 	scatterNode({ layerName, Class, options, number, seed }) {
 		const layer = this.layers.filter((l) => l.name === layerName)[0];
-		const noise = new Simple1DNoise(seed);
 
 		for (let i = 0; i < number; i++) {
 			const node = new Class(options);
 			this.nodes[`${layer}-${node.name}-n${i}`] = node;
 
-			const s = Math.abs(
-				noise.getVal(i * 100 + seed) * (node.scaleMultiplier || 1)
-			);
+			const s = Math.abs(noise(i * 100 + seed) * (node.scaleMultiplier || 1));
 
-			const o = noise.getVal(i * 100 + seed) + 0.2;
+			const o = noise(i * 100 + seed) + 0.2;
 
 			const p = {
-				x: Math.abs(noise.getVal(i * 10000 + seed)) * window.innerWidth * 0.7,
-				y: Math.abs(noise.getVal(i * 1000 + seed)) * 300,
+				x: Math.abs(noise(i * 10000 + seed)) * window.innerWidth * 0.7,
+				y: Math.abs(noise(i * 1000 + seed)) * 300,
 			};
 
 			node.HTML.style.transform = `scale(${s},${s}) translate(${p.x}px,${p.y}px) rotate(0rad)`;
@@ -48,7 +49,6 @@ export default class Renderer {
 
 	addNode(layer, node) {
 		this.nodes[`${layer}-${node.name}`] = node;
-
 		this.layers
 			.filter((l) => l.name === layer)[0]
 			.container.appendChild(node.HTML);
@@ -79,18 +79,6 @@ export default class Renderer {
 				}
 			}
 		}
-	}
-
-	_isElementPartiallyInViewport(el) {
-		var rect = el.getBoundingClientRect();
-		var windowHeight =
-			window.innerHeight || document.documentElement.clientHeight;
-		var windowWidth = window.innerWidth || document.documentElement.clientWidth;
-
-		var vertInView = rect.top <= windowHeight && rect.top + rect.height >= 0;
-		var horInView = rect.left <= windowWidth && rect.left + rect.width >= 0;
-
-		return vertInView && horInView;
 	}
 }
 
@@ -151,6 +139,13 @@ export class Node {
 		}px`;
 		self.needsUpdate = false;
 	}
+
+	_isInViewport(p, offset) {
+		return (
+			p.x >= -offset &&
+			p.x <= (window.innerWidth || document.documentElement.clientWidth)
+		);
+	}
 }
 
 export class Layer {
@@ -178,5 +173,19 @@ export class Layer {
 
 			this.container.style.imageRendering = 'pixelated';
 		}
+		this.isHidden = false;
+		if (this.name === 'NameTags') {
+			this.hide();
+		}
+	}
+
+	hide() {
+		this.container.style.display = 'none';
+		this.isHidden = true;
+	}
+
+	show() {
+		this.container.style.display = 'block';
+		this.isHidden = false;
 	}
 }

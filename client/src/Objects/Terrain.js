@@ -1,6 +1,6 @@
 import { DEFAULTS } from '../../../shared/Consts';
-import { makeOctaves, Simple1DNoise } from '../../../shared/utils/SimplexNoise';
 import { Node } from '../Engine/Renderer';
+import { noise, noiseSeed, makeOctaves } from '../../../shared/utils/noise';
 
 // Class representing the terrain.
 export default class Terrain extends Node {
@@ -30,10 +30,9 @@ export default class Terrain extends Node {
 
 		this.polygon = polygon;
 		// Seed for consistant terrain generation across clients.
-		this.seed = seed;
+		noiseSeed(seed);
 		this.scrollspeed = scrollspeed;
 		this.zIndex = zIndex;
-		this.simplex = new Simple1DNoise(seed);
 
 		this.drawTerrain(0);
 	}
@@ -54,8 +53,9 @@ export default class Terrain extends Node {
 				window.innerHeight * 0.55;
 
 			point.x = x;
+
 			point.y =
-				makeOctaves(this.simplex.getVal, x + offset * this.scrollspeed, {
+				makeOctaves(noise, x + offset * this.scrollspeed, {
 					octaves: DEFAULTS.GENERATION.OCTAVES,
 					frequency: DEFAULTS.GENERATION.SCALE * this.scrollspeed,
 					lacunarity: DEFAULTS.GENERATION.LACUNARITY,
@@ -81,7 +81,7 @@ export default class Terrain extends Node {
 			(this.zIndex / 2) * (window.innerHeight * 0.7 - window.innerHeight * 0.55) +
 			window.innerHeight * 0.55;
 		return (
-			makeOctaves(this.simplex.getVal, x + offset * this.scrollspeed, {
+			makeOctaves(noise, x + offset * this.scrollspeed, {
 				octaves: DEFAULTS.GENERATION.OCTAVES,
 				frequency: DEFAULTS.GENERATION.SCALE * this.scrollspeed,
 				lacunarity: DEFAULTS.GENERATION.LACUNARITY,

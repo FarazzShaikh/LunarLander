@@ -22,14 +22,11 @@
 | Boost | `Space` | `X` |
 | Rotate Left | `Left Arrow Key` | `L1` |
 | Rotate Right | `Right Arrow Key` | `R1` |
-
-Althought this gif does not demo it, Lunar Lander is a Relatime Massively multiplayer game.
+| Intel | `E` | `△` |
 
 ## **Overview**
-### What is Lunar Lander?
-Lunar Lander is a single-player arcade game developed by Atari Inc. in the year 1979 for the Atari 6502 Vector Arcade System. Our remake of the classic will include all the features that made it popular but enhance them using modern web technologies, and expand them by adding multiplayer.
-### What do we bring to the table?
-Our version of Lunar Lander will be a multiplayer game that allows there to be many players that are given the same goals. This results in a “race” to secure the highest scoring landing pads.
+### Plot
+Roughly fifty years after an accident with a hyperspace gateway made the Earth uninhabitable, humanity has colonized the rocky planets and moons of the Solar System. Amid a rising crime rate, and scarcity of resources, people must find a way to survive.
 
 ### Team Roles
 | Name  | HW Username  | Role  | Tasks |

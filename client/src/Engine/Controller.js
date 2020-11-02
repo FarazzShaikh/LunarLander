@@ -2,7 +2,7 @@ import { DEFAULTS, EVENTS } from '../../../shared/Consts';
 
 // Class Representing the COntroller for the game
 export default class Controller {
-	constructor(socket, applyController, enableDS4) {
+	constructor({ socket, applyController, enableDS4, toggleLayer }) {
 		// The Socket of the player
 		this.socket = socket;
 		// A Map, mapping the keyboard keys -> movement commands
@@ -17,6 +17,10 @@ export default class Controller {
 		document.addEventListener('keydown', (e) => {
 			this.using = 'k';
 			// If keycode maps to an input...
+			if (this.keyMap[e.code] === 'TOGGLE-TAGS') {
+				toggleLayer('NameTags');
+				return;
+			}
 			if (this.keyMap[e.code]) {
 				if (this.using === 'k') {
 					applyController(this.keyMap[e.code]);
