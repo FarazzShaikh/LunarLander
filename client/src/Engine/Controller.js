@@ -2,7 +2,7 @@ import { DEFAULTS, EVENTS } from '../../../shared/Consts';
 
 // Class Representing the COntroller for the game
 export default class Controller {
-	constructor({ socket, applyController, enableDS4, toggleLayer }) {
+	constructor({ socket, enableDS4, toggleLayer }) {
 		// The Socket of the player
 		this.socket = socket;
 		// A Map, mapping the keyboard keys -> movement commands
@@ -10,7 +10,6 @@ export default class Controller {
 		// Enable Dualshock 4 controlls TODO
 		this.enableDS4 = enableDS4 || false;
 
-		this.applyController = applyController;
 		this.using = null;
 
 		// Listen for keyboard key-down events
@@ -23,8 +22,6 @@ export default class Controller {
 			}
 			if (this.keyMap[e.code]) {
 				if (this.using === 'k') {
-					applyController(this.keyMap[e.code]);
-
 					// ...Send an event telling server Player has moved
 					socket.emit(EVENTS.PLAYER_HAS_MOVED, this.keyMap[e.code]);
 				}
@@ -33,7 +30,6 @@ export default class Controller {
 
 		document.addEventListener('keyup', (e) => {
 			if (this.keyMap[e.code]) {
-				applyController(null);
 				socket.emit(EVENTS.PLAYER_HAS_MOVED, null);
 			}
 		});
@@ -61,15 +57,14 @@ export default class Controller {
 				if (buttons[key].pressed) {
 					this.using = 'c';
 					animKey = key;
-					this.socket.emit(EVENTS.PLAYER_HAS_MOVED, this.keyMap[key]);
 				}
 			}
 
 			if (this.using === 'c') {
 				if (animAccumulator) {
-					this.applyController(this.keyMap[animKey]);
+					this.socket.emit(EVENTS.PLAYER_HAS_MOVED, this.keyMap[animKey]);
 				} else {
-					this.applyController(null);
+					this.socket.emit(EVENTS.PLAYER_HAS_MOVED, null);
 				}
 			}
 		}

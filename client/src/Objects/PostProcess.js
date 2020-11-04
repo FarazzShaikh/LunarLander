@@ -9,12 +9,16 @@ export default class PostProcess extends Node {
 }
 
 export class Volume {
-	constructor(cssStyles) {
+	constructor(cssStyles, className) {
 		this.node = document.createElement('div');
 		this.node.style.width = '100vw';
 		this.node.style.height = '100vh';
 
 		this.node.style.position = 'absolute';
+
+		if (className) {
+			this.node.classList += className;
+		}
 
 		for (const key in cssStyles) {
 			if (cssStyles.hasOwnProperty(key)) {

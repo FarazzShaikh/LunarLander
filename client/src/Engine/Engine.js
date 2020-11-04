@@ -67,10 +67,6 @@ export default class Engine {
 		this.radar = radar;
 	}
 
-	applyController(input) {
-		this.players[this.me].setBoostState(input);
-	}
-
 	toggleLayer(name) {
 		const layer = this.renderer.getLayer(name);
 		layer.isHidden ? layer.show() : layer.hide();
@@ -211,7 +207,6 @@ export default class Engine {
 	updatePlayers(players) {
 		Object.values(this.players).forEach((p) => {
 			if (p.nameTag) {
-				console.log(this.renderer.nodes[`NameTags-${p.name}`]);
 				this.renderer.removeNode(`NameTags-${p.name}`);
 			}
 
@@ -284,7 +279,7 @@ export default class Engine {
 					},
 					rotation: player.rotation,
 				});
-				this.players[player.id].setBoostState(player.movementState);
+
 				this.players[player.id].nameTag.transform({
 					position: {
 						x: player.position.x + window.innerWidth / 2,
@@ -311,6 +306,8 @@ export default class Engine {
 				health: player.health,
 			});
 		}
+
+		this.players[player.id].setBoostState(player.movementState);
 	}
 
 	update() {
