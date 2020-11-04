@@ -1,4 +1,5 @@
 import { Node } from '../Engine/Renderer';
+import './Components/CRT.css';
 
 export default class NameTag extends Node {
 	constructor({ name, position, rotation, scale, string, color }) {
@@ -8,8 +9,8 @@ export default class NameTag extends Node {
 		node.style.margin = '0';
 
 		node.style.position = 'absolute';
-		node.style.backgroundColor = 'rgba(0,0,0,0.2)';
-		node.style.boxShadow = '0 0 5px 10px rgba(0,0,0,0.2)';
+		//node.style.backgroundColor = 'rgba(0,0,0,0.2)';
+		//node.style.boxShadow = '0 0 5px 10px rgba(0,0,0,0.2)';
 
 		node.style.fontFamily = 'monospace';
 		node.style.fontSize = '15px';
@@ -18,6 +19,8 @@ export default class NameTag extends Node {
 		node.style.color = color;
 		node.style.textShadow = `0px 0px 13px ${color}`;
 		node.innerHTML = string;
+
+		node.className += 'crt';
 
 		super(name, node);
 

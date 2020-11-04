@@ -65,7 +65,6 @@ export default function main() {
 		// Initialize Controller
 		controller = new Controller({
 			socket: socket,
-			applyController: engine.applyController.bind(engine),
 			enableDS4: true,
 			toggleLayer: engine.toggleLayer.bind(engine),
 		});
@@ -103,7 +102,15 @@ export default function main() {
 					zIndex: 11,
 					volume: new Volume({
 						background:
-							'linear-gradient(rgba(154,154,154,0) 70%, rgba(255,255,255,0.5) 100%)',
+							'linear-gradient(rgba(154,154,154,0) 65%, rgba(255,255,255,0.5) 100%)',
+					}).getVolume(),
+				}),
+
+				new PostProcess({
+					name: 'Terrain-Glow-PP',
+					zIndex: 11,
+					volume: new Volume({
+						background: 'rgba(0 ,0 ,0, 0.2)',
 					}).getVolume(),
 				}),
 
@@ -119,7 +126,7 @@ export default function main() {
 					zIndex: 9,
 					volume: new Volume({
 						background:
-							'linear-gradient(rgba(154,154,154,0) 30%, rgba(255,255,255,0.5) 100%)',
+							'linear-gradient(rgba(154,154,154,0) 50%, rgba(255,255,255,0.5) 100%)',
 					}).getVolume(),
 				}),
 
@@ -152,6 +159,7 @@ export default function main() {
 			[
 				'PostProcess',
 				'Terrain',
+				'PostProcess',
 				'PostProcess',
 				'Terrain',
 				'PostProcess',
@@ -243,9 +251,7 @@ export default function main() {
 	});
 
 	// Listens for Delete_Player event
-	socket.on(REQUEST.REQUEST_DELETE_PLAYER.req, () => 
-		console.log('Dead')	
-	);
+	socket.on(REQUEST.REQUEST_DELETE_PLAYER.req, () => console.log('Dead'));
 }
 
 /**

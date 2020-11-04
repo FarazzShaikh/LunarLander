@@ -156,6 +156,8 @@ export class Player {
 				x: 0,
 				y: 0,
 			};
+			this.movementState = null;
+			this.torque = 0;
 		}
 
 		this.overrideTerrainCollision = false;
