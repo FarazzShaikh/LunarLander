@@ -5,7 +5,7 @@ import Wind from './Physics/Wind';
 
 // Class representing a player.
 export class Player {
-	constructor({ socket, position, rotation, velocity, resources, name }) {
+	constructor({ socket, position, rotation, velocity, resources, name, uuid }) {
 		// Socket associated with the player
 		this.socket = socket;
 
@@ -31,6 +31,7 @@ export class Player {
 		this.resources = resources;
 		this.health = 100;
 		this.name = name;
+		this.uuid = uuid;
 	}
 
 	/**

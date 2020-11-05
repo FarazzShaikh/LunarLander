@@ -13,8 +13,10 @@ export default class Resource extends Sprite {
 		size,
 		type,
 
+		id,
 		resources,
-		collectResource,
+		setCurrentResource,
+		setRAderText,
 		hitbox,
 	}) {
 		super({
@@ -30,11 +32,24 @@ export default class Resource extends Sprite {
 			type,
 		});
 
+		this.id = id;
+
 		this.resources = resources;
-		this.collectResource = collectResource;
+		this.setCurrentResource = setCurrentResource;
 		this.needsUpdate = true;
 		this.hitbox = hitbox;
+
+		this.setRAderText = setRAderText;
+		this.radarText = '';
 	}
+
+	getSerialized() {
+		return {
+			id: this.id,
+			resources: this.resources,
+		};
+	}
+
 	update(node) {
 		const self = node;
 
@@ -51,12 +66,28 @@ export default class Resource extends Sprite {
 				//p.y -= this.anchor.position.y;
 			}
 
-			if (AABB.collide(self.HTML, this.anchor.HTML)) {
-				self.collectResource(self);
-				console.log('s');
-			}
-
 			if (self._isInViewport(p, self.hitbox.w * 2)) {
+				if (AABB.collide(self.HTML, this.anchor.HTML)) {
+					if (this.anchor.velocity.x > 0 || this.anchor.velocity.y > 0) {
+						if (self.radarText !== 'Land to collect resources!') {
+							self.radarText = 'Land to collect resources!';
+							self.setRAderText(self.radarText);
+						}
+					} else {
+						if (self.radarText !== 'Press F to collect.') {
+							self.radarText = 'Press F to collect.';
+							self.setRAderText(self.radarText);
+							self.setCurrentResource(self);
+						}
+					}
+				} else {
+					if (self.radarText !== '') {
+						self.radarText = '';
+						self.setRAderText(self.radarText);
+						self.setCurrentResource(null);
+					}
+				}
+
 				if (self.HTML.style.display !== 'block') self.HTML.style.display = 'block';
 				self.HTML.style.transform = `translate(${p.x}px,${p.y}px) rotate(${r}rad)`;
 				self.HTML.style.width = `${s * self.size.w}px`;

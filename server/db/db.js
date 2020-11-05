@@ -10,6 +10,7 @@ const {
 	Paginate,
 	Lambda,
 	Documents,
+	Update,
 } = faunadb.query;
 
 /**
@@ -20,7 +21,7 @@ export function init() {
 }
 
 /**
- * Gets users from the Highscores collention
+ * Gets users from the collection.
  * @param {String} [uuid] Get Given user.
  * @returns {Promise} Promise containing Data of single user or an array of all users.
  */
@@ -44,7 +45,7 @@ export async function GET(uuid, collection) {
 }
 
 /**
- * Adds doccument to the highscore collenction
+ * Adds document to collection.
  * @param {String} username Usernmae of the new USer
  * @param {Number} score Score of the player
  * @returns {Promise} Promise containing the added document
@@ -52,6 +53,22 @@ export async function GET(uuid, collection) {
 export async function POST(id, collection, data) {
 	const doc = await client.query(
 		Create(Ref(Collection(collection), id), {
+			data: data,
+		})
+	);
+
+	return doc;
+}
+
+/**
+ * Updates doccument in Collection
+ * @param {*} id id to modify
+ * @param {*} collection Collection to modify
+ * @param {*} data data to put
+ */
+export async function UPDATE(id, collection, data) {
+	const doc = await client.query(
+		Update(Ref(Collection(collection), id), {
 			data: data,
 		})
 	);

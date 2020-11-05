@@ -58,19 +58,26 @@ export default class Game {
 		this.didCollide = this.collision.didColide.bind(this.collision);
 	}
 
-	setResources(id, resources) {
-		// TODO
-		console.log('TODO: DATABASE');
-		this.crashedShips = this._removeByAttr(
-			this.crashedShips,
-			'name',
-			resources.name
-		);
-		this.rechargeStations = this._removeByAttr(
-			this.rechargeStations,
-			'name',
-			resources.name
-		);
+	async setResources(id, resources) {
+		console.log(resources);
+		const currResources = this.players[id].resources;
+		return DB.UPDATE(resources.id, 'CronStore', {
+			resources: {
+				fuel: 0,
+				W: 0,
+				scrap: 0,
+			},
+		})
+			.then(() =>
+				DB.UPDATE(this.players[id].uuid, 'HighScores', {
+					resources: {
+						fuel: currResources.fuel + resources.resources.fuel,
+						W: currResources.W + resources.resources.W,
+						scrap: currResources.scrap + resources.resources.scrap,
+					},
+				})
+			)
+			.catch((e) => console.error(e));
 	}
 
 	async getResources(data) {
@@ -91,10 +98,11 @@ export default class Game {
 	async addPlayer(socket, data) {
 		const resources = await this.getResources(data);
 		this.players[socket.id] = new Player({
+			uuid: data.uuid,
 			name: data.name,
 			socket: socket,
-			position: { x: 5500, y: 0 },
-			velocity: { x: 0, y: 0 },
+			position: { x: 50000, y: 0 },
+			velocity: { x: 2, y: 0 },
 			rotation: Math.PI / 2,
 			resources: resources,
 		});

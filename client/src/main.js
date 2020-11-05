@@ -67,6 +67,7 @@ export default function main() {
 			socket: socket,
 			enableDS4: true,
 			toggleLayer: engine.toggleLayer.bind(engine),
+			getCurrentResource: engine.getCurrentResource.bind(engine),
 		});
 
 		// Requests terrain options.

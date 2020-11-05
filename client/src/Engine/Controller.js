@@ -2,7 +2,7 @@ import { DEFAULTS, EVENTS } from '../../../shared/Consts';
 
 // Class Representing the COntroller for the game
 export default class Controller {
-	constructor({ socket, enableDS4, toggleLayer }) {
+	constructor({ socket, enableDS4, toggleLayer, getCurrentResource }) {
 		// The Socket of the player
 		this.socket = socket;
 		// A Map, mapping the keyboard keys -> movement commands
@@ -12,6 +12,8 @@ export default class Controller {
 
 		this.using = null;
 
+		this.getCurrentResource = getCurrentResource;
+
 		// Listen for keyboard key-down events
 		document.addEventListener('keydown', (e) => {
 			this.using = 'k';
@@ -20,6 +22,16 @@ export default class Controller {
 				toggleLayer('NameTags');
 				return;
 			}
+
+			if (this.keyMap[e.code] === 'COLLECT-RESOURCES') {
+				const resource = this.getCurrentResource();
+				if (resource) {
+					this.socket.emit(EVENTS.PLAYER_SEND_RESOURCES, resource.getSerialized());
+				}
+
+				return;
+			}
+
 			if (this.keyMap[e.code]) {
 				if (this.using === 'k') {
 					// ...Send an event telling server Player has moved

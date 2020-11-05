@@ -27,7 +27,7 @@ module.exports.POST = async (data) => {
 		await client
 			.query(
 				Update(Ref(Collection('CronStore'), i), {
-					data: d,
+					data: { ...d, id: i },
 				})
 			)
 			.catch((e) => console.log(e.description));

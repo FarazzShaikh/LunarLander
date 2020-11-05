@@ -43,12 +43,15 @@ export default function main(http) {
 			game.movePlayer(socket, typeOfMovement)
 		);
 
-		socket.on(EVENTS.PLAYER_SEND_RESOURCES, (resources) => {
-			game.setResources(socket.id, resources);
-
-			socket.broadcast.emit(EVENTS.SERVER_SEND_CRASHED_SHIPS, {
-				recharge: game.getRechargeStations(),
-			});
+		socket.on(EVENTS.PLAYER_SEND_RESOURCES, (resource) => {
+			game
+				.setResources(socket.id, resource)
+				.then((d) => {
+					socket.broadcast.emit(EVENTS.SERVER_SEND_CRASHED_SHIPS, {
+						recharge: game.getRechargeStations(),
+					});
+				})
+				.catch((e) => console.error(e));
 		});
 
 		// Listens for 'disconnect' events.
