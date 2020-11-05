@@ -84,6 +84,8 @@ export default class Player extends Sprite {
 		this.fuel = fuel;
 		this.health = health;
 		this.nameTag = nameTag;
+
+		this.radarText = '';
 	}
 
 	animate(i) {

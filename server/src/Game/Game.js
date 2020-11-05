@@ -93,7 +93,7 @@ export default class Game {
 		this.players[socket.id] = new Player({
 			name: data.name,
 			socket: socket,
-			position: { x: 5500, y: 0 },
+			position: { x: 18500, y: 0 },
 			velocity: { x: 0, y: 0 },
 			rotation: Math.PI / 2,
 			resources: resources,

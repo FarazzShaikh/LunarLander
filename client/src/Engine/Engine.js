@@ -110,6 +110,7 @@ export default class Engine {
 						},
 						resources: s.resources,
 						collectResource: this.collectResource.bind(this),
+						setRAderText: this.radar.setRaderText.bind(this.radar),
 						scale: 3,
 						zIndex: 11,
 						sprite: sprite_rechargeStation,
@@ -164,6 +165,7 @@ export default class Engine {
 						},
 						resources: s.resources,
 						collectResource: this.collectResource.bind(this),
+						setRAderText: this.radar.setRaderText.bind(this.radar),
 						size: {
 							w: 100,
 							h: 100,
@@ -306,7 +308,8 @@ export default class Engine {
 			}
 		}
 
-		this.players[player.id].setBoostState(player.movementState);
+		if (this.players[player.id])
+			this.players[player.id].setBoostState(player.movementState);
 	}
 
 	update() {

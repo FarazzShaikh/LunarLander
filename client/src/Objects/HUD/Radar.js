@@ -15,6 +15,10 @@ export default class Radar {
 		this.ships = [];
 		this.players = [];
 		this.rechargeStations = [];
+
+		setTimeout(() => {
+			this.notification = document.querySelector('.HUD-notification-text');
+		}, 3000);
 	}
 
 	setShips(ships) {
@@ -27,6 +31,12 @@ export default class Radar {
 
 	setRechargeStations(stations) {
 		this.rechargeStations = stations;
+	}
+
+	setRaderText(text) {
+		if (this.notification) {
+			this.notification.innerHTML = `<h1>${text}</h1>`;
+		}
 	}
 
 	addDot(ship, player, type) {
@@ -92,7 +102,7 @@ export default class Radar {
 				y: numeral(window.innerHeight * 0.5 - anchor.position.y).format('+0.00'),
 			};
 
-			this.HTML.children[1].children[0].textContent = `{ ${p.x}, ${p.y} }`;
+			//this.HTML.children[1].children[0].textContent = `{ ${p.x}, ${p.y} }`;
 		}
 	}
 }

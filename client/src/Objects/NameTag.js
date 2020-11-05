@@ -9,8 +9,6 @@ export default class NameTag extends Node {
 		node.style.margin = '0';
 
 		node.style.position = 'absolute';
-		//node.style.backgroundColor = 'rgba(0,0,0,0.2)';
-		//node.style.boxShadow = '0 0 5px 10px rgba(0,0,0,0.2)';
 
 		node.style.fontFamily = 'monospace';
 		node.style.fontSize = '15px';
