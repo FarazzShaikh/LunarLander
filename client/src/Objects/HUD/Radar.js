@@ -102,7 +102,7 @@ export default class Radar {
 				y: numeral(window.innerHeight * 0.5 - anchor.position.y).format('+0.00'),
 			};
 
-			//this.HTML.children[1].children[0].textContent = `{ ${p.x}, ${p.y} }`;
+			this.HTML.children[1].children[0].textContent = `{ ${p.x}, ${p.y} }`;
 		}
 	}
 }

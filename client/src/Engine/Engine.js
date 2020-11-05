@@ -25,6 +25,7 @@ export default class Engine {
 		this.ships = [];
 		this.rechargeStations = [];
 		this.radar = null;
+		this.currentResource = null;
 	}
 
 	addNodes(nodes, layers) {
@@ -72,25 +73,19 @@ export default class Engine {
 		layer.isHidden ? layer.show() : layer.hide();
 	}
 
-	collectResource(ship) {
-		// this.renderer.removeNode(`Resources-${ship.name}`);
-		// this.ships = this._removeByAttr(this.ships, 'name', `${ship.name}`);
-		// this.rechargeStations = this._removeByAttr(
-		// 	this.rechargeStations,
-		// 	'name',
-		// 	`${ship.name}`
-		// );
-		// this.socket.emit(EVENTS.PLAYER_SEND_RESOURCES, {
-		// 	resources: ship.resources,
-		// 	name: `${ship.name}`,
-		// });
-		//console.log(ship);
+	setCurrentResource(resource) {
+		this.currentResource = resource;
+	}
+
+	getCurrentResource() {
+		return this.currentResource;
 	}
 
 	addRechargeStation(resources) {
 		this.radar.setRechargeStations(resources);
 		this.rechargeStations.forEach((s, i) => {
 			this.renderer.removeNode(`Resources-${s.name}`);
+			this.renderer.removeNode(`NameTags-${s.name}`);
 		});
 
 		this.rechargeStations = resources;
@@ -99,6 +94,7 @@ export default class Engine {
 			this.addNodes(
 				[
 					new Resource({
+						id: s.id,
 						name: `${s.name}`,
 						position: {
 							x: s.xPosition + window.innerWidth / 2 - 60,
@@ -109,7 +105,7 @@ export default class Engine {
 							h: 60,
 						},
 						resources: s.resources,
-						collectResource: this.collectResource.bind(this),
+						setCurrentResource: this.setCurrentResource.bind(this),
 						setRAderText: this.radar.setRaderText.bind(this.radar),
 						scale: 3,
 						zIndex: 11,
@@ -146,6 +142,7 @@ export default class Engine {
 		this.radar.setShips(resources);
 		this.ships.forEach((s, i) => {
 			this.renderer.removeNode(`Resources-${s.name}`);
+			this.renderer.removeNode(`NameTags-${s.name}`);
 		});
 
 		this.ships = resources;
@@ -154,6 +151,7 @@ export default class Engine {
 			this.addNodes(
 				[
 					new Resource({
+						id: s.id,
 						name: `${s.name}`,
 						position: {
 							x: s.xPosition + window.innerWidth / 2 - 300,
@@ -164,7 +162,7 @@ export default class Engine {
 							h: 300,
 						},
 						resources: s.resources,
-						collectResource: this.collectResource.bind(this),
+						setCurrentResource: this.setCurrentResource.bind(this),
 						setRAderText: this.radar.setRaderText.bind(this.radar),
 						size: {
 							w: 100,

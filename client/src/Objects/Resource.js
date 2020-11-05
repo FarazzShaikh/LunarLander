@@ -13,8 +13,9 @@ export default class Resource extends Sprite {
 		size,
 		type,
 
+		id,
 		resources,
-		collectResource,
+		setCurrentResource,
 		setRAderText,
 		hitbox,
 	}) {
@@ -31,14 +32,24 @@ export default class Resource extends Sprite {
 			type,
 		});
 
+		this.id = id;
+
 		this.resources = resources;
-		this.collectResource = collectResource;
+		this.setCurrentResource = setCurrentResource;
 		this.needsUpdate = true;
 		this.hitbox = hitbox;
 
 		this.setRAderText = setRAderText;
 		this.radarText = '';
 	}
+
+	getSerialized() {
+		return {
+			id: this.id,
+			resources: this.resources,
+		};
+	}
+
 	update(node) {
 		const self = node;
 
@@ -66,14 +77,14 @@ export default class Resource extends Sprite {
 						if (self.radarText !== 'Press F to collect.') {
 							self.radarText = 'Press F to collect.';
 							self.setRAderText(self.radarText);
+							self.setCurrentResource(self);
 						}
 					}
-
-					self.collectResource(self);
 				} else {
 					if (self.radarText !== '') {
 						self.radarText = '';
 						self.setRAderText(self.radarText);
+						self.setCurrentResource(null);
 					}
 				}
 
