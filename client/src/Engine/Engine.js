@@ -291,20 +291,19 @@ export default class Engine {
 
 			radarPlayers = this._removeByAttr(radarPlayers, 'id', player.id);
 			radarPlayers.push(player);
-			return;
-		}
+		} else {
+			if (this.players[player.id]) {
+				this.players[player.id].transform({
+					position: player.position,
+					rotation: player.rotation,
+				});
 
-		if (this.players[player.id]) {
-			this.players[player.id].transform({
-				position: player.position,
-				rotation: player.rotation,
-			});
-
-			this.players[player.id].setVelocity(player.velocity);
-			this.players[player.id].setSystems({
-				fuel: player.resources.fuel,
-				health: player.health,
-			});
+				this.players[player.id].setVelocity(player.velocity);
+				this.players[player.id].setSystems({
+					fuel: player.resources.fuel,
+					health: player.health,
+				});
+			}
 		}
 
 		this.players[player.id].setBoostState(player.movementState);
