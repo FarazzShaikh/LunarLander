@@ -34,7 +34,10 @@ export default class Collision {
 			if (player.health <= 0) {
 				player.socket.emit(
 					REQUEST.REQUEST_DELETE_PLAYER.req
-				);
+				)
+			}
+			else {
+				player.health -= player.velocity.y * DEFAULTS.COLLISION.dmg
 			}
 		}
 
