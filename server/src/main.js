@@ -47,6 +47,9 @@ export default function main(http) {
 			game
 				.setResources(socket.id, resource)
 				.then((d) => {
+					socket.emit(EVENTS.SERVER_SEND_CRASHED_SHIPS, {
+						recharge: game.getRechargeStations(),
+					});
 					socket.broadcast.emit(EVENTS.SERVER_SEND_CRASHED_SHIPS, {
 						recharge: game.getRechargeStations(),
 					});

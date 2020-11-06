@@ -81,7 +81,9 @@ export default class Game {
 	}
 
 	async getResources(data) {
-		return DB.GET(data.uuid, 'HighScores').then((r) => r.resources);
+		return DB.GET(data.uuid, 'HighScores').then((r) => {
+			return { resources: r.resources, score: r.score };
+		});
 	}
 
 	/**
@@ -96,7 +98,7 @@ export default class Game {
 	 * @param {Socket} socket Socket of the player to add.
 	 */
 	async addPlayer(socket, data) {
-		const resources = await this.getResources(data);
+		const { resources, score } = await this.getResources(data);
 		this.players[socket.id] = new Player({
 			uuid: data.uuid,
 			name: data.name,
@@ -105,6 +107,7 @@ export default class Game {
 			velocity: { x: 2, y: 0 },
 			rotation: Math.PI / 2,
 			resources: resources,
+			score: score,
 		});
 		this.collision.setPlayers(this.players);
 	}
