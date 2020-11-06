@@ -30,7 +30,9 @@ export default class NameTag extends Node {
 	}
 
 	setText(text) {
-		this.HTML.innerHTML = text;
+		if (this._isInViewport(this.position, 300 * 2)) {
+			this.HTML.innerHTML = text;
+		}
 	}
 
 	update(node) {

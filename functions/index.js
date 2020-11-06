@@ -10,7 +10,7 @@ exports.genCrachedShips = functions.pubsub
 		const interval = 173;
 
 		const crashedShips = [];
-		for (let i = 0; i < number * interval; i += interval) {
+		for (let i = 0; i < number; i++) {
 			crashedShips.push(
 				new CrashedShip({
 					xPosition: i * interval * Math.random() + 1 * 100,
@@ -19,5 +19,7 @@ exports.genCrachedShips = functions.pubsub
 			);
 		}
 
-		POST(crashedShips).catch((e) => console.log(e.description));
+		return POST(crashedShips)
+			.catch((e) => console.log(e.description))
+			.then(() => null);
 	});

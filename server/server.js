@@ -22,7 +22,7 @@ app.get('/api/scores/:uuid', async (req, res) => {
 
 // Endpoint to get all Crashed Ship Locations
 app.get('/api/CrashedShips/', async (req, res) => {
-	res.send(await DB.GET('null', 'CronStore'));
+	res.send(await DB.GET('null', 'Ships'));
 });
 
 app.post('/api/registerUser/', (req, res) => {

@@ -188,8 +188,8 @@ export default class Engine {
 							</div>
 						`,
 						position: {
-							x: s.xPosition + window.innerWidth / 2,
-							y: this.terrain[1].sample(s.xPosition, this.offset) - 250,
+							x: s.xPosition + window.innerWidth / 2 + 30,
+							y: this.terrain[1].sample(s.xPosition, this.offset) - 180,
 						},
 					}),
 				],
@@ -262,9 +262,7 @@ export default class Engine {
 		});
 
 		this.radar.setPlayers(radarPlayers);
-		setTimeout(() => {
-			this.setAnchor(`Players-${this.players[this.me].name}`);
-		}, 100);
+		this.setAnchor(`Players-${this.players[this.me].name}`);
 	}
 
 	updatePlayer(player) {
@@ -306,8 +304,9 @@ export default class Engine {
 			}
 		}
 
-		if (this.players[player.id])
+		if (this.players[player.id]) {
 			this.players[player.id].setBoostState(player.movementState);
+		}
 	}
 
 	update() {

@@ -45,6 +45,7 @@ export default class Resource extends Sprite {
 
 	getSerialized() {
 		return {
+			name: this.name,
 			id: this.id,
 			resources: this.resources,
 		};

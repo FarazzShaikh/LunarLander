@@ -59,25 +59,52 @@ export default class Game {
 	}
 
 	async setResources(id, resources) {
-		console.log(resources);
 		const currResources = this.players[id].resources;
-		return DB.UPDATE(resources.id, 'CronStore', {
-			resources: {
-				fuel: 0,
-				W: 0,
-				scrap: 0,
-			},
-		})
-			.then(() =>
-				DB.UPDATE(this.players[id].uuid, 'HighScores', {
-					resources: {
-						fuel: currResources.fuel + resources.resources.fuel,
-						W: currResources.W + resources.resources.W,
-						scrap: currResources.scrap + resources.resources.scrap,
-					},
+
+		if (resources.name.includes('STATION')) {
+			const station = this.rechargeStations.find((s) => s.name === resources.name);
+			this.rechargeStations = this._removeByAttr(
+				this.rechargeStations,
+				'name',
+				station.name
+			);
+
+			console.log('name', station.resources);
+			return DB.UPDATE(this.players[id].uuid, 'HighScores', {
+				resources: {
+					fuel: station.resources.fuel + currResources.fuel,
+					W: station.resources.W + currResources.W,
+					scrap: station.resources.scrap + currResources.scrap,
+				},
+			})
+				.then(() => {
+					station.resources = {
+						fuel: 0,
+						W: 0,
+						scrap: 0,
+					};
+					this.rechargeStations.push(station);
 				})
-			)
-			.catch((e) => console.error(e));
+				.catch((e) => console.error(e));
+		} else {
+			return DB.UPDATE(resources.id, 'Ships', {
+				resources: {
+					fuel: 0,
+					W: 0,
+					scrap: 0,
+				},
+			})
+				.then(() =>
+					DB.UPDATE(this.players[id].uuid, 'HighScores', {
+						resources: {
+							fuel: currResources.fuel + resources.resources.fuel,
+							W: currResources.W + resources.resources.W,
+							scrap: currResources.scrap + resources.resources.scrap,
+						},
+					})
+				)
+				.catch((e) => console.error(e));
+		}
 	}
 
 	async getResources(data) {
@@ -103,8 +130,8 @@ export default class Game {
 			uuid: data.uuid,
 			name: data.name,
 			socket: socket,
-			position: { x: 50000, y: 0 },
-			velocity: { x: 2, y: 0 },
+			position: { x: this.rechargeStations[1].xPosition, y: 0 },
+			velocity: { x: 0, y: 0 },
 			rotation: Math.PI / 2,
 			resources: resources,
 			score: score,

@@ -4,7 +4,7 @@ import { Modal_main } from './src/SplashScreen/SplashScreen';
 import FingerprintJS from '@fingerprintjs/fingerprintjs';
 // Entrypoint
 
-const dev_login_bypass = false;
+const dev_login_bypass = true;
 const dev_only_splash = false;
 
 if (dev_only_splash) {
