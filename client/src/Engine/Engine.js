@@ -5,6 +5,7 @@ import Terrain from '../Objects/Terrain';
 
 import sprite_rechargeStation from '../../Assets/Misc/RechargeStation/RechargeStation.webm';
 import sprite_ships from '../../Assets/Misc/Ships/Ships.webm';
+import NameTag from '../Objects/NameTag';
 
 // Class Representing the Engine
 export default class Engine {
@@ -24,6 +25,7 @@ export default class Engine {
 		this.ships = [];
 		this.rechargeStations = [];
 		this.radar = null;
+		this.currentResource = null;
 	}
 
 	addNodes(nodes, layers) {
@@ -66,29 +68,24 @@ export default class Engine {
 		this.radar = radar;
 	}
 
-	applyController(input) {
-		this.players[this.me].setBoostState(input);
+	toggleLayer(name) {
+		const layer = this.renderer.getLayer(name);
+		layer.isHidden ? layer.show() : layer.hide();
 	}
 
-	collectResource(ship) {
-		// this.renderer.removeNode(`Resources-${ship.name}`);
-		// this.ships = this._removeByAttr(this.ships, 'name', `${ship.name}`);
-		// this.rechargeStations = this._removeByAttr(
-		// 	this.rechargeStations,
-		// 	'name',
-		// 	`${ship.name}`
-		// );
-		// this.socket.emit(EVENTS.PLAYER_SEND_RESOURCES, {
-		// 	resources: ship.resources,
-		// 	name: `${ship.name}`,
-		// });
-		//console.log(ship);
+	setCurrentResource(resource) {
+		this.currentResource = resource;
+	}
+
+	getCurrentResource() {
+		return this.currentResource;
 	}
 
 	addRechargeStation(resources) {
 		this.radar.setRechargeStations(resources);
 		this.rechargeStations.forEach((s, i) => {
 			this.renderer.removeNode(`Resources-${s.name}`);
+			this.renderer.removeNode(`NameTags-${s.name}`);
 		});
 
 		this.rechargeStations = resources;
@@ -97,24 +94,44 @@ export default class Engine {
 			this.addNodes(
 				[
 					new Resource({
+						id: s.id,
 						name: `${s.name}`,
 						position: {
 							x: s.xPosition + window.innerWidth / 2 - 60,
 							y: this.terrain[1].sample(s.xPosition, this.offset) - 60,
 						},
 						hitbox: {
-							x: s.xPosition + window.innerWidth / 2 - 20,
-							y: this.terrain[1].sample(s.xPosition, this.offset) - 20,
+							w: 60,
+							h: 60,
 						},
 						resources: s.resources,
-						collectResource: this.collectResource.bind(this),
+						setCurrentResource: this.setCurrentResource.bind(this),
+						setRAderText: this.radar.setRaderText.bind(this.radar),
 						scale: 3,
 						zIndex: 11,
 						sprite: sprite_rechargeStation,
 						type: 'gif',
 					}),
+					new NameTag({
+						name: `${s.name}`,
+						color: '#eeedab',
+						string: `
+							<div>
+								<div>${s.name}</div>
+								<div>&emsp;{</div>
+								<div>&emsp;&emsp;Fuel: ${s.resources.fuel}</div>
+								<div>&emsp;&emsp;W: ${s.resources.W}</div>
+								<div>&emsp;&emsp;Scrap: ${s.resources.scrap}</div>
+								<div>&emsp;}</div>
+							</div>
+						`,
+						position: {
+							x: s.xPosition + window.innerWidth / 2 + 60,
+							y: this.terrain[1].sample(s.xPosition, this.offset) - 110,
+						},
+					}),
 				],
-				['Resources']
+				['Resources', 'NameTags']
 			);
 
 			this.radar.addDot(s.xPosition, this.players[this.me].position.x);
@@ -125,6 +142,7 @@ export default class Engine {
 		this.radar.setShips(resources);
 		this.ships.forEach((s, i) => {
 			this.renderer.removeNode(`Resources-${s.name}`);
+			this.renderer.removeNode(`NameTags-${s.name}`);
 		});
 
 		this.ships = resources;
@@ -133,17 +151,19 @@ export default class Engine {
 			this.addNodes(
 				[
 					new Resource({
+						id: s.id,
 						name: `${s.name}`,
 						position: {
 							x: s.xPosition + window.innerWidth / 2 - 300,
 							y: this.terrain[1].sample(s.xPosition, this.offset) - 300,
 						},
 						hitbox: {
-							x: s.xPosition + window.innerWidth / 2 - 20,
-							y: this.terrain[1].sample(s.xPosition, this.offset) - 20,
+							w: 300,
+							h: 300,
 						},
 						resources: s.resources,
-						collectResource: this.collectResource.bind(this),
+						setCurrentResource: this.setCurrentResource.bind(this),
+						setRAderText: this.radar.setRaderText.bind(this.radar),
 						size: {
 							w: 100,
 							h: 100,
@@ -154,8 +174,26 @@ export default class Engine {
 						sprite: sprite_ships,
 						type: 'gif',
 					}),
+					new NameTag({
+						name: `${s.name}`,
+						color: '#abeeab',
+						string: `
+							<div>
+								<div>${s.name}</div>
+								<div>&emsp;{</div>
+								<div>&emsp;&emsp;Fuel: ${s.resources.fuel}</div>
+								<div>&emsp;&emsp;W: ${s.resources.W}</div>
+								<div>&emsp;&emsp;Scrap: ${s.resources.scrap}</div>
+								<div>&emsp;}</div>
+							</div>
+						`,
+						position: {
+							x: s.xPosition + window.innerWidth / 2,
+							y: this.terrain[1].sample(s.xPosition, this.offset) - 250,
+						},
+					}),
 				],
-				['Resources']
+				['Resources', 'NameTags']
 			);
 
 			this.radar.addDot(s.xPosition, this.players[this.me].position.x);
@@ -168,17 +206,42 @@ export default class Engine {
 	 */
 	updatePlayers(players) {
 		Object.values(this.players).forEach((p) => {
+			if (p.nameTag) {
+				this.renderer.removeNode(`NameTags-${p.name}`);
+			}
+
 			p.removeDomNode();
-			this.renderer.removeNode(p.id);
+			this.renderer.removeNode(p.name);
 		});
 
 		this.players = {};
 
 		let radarPlayers = [];
+		let nameTag = null;
 		players.forEach((p) => {
 			if (p.id !== this.me) {
 				radarPlayers.push(p);
+
+				nameTag = new NameTag({
+					name: `${p.id}`,
+					color: '#eeabab',
+					string: `
+						<div>
+							<div>${p.name}</div>
+							<div>&emsp;{</div>
+							<div>&emsp;&emsp;Fuel: ${p.resources.fuel}</div>
+							<div>&emsp;&emsp;W: ${p.resources.W}</div>
+							<div>&emsp;&emsp;Scrap: ${p.resources.scrap}</div>
+							<div>&emsp;}</div>
+						</div>
+					`,
+					position: {
+						x: p.position.x + window.innerWidth / 2,
+						y: p.position.y - 110,
+					},
+				});
 			}
+
 			this.addNodes(
 				[
 					new Player({
@@ -188,16 +251,21 @@ export default class Engine {
 						velocity: p.velocity,
 						fuel: p.resources.fuel,
 						health: p.health,
+						nameTag: nameTag,
 					}),
 				],
 				['Players']
 			);
+
+			if (nameTag) {
+				this.addNodes([nameTag], ['NameTags']);
+			}
 		});
 
 		this.radar.setPlayers(radarPlayers);
 		setTimeout(() => {
 			this.setAnchor(`Players-${this.players[this.me].name}`);
-		}, 10);
+		}, 100);
 	}
 
 	updatePlayer(player) {
@@ -211,26 +279,35 @@ export default class Engine {
 					},
 					rotation: player.rotation,
 				});
-				this.players[player.id].setBoostState(player.movementState);
+
+				this.players[player.id].nameTag.transform({
+					position: {
+						x: player.position.x + window.innerWidth / 2,
+						y: player.position.y - 110,
+					},
+					rotation: 0,
+				});
 			}
 
 			radarPlayers = this._removeByAttr(radarPlayers, 'id', player.id);
 			radarPlayers.push(player);
-			return;
+		} else {
+			if (this.players[player.id]) {
+				this.players[player.id].transform({
+					position: player.position,
+					rotation: player.rotation,
+				});
+
+				this.players[player.id].setVelocity(player.velocity);
+				this.players[player.id].setSystems({
+					fuel: player.resources.fuel,
+					health: player.health,
+				});
+			}
 		}
 
-		if (this.players[player.id]) {
-			this.players[player.id].transform({
-				position: player.position,
-				rotation: player.rotation,
-			});
-
-			this.players[player.id].setVelocity(player.velocity);
-			this.players[player.id].setSystems({
-				fuel: player.resources.fuel,
-				health: player.health,
-			});
-		}
+		if (this.players[player.id])
+			this.players[player.id].setBoostState(player.movementState);
 	}
 
 	update() {

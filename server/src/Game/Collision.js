@@ -1,13 +1,16 @@
 import { DEFAULTS, REQUEST } from '../../../shared/Consts';
-import { makeOctaves, Simple1DNoise } from '../../../shared/utils/SimplexNoise';
+import {
+	noise as noisefunc,
+	noiseSeed,
+	makeOctaves,
+} from '../../../shared/utils/noise';
 
 export default class Collision {
 	constructor(seed, window) {
 		this.seed = seed;
 		this.window = window;
 		this.players = {};
-
-		this.noise = new Simple1DNoise(seed);
+		noiseSeed(seed);
 	}
 
 	setPlayers(players) {
@@ -16,7 +19,7 @@ export default class Collision {
 
 	didColide(player) {
 		const noise =
-			makeOctaves(this.noise.getVal, player.position.x, {
+			makeOctaves(noisefunc, player.position.x + this.window.w / 2, {
 				octaves: DEFAULTS.GENERATION.OCTAVES,
 				frequency: DEFAULTS.GENERATION.SCALE,
 				lacunarity: DEFAULTS.GENERATION.LACUNARITY,
@@ -26,7 +29,8 @@ export default class Collision {
 			(this.window.h * 0.7 - this.window.h * 0.55) +
 			this.window.h * 0.55;
 
-		if (player.position.y + 25 / 2 >= noise && player.velocity.y > 0.3) {
+		if (player.position.y + 60 >= noise && player.velocity.y > 0.3) {
+			player.health -= player.velocity.y * DEFAULTS.COLLISION.dmg
 			if (player.health <= 0) {
 				player.socket.emit(
 					REQUEST.REQUEST_DELETE_PLAYER.req
@@ -37,6 +41,6 @@ export default class Collision {
 			}
 		}
 
-		return player.position.y + 25 / 2 >= noise;
+		return player.position.y + 60 >= noise;
 	}
 }

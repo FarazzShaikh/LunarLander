@@ -13,8 +13,10 @@ export default class Resource extends Sprite {
 		size,
 		type,
 
+		id,
 		resources,
-		collectResource,
+		setCurrentResource,
+		setRAderText,
 		hitbox,
 	}) {
 		super({
@@ -30,13 +32,27 @@ export default class Resource extends Sprite {
 			type,
 		});
 
+		this.id = id;
+
 		this.resources = resources;
-		this.collectResource = collectResource;
+		this.setCurrentResource = setCurrentResource;
 		this.needsUpdate = true;
 		this.hitbox = hitbox;
+
+		this.setRAderText = setRAderText;
+		this.radarText = '';
 	}
+
+	getSerialized() {
+		return {
+			id: this.id,
+			resources: this.resources,
+		};
+	}
+
 	update(node) {
 		const self = node;
+
 		let p = { ...self.position };
 		const s = self.scale;
 		const r = self.rotation;
@@ -50,20 +66,65 @@ export default class Resource extends Sprite {
 				//p.y -= this.anchor.position.y;
 			}
 
-			const screenPosX = self.hitbox.x - window.innerWidth / 2;
+			if (self._isInViewport(p, self.hitbox.w * 2)) {
+				if (AABB.collide(self.HTML, this.anchor.HTML)) {
+					if (this.anchor.velocity.x > 0 || this.anchor.velocity.y > 0) {
+						if (self.radarText !== 'Land to collect resources!') {
+							self.radarText = 'Land to collect resources!';
+							self.setRAderText(self.radarText);
+						}
+					} else {
+						if (self.radarText !== 'Press F to collect.') {
+							self.radarText = 'Press F to collect.';
+							self.setRAderText(self.radarText);
+							self.setCurrentResource(self);
+						}
+					}
+				} else {
+					if (self.radarText !== '') {
+						self.radarText = '';
+						self.setRAderText(self.radarText);
+						self.setCurrentResource(null);
+					}
+				}
 
-			if (
-				this.anchor.position.x < screenPosX + 10 &&
-				this.anchor.position.x > screenPosX - 40 &&
-				this.anchor.position.y < self.hitbox.y + 100 &&
-				this.anchor.position.y > self.hitbox.y - 100
-			) {
-				self.collectResource(self);
+				if (self.HTML.style.display !== 'block') self.HTML.style.display = 'block';
+				self.HTML.style.transform = `translate(${p.x}px,${p.y}px) rotate(${r}rad)`;
+				self.HTML.style.width = `${s * self.size.w}px`;
+				self.HTML.style.height = `${s * self.size.h}px`;
+			} else {
+				if (self.HTML.style.display !== 'none') self.HTML.style.display = 'none';
 			}
-
-			self.HTML.style.transform = `translate(${p.x}px,${p.y}px) rotate(${r}rad)`;
-			self.HTML.style.width = `${s * self.size.w}px`;
-			self.HTML.style.height = `${s * self.size.h}px`;
 		}
 	}
 }
+
+var AABB = {
+	collide: function (el1, el2) {
+		var rect1 = el1.getBoundingClientRect();
+		var rect2 = el2.getBoundingClientRect();
+
+		return !(
+			rect1.top > rect2.bottom ||
+			rect1.right < rect2.left ||
+			rect1.bottom < rect2.top ||
+			rect1.left > rect2.right
+		);
+	},
+
+	inside: function (el1, el2) {
+		var rect1 = el1.getBoundingClientRect();
+		var rect2 = el2.getBoundingClientRect();
+
+		return (
+			rect2.top <= rect1.top &&
+			rect1.top <= rect2.bottom &&
+			rect2.top <= rect1.bottom &&
+			rect1.bottom <= rect2.bottom &&
+			rect2.left <= rect1.left &&
+			rect1.left <= rect2.right &&
+			rect2.left <= rect1.right &&
+			rect1.right <= rect2.right
+		);
+	},
+};

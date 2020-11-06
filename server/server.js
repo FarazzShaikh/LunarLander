@@ -7,20 +7,45 @@ const app = express();
 var http = require('http').createServer(app);
 const dotenv = require('dotenv').config();
 const reload = require('reload');
+const bodyParser = require('body-parser');
 
 const port = process.env.PORT || 3000;
 
 // Init Database
 DB.init();
+app.use(bodyParser.json());
 
 // Endpoint to get all Scores or Scores with uuid
-app.get('/scores/:uuid', async (req, res) => {
+app.get('/api/scores/:uuid', async (req, res) => {
 	res.send(await DB.GET(req.params.uuid, 'HighScores'));
 });
 
 // Endpoint to get all Crashed Ship Locations
-app.get('/CrashedShips/', async (req, res) => {
-	res.send(await DB.GET(undefined, 'CronStore'));
+app.get('/api/CrashedShips/', async (req, res) => {
+	res.send(await DB.GET('null', 'CronStore'));
+});
+
+app.post('/api/registerUser/', (req, res) => {
+	const body = req.body;
+	const uuid = new Date().valueOf();
+	DB.POST(uuid, 'HighScores', {
+		uuid: uuid,
+		fingerprint: body.fingerprint,
+		userName: body.name,
+		resources: {
+			fuel: 100,
+			W: 1000,
+			scrap: 0,
+		},
+	})
+		.then(() => {
+			res.send({ uuid });
+			res.sendStatus(200);
+		})
+		.catch((e) => {
+			res.sendStatus(500);
+			console.error(e.description);
+		});
 });
 
 // Serves client folder as a static resource at root url.

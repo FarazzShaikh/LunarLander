@@ -3,8 +3,14 @@
 
 ![uses-javascript](https://badgen.net/badge/Uses/Javascript/f0db4f)
 ![uses-Node](https://badgen.net/badge/Uses/NodeJS/80bd01)
+![uses-Express](https://badgen.net/badge/Uses/ExpressJS/f0db4f)
+![uses-SocketIO](https://badgen.net/badge/Uses/Socket.IO/323fcb)
 ![uses-npm](https://badgen.net/badge/Uses/npm/e32e37)
-![uses-Firebase](https://badgen.net/badge/Uses/Cloud-Functions/4285f4)
+![uses-CloudFunctions](https://badgen.net/badge/Uses/Cloud-Functions/4285f4)
+![uses-FaunaDB](https://badgen.net/badge/Uses/FaunaDB/323fcb)
+![uses-Webpack](https://badgen.net/badge/Uses/Webpack/8ed6fb)
+![uses-Heroku](https://badgen.net/badge/Uses/Heroku/5a1db2)
+
 
 [Launch Lunar Lander Pre-Alpha](https://lunar-lander-js.herokuapp.com/)
 
@@ -17,7 +23,6 @@
 | Rotate Left | `Left Arrow Key` | `L1` |
 | Rotate Right | `Right Arrow Key` | `R1` |
 
-Althought this gif does not demo it, Lunar Lander is a Relatime Massively multiplayer game.
 
 ## **Overview**
 ### What is Lunar Lander?
@@ -34,5 +39,4 @@ Our version of Lunar Lander will be a multiplayer game that allows there to be m
 |  [Mostafa Elsayed](https://github.com/TheChosenSir) |  mme10 | Backend Developer  | Helping impliment serverside code |
 
 ### TODO: Rewrite Readme.
-
 

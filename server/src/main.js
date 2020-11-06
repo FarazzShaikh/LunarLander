@@ -24,16 +24,17 @@ export default function main(http) {
 		});
 
 		// Listens for a request to add player to the Game.
-		socket.on(REQUEST.REQUEST_NEW_PLAYER.req, async () => {
+		socket.on(REQUEST.REQUEST_NEW_PLAYER.req, (data) => {
 			// Adds current connected player to the game.
-			await game.addPlayer(socket);
-			// Sends an acknowledgement with a list of all players in the game to the ender of the request.
-			socket.emit(REQUEST.REQUEST_NEW_PLAYER.ack, game.getPlayers());
-			// Sends a list of all players in the game to the rest of the players in the game.
-			socket.broadcast.emit(EVENTS.SERVER_UPDATE_PLAYERS, game.getPlayers());
+			game.addPlayer(socket, data).then(() => {
+				// Sends an acknowledgement with a list of all players in the game to the ender of the request.
+				socket.emit(REQUEST.REQUEST_NEW_PLAYER.ack, game.getPlayers());
+				// Sends a list of all players in the game to the rest of the players in the game.
+				socket.broadcast.emit(EVENTS.SERVER_UPDATE_PLAYERS, game.getPlayers());
 
-			socket.emit(EVENTS.SERVER_SEND_CRASHED_SHIPS, {
-				recharge: game.getRechargeStations(),
+				socket.emit(EVENTS.SERVER_SEND_CRASHED_SHIPS, {
+					recharge: game.getRechargeStations(),
+				});
 			});
 		});
 
@@ -42,12 +43,15 @@ export default function main(http) {
 			game.movePlayer(socket, typeOfMovement)
 		);
 
-		socket.on(EVENTS.PLAYER_SEND_RESOURCES, (resources) => {
-			game.setResources(socket.id, resources);
-
-			socket.broadcast.emit(EVENTS.SERVER_SEND_CRASHED_SHIPS, {
-				recharge: game.getRechargeStations(),
-			});
+		socket.on(EVENTS.PLAYER_SEND_RESOURCES, (resource) => {
+			game
+				.setResources(socket.id, resource)
+				.then((d) => {
+					socket.broadcast.emit(EVENTS.SERVER_SEND_CRASHED_SHIPS, {
+						recharge: game.getRechargeStations(),
+					});
+				})
+				.catch((e) => console.error(e));
 		});
 
 		// Listens for 'disconnect' events.
