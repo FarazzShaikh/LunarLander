@@ -226,18 +226,16 @@ export default class Engine {
 					name: `${p.id}`,
 					color: '#eeabab',
 					string: `
-						<div>
-							<div>${p.name}</div>
-							<div>&emsp;{</div>
-							<div>&emsp;&emsp;Fuel: ${p.resources.fuel}</div>
-							<div>&emsp;&emsp;W: ${p.resources.W}</div>
-							<div>&emsp;&emsp;Scrap: ${p.resources.scrap}</div>
-							<div>&emsp;}</div>
-						</div>
+					<div>
+						<div>${p.name}</div>
+						<div>&emsp;{</div>
+						<div>&emsp;&emsp;Value: ${p.score}</div>
+						<div>&emsp;}</div>
+					</div>
 					`,
 					position: {
 						x: p.position.x + window.innerWidth / 2,
-						y: p.position.y - 110,
+						y: p.position.y - 70,
 					},
 				});
 			}
@@ -245,6 +243,7 @@ export default class Engine {
 			this.addNodes(
 				[
 					new Player({
+						usrname: p.name,
 						id: p.id,
 						position: p.position,
 						rotation: p.rotation,
@@ -283,7 +282,7 @@ export default class Engine {
 				this.players[player.id].nameTag.transform({
 					position: {
 						x: player.position.x + window.innerWidth / 2,
-						y: player.position.y - 110,
+						y: player.position.y - 70,
 					},
 					rotation: 0,
 				});
@@ -303,6 +302,7 @@ export default class Engine {
 					fuel: player.resources.fuel,
 					health: player.health,
 				});
+				this.players[player.id].setNameTag(player.score);
 			}
 		}
 
