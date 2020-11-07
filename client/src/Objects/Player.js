@@ -25,14 +25,17 @@ export default class Player extends Sprite {
 		fuel,
 		health,
 		nameTag,
+		usrname,
 	}) {
 		super({
 			name: `${id}`,
 			sprite: Char_Fly,
 			position: position,
 			rotation: rotation,
+			zIndex: 10,
 			//scale: 0.5,
 		});
+		this.usrname = usrname;
 
 		this.HTML.style.padding = '8px';
 		this.HTML.style.borderRadius = '100px';
@@ -84,6 +87,7 @@ export default class Player extends Sprite {
 		this.fuel = fuel;
 		this.health = health;
 		this.nameTag = nameTag;
+		this.score = 0;
 
 		this.radarText = '';
 	}
@@ -149,6 +153,20 @@ export default class Player extends Sprite {
 	setSystems({ fuel, health }) {
 		this.fuel = fuel;
 		this.health = health;
+	}
+
+	setNameTag(score) {
+		this.score = score;
+		if (this.nameTag) {
+			this.nameTag.setText(`
+		<div>
+			<div>${this.usrname}</div>
+			<div>&emsp;{</div>
+			<div>&emsp;&emsp;Value: ${this.score}</div>
+			<div>&emsp;}</div>
+		</div>
+		`);
+		}
 	}
 
 	update(node) {

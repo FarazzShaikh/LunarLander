@@ -188,8 +188,8 @@ export default class Engine {
 							</div>
 						`,
 						position: {
-							x: s.xPosition + window.innerWidth / 2,
-							y: this.terrain[1].sample(s.xPosition, this.offset) - 250,
+							x: s.xPosition + window.innerWidth / 2 + 30,
+							y: this.terrain[1].sample(s.xPosition, this.offset) - 180,
 						},
 					}),
 				],
@@ -226,18 +226,16 @@ export default class Engine {
 					name: `${p.id}`,
 					color: '#eeabab',
 					string: `
-						<div>
-							<div>${p.name}</div>
-							<div>&emsp;{</div>
-							<div>&emsp;&emsp;Fuel: ${p.resources.fuel}</div>
-							<div>&emsp;&emsp;W: ${p.resources.W}</div>
-							<div>&emsp;&emsp;Scrap: ${p.resources.scrap}</div>
-							<div>&emsp;}</div>
-						</div>
+					<div>
+						<div>${p.name}</div>
+						<div>&emsp;{</div>
+						<div>&emsp;&emsp;Value: ${p.score}</div>
+						<div>&emsp;}</div>
+					</div>
 					`,
 					position: {
 						x: p.position.x + window.innerWidth / 2,
-						y: p.position.y - 110,
+						y: p.position.y - 70,
 					},
 				});
 			}
@@ -245,6 +243,7 @@ export default class Engine {
 			this.addNodes(
 				[
 					new Player({
+						usrname: p.name,
 						id: p.id,
 						position: p.position,
 						rotation: p.rotation,
@@ -263,9 +262,7 @@ export default class Engine {
 		});
 
 		this.radar.setPlayers(radarPlayers);
-		setTimeout(() => {
-			this.setAnchor(`Players-${this.players[this.me].name}`);
-		}, 100);
+		this.setAnchor(`Players-${this.players[this.me].name}`);
 	}
 
 	updatePlayer(player) {
@@ -283,7 +280,7 @@ export default class Engine {
 				this.players[player.id].nameTag.transform({
 					position: {
 						x: player.position.x + window.innerWidth / 2,
-						y: player.position.y - 110,
+						y: player.position.y - 70,
 					},
 					rotation: 0,
 				});
@@ -303,11 +300,13 @@ export default class Engine {
 					fuel: player.resources.fuel,
 					health: player.health,
 				});
+				this.players[player.id].setNameTag(player.score);
 			}
 		}
 
-		if (this.players[player.id])
+		if (this.players[player.id]) {
 			this.players[player.id].setBoostState(player.movementState);
+		}
 	}
 
 	update() {

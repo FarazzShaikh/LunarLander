@@ -35,17 +35,27 @@ export default class Game {
 
 	genRechargeStations() {
 		const number = DEFAULTS.GENERATION.N_RECHARGE_STATION;
-		const interval = DEFAULTS.GENERATION.INTERVAL_RECHARGE_STATION;
+		const minInterval = DEFAULTS.GENERATION.MIN_INTERVAL_RECHARGE_STATION;
 
-		this.rechargeStations = [];
-		for (let i = 0; i < number * interval; i += interval) {
-			this.rechargeStations.push(
+		let pPos = 0;
+		let tries = 0;
+
+		const rechargeStations = [];
+		for (let i = 0; i < number; i++) {
+			let pos = Math.random() * 500000;
+			while (Math.abs(pos - pPos) < minInterval || tries < 5) {
+				pos = Math.random() * 500000;
+				tries++;
+			}
+			rechargeStations.push(
 				new RechargeStation({
-					xPosition: i * interval * Math.random() + this.terrainSeed * 100,
-					seed: this.terrainSeed,
+					xPosition: pos,
+					seed: 1,
 				})
 			);
+			pPos = pos;
 		}
+		this.rechargeStations = rechargeStations;
 	}
 
 	getRechargeStations() {
@@ -59,29 +69,58 @@ export default class Game {
 	}
 
 	async setResources(id, resources) {
-		console.log(resources);
 		const currResources = this.players[id].resources;
-		return DB.UPDATE(resources.id, 'CronStore', {
-			resources: {
-				fuel: 0,
-				W: 0,
-				scrap: 0,
-			},
-		})
-			.then(() =>
-				DB.UPDATE(this.players[id].uuid, 'HighScores', {
-					resources: {
-						fuel: currResources.fuel + resources.resources.fuel,
-						W: currResources.W + resources.resources.W,
-						scrap: currResources.scrap + resources.resources.scrap,
-					},
+
+		if (resources.name.includes('STATION')) {
+			const station = this.rechargeStations.find((s) => s.name === resources.name);
+			this.rechargeStations = this._removeByAttr(
+				this.rechargeStations,
+				'name',
+				station.name
+			);
+
+			console.log('name', station.resources);
+			return DB.UPDATE(this.players[id].uuid, 'HighScores', {
+				resources: {
+					fuel: station.resources.fuel + currResources.fuel,
+					W: station.resources.W + currResources.W,
+					scrap: station.resources.scrap + currResources.scrap,
+				},
+			})
+				.then(() => {
+					station.resources = {
+						fuel: 0,
+						W: 0,
+						scrap: 0,
+					};
+					this.rechargeStations.push(station);
 				})
-			)
-			.catch((e) => console.error(e));
+				.catch((e) => console.error(e));
+		} else {
+			return DB.UPDATE(resources.id, 'Ships', {
+				resources: {
+					fuel: 0,
+					W: 0,
+					scrap: 0,
+				},
+			})
+				.then(() =>
+					DB.UPDATE(this.players[id].uuid, 'HighScores', {
+						resources: {
+							fuel: currResources.fuel + resources.resources.fuel,
+							W: currResources.W + resources.resources.W,
+							scrap: currResources.scrap + resources.resources.scrap,
+						},
+					})
+				)
+				.catch((e) => console.error(e));
+		}
 	}
 
 	async getResources(data) {
-		return DB.GET(data.uuid, 'HighScores').then((r) => r.resources);
+		return DB.GET(data.uuid, 'HighScores').then((r) => {
+			return { resources: r.resources, score: r.score };
+		});
 	}
 
 	/**
@@ -96,17 +135,20 @@ export default class Game {
 	 * @param {Socket} socket Socket of the player to add.
 	 */
 	async addPlayer(socket, data) {
-		const resources = await this.getResources(data);
+		const { resources, score } = await this.getResources(data);
 		this.players[socket.id] = new Player({
 			uuid: data.uuid,
 			name: data.name,
 			socket: socket,
-			position: { x: 50000, y: 0 },
-			velocity: { x: 2, y: 0 },
+			position: { x: this.rechargeStations[1].xPosition, y: 0 },
+			velocity: { x: 0, y: 0 },
 			rotation: Math.PI / 2,
 			resources: resources,
+			score: score,
 		});
-		this.collision.setPlayers(this.players);
+		if (this.collision) {
+			this.collision.setPlayers(this.players);
+		}
 	}
 
 	/**
@@ -115,7 +157,9 @@ export default class Game {
 	 */
 	removePlayer(socket) {
 		delete this.players[socket.id];
-		this.collision.setPlayers(this.players);
+		if (this.collision) {
+			this.collision.setPlayers(this.players);
+		}
 	}
 
 	/**

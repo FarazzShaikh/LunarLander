@@ -46,7 +46,7 @@ export const DEFAULTS = {
 		INTERVAL_CRASHED_SHIPS: 173,
 
 		N_RECHARGE_STATION: 50,
-		INTERVAL_RECHARGE_STATION: 300,
+		MIN_INTERVAL_RECHARGE_STATION: 300,
 	},
 	KEYMAP: {
 		ArrowLeft: 'N_ROTATE',
@@ -54,6 +54,9 @@ export const DEFAULTS = {
 		Space: 'BOOST',
 		KeyE: 'TOGGLE-TAGS',
 		KeyF: 'COLLECT-RESOURCES',
+
+		KeyA: 'N_ROTATE',
+		KeyD: 'P_ROTATE',
 
 		X: 'BOOST',
 		L1: 'N_ROTATE',
