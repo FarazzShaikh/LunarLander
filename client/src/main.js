@@ -134,10 +134,11 @@ export default function main() {
 				new Sprite({
 					name: 'Earth',
 					position: { x: 70, y: 70 },
-					scale: 4,
+					scale: 3.5,
 					sprite: Sprite_Earth,
 					shadowColor: 'rgba(0, 139, 139, 0.5)',
 					zIndex: 8,
+					absoluteScale: true,
 				}),
 				new Sprite({
 					name: 'Baren',
@@ -146,6 +147,7 @@ export default function main() {
 					sprite: Sprite_Baren,
 					shadowColor: 'rgba(255, 255, 255, 0.2)',
 					zIndex: 9,
+					absoluteScale: true,
 				}),
 				new Sprite({
 					name: 'Ice',
@@ -154,6 +156,7 @@ export default function main() {
 					sprite: Sprite_Ice,
 					shadowColor: 'rgba(255, 255, 255, 0.2)',
 					zIndex: 8,
+					absoluteScale: true,
 				}),
 				hud,
 			],
@@ -179,9 +182,10 @@ export default function main() {
 				sprite: Sprite_Ice,
 				shadowColor: 'rgba(255, 255, 255, 0.2)',
 				zIndex: 5,
+				absoluteScale: true,
 			},
 			number: 2,
-			seed: seed * 6,
+			seed: seed,
 		});
 		renderer.scatterNode({
 			layerName: 'Background',
@@ -191,9 +195,10 @@ export default function main() {
 				sprite: Sprite_Baren,
 				shadowColor: 'rgba(255,255,255,0.2)',
 				zIndex: 5,
+				absoluteScale: true,
 			},
 			number: 2,
-			seed: seed * 7,
+			seed: seed / 10,
 		});
 		renderer.scatterNode({
 			layerName: 'Background',
@@ -203,9 +208,10 @@ export default function main() {
 				sprite: Sprite_Lava,
 				shadowColor: 'rgba(220,20,60,0.05)',
 				zIndex: 5,
+				absoluteScale: true,
 			},
-			number: 3,
-			seed: seed * 8,
+			number: 1,
+			seed: seed / 10,
 		});
 
 		const cookies = Cookies.getCookies();
@@ -273,7 +279,7 @@ function initRenderer() {
 		// Layer for Players
 		new Layer({
 			name: 'Players',
-			zIndex: 20,
+			zIndex: 10,
 		}),
 		// Layer for HUD
 		new Layer({

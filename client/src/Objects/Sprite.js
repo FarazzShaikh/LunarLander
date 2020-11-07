@@ -12,6 +12,7 @@ export default class Sprite extends Node {
 		invert,
 		size,
 		type,
+		absoluteScale,
 	}) {
 		const DOMnode = document.createElement('div');
 		DOMnode.classList += `${name}`;
@@ -80,6 +81,8 @@ export default class Sprite extends Node {
 
 		super(name, DOMnode);
 
+		this.absoluteScale = absoluteScale;
+
 		const p = position || { x: 0, y: 0 };
 		const r = rotation || 0;
 		const s = scale || 1;
@@ -98,13 +101,15 @@ export default class Sprite extends Node {
 		const s = self.scale;
 		const r = self.rotation;
 
-		if (this.anchor) {
-			if (this.anchor.name === self.name) {
-				p.x = window.innerWidth / 2;
-				//p.y = window.innerHeight / 2;
-			} else {
-				p.x -= this.anchor.position.x;
-				//p.y -= this.anchor.position.y;
+		if (!self.absoluteScale) {
+			if (this.anchor) {
+				if (this.anchor.name === self.name) {
+					p.x = window.innerWidth / 2;
+					//p.y = window.innerHeight / 2;
+				} else {
+					p.x -= this.anchor.position.x;
+					//p.y -= this.anchor.position.y;
+				}
 			}
 		}
 

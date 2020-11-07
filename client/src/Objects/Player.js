@@ -32,6 +32,7 @@ export default class Player extends Sprite {
 			sprite: Char_Fly,
 			position: position,
 			rotation: rotation,
+			zIndex: 10,
 			//scale: 0.5,
 		});
 		this.usrname = usrname;
