@@ -35,17 +35,27 @@ export default class Game {
 
 	genRechargeStations() {
 		const number = DEFAULTS.GENERATION.N_RECHARGE_STATION;
-		const interval = DEFAULTS.GENERATION.INTERVAL_RECHARGE_STATION;
+		const minInterval = DEFAULTS.GENERATION.MIN_INTERVAL_RECHARGE_STATION;
 
-		this.rechargeStations = [];
-		for (let i = 0; i < number * interval; i += interval) {
-			this.rechargeStations.push(
+		let pPos = 0;
+		let tries = 0;
+
+		const rechargeStations = [];
+		for (let i = 0; i < number; i++) {
+			let pos = Math.random() * 500000;
+			while (Math.abs(pos - pPos) < minInterval || tries < 5) {
+				pos = Math.random() * 500000;
+				tries++;
+			}
+			rechargeStations.push(
 				new RechargeStation({
-					xPosition: i * interval * Math.random() + this.terrainSeed * 100,
-					seed: this.terrainSeed,
+					xPosition: pos,
+					seed: 1,
 				})
 			);
+			pPos = pos;
 		}
+		this.rechargeStations = rechargeStations;
 	}
 
 	getRechargeStations() {
