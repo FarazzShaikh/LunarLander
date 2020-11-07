@@ -136,7 +136,9 @@ export default class Game {
 			resources: resources,
 			score: score,
 		});
-		this.collision.setPlayers(this.players);
+		if (this.collision) {
+			this.collision.setPlayers(this.players);
+		}
 	}
 
 	/**
@@ -145,7 +147,9 @@ export default class Game {
 	 */
 	removePlayer(socket) {
 		delete this.players[socket.id];
-		this.collision.setPlayers(this.players);
+		if (this.collision) {
+			this.collision.setPlayers(this.players);
+		}
 	}
 
 	/**

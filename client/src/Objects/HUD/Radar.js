@@ -1,6 +1,8 @@
 import numeral from 'numeral';
+import Audio from '../../Engine/Audio';
 
-import { Node } from '../../Engine/Renderer';
+import sound_textType from '../../../Assets/Sounds/TextType.mp3';
+
 import '../Components/Radar.css';
 
 export default class Radar {
@@ -15,6 +17,8 @@ export default class Radar {
 		this.ships = [];
 		this.players = [];
 		this.rechargeStations = [];
+
+		this.sound_textType = new Audio(sound_textType);
 
 		setTimeout(() => {
 			this.notification = document.querySelector('.HUD-notification-text');
@@ -34,8 +38,18 @@ export default class Radar {
 	}
 
 	setRaderText(text) {
+		this.sound_textType.stop();
+		this.sound_textType.play();
+
 		if (this.notification) {
 			this.notification.innerHTML = `<h1>${text}</h1>`;
+			this.notification.addEventListener(
+				'animationend',
+				() => {
+					this.sound_textType.stop();
+				},
+				false
+			);
 		}
 	}
 
