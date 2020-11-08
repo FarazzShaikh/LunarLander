@@ -18,6 +18,7 @@ import Shot_explosionBig from '../../Assets/drone/explosionBig.webm';
 
 import { DEFAULTS } from '../../../shared/Consts';
 import Terrain from './Terrain';
+import Bullet from './Bullet';
 
 // Class representing client side Player.
 export default class Player extends Sprite {
@@ -99,63 +100,9 @@ export default class Player extends Sprite {
 	}
 
 	fire() {
-		const bullet = document.createElement('video');
-		// bullet.style.width = '50px';
-		// bullet.style.width = '50px';
-		bullet.style.flexShrink = '0';
-		bullet.style.imageRendering = 'pixelated';
-		bullet.style.position = 'absolute';
-		bullet.style.zIndex = '14';
+		const bullet = new Bullet(this.framerate, this.rotation, Shot_vid);
 
-		bullet.autoplay = true;
-		bullet.loop = true;
-		bullet.muted = true;
-		bullet.playsinline = true;
-		bullet.playbackRate = 1;
-
-		const src = document.createElement('source');
-		src.src = Shot_vid;
-		src.type = 'video/webm';
-
-		bullet.appendChild(src);
-		document.body.appendChild(bullet);
-
-		this.bullets.push({
-			id: this.bullets.length + 1,
-			HTML: bullet,
-			pos: {
-				x: null,
-				y: null,
-			},
-			rot: this.rotation,
-			lifetime: 3 * this.framerate,
-			mine: true,
-		});
-	}
-
-	explosion(p) {
-		const explosion = document.createElement('video');
-		explosion.style.flexShrink = '0';
-		explosion.style.imageRendering = 'pixelated';
-		explosion.style.position = 'absolute';
-		explosion.style.zIndex = '14';
-		explosion.style.transform = `translate(${p.x}px,${p.y - 55}px)`;
-
-		explosion.autoplay = true;
-		explosion.muted = true;
-		explosion.playsinline = true;
-		explosion.playbackRate = 1;
-
-		const src = document.createElement('source');
-		src.src = Shot_explosion;
-		src.type = 'video/webm';
-
-		explosion.appendChild(src);
-		document.body.appendChild(explosion);
-
-		explosion.addEventListener('ended', () => {
-			explosion.remove();
-		});
+		this.bullets.push(bullet);
 	}
 
 	animate(i) {
@@ -274,7 +221,7 @@ export default class Player extends Sprite {
 				y: (b.pos.y += 10 * -Math.cos(b.rot)),
 			};
 			if (fPos.y + 20 >= Terrain.sample(fPos.x, this.anchor.position.x)) {
-				self.explosion(fPos);
+				b.explosion(fPos, Shot_explosion);
 				b.lifetime = -1;
 			} else {
 				b.HTML.style.transform = `translate(
@@ -286,6 +233,7 @@ export default class Player extends Sprite {
 
 			if (b.lifetime <= 0) {
 				b.HTML.remove();
+				b.explosion(fPos);
 				self.bullets.splice(i, 1);
 			}
 		});
