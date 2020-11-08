@@ -118,7 +118,7 @@ export default function main() {
 				new Terrain({
 					name: 'ForegroundTerrain',
 					scrollspeed: 1,
-					zIndex: 2, //12
+					zIndex: 5, //15
 					seed: seed,
 				}),
 
@@ -279,7 +279,7 @@ function initRenderer() {
 		// Layer for Players
 		new Layer({
 			name: 'Players',
-			zIndex: 10,
+			zIndex: 14,
 		}),
 		// Layer for HUD
 		new Layer({

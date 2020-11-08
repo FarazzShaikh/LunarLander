@@ -37,6 +37,7 @@ app.post('/api/registerUser/', (req, res) => {
 			W: 1000,
 			scrap: 0,
 		},
+		health: 100,
 	})
 		.then(() => {
 			res.send({ uuid });

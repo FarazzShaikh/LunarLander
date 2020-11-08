@@ -72,30 +72,13 @@ export default class Game {
 		const currResources = this.players[id].resources;
 
 		if (resources.name.includes('STATION')) {
-			const station = this.rechargeStations.find((s) => s.name === resources.name);
-			this.rechargeStations = this._removeByAttr(
-				this.rechargeStations,
-				'name',
-				station.name
-			);
-
-			console.log('name', station.resources);
 			return DB.UPDATE(this.players[id].uuid, 'HighScores', {
 				resources: {
 					fuel: station.resources.fuel + currResources.fuel,
 					W: station.resources.W + currResources.W,
 					scrap: station.resources.scrap + currResources.scrap,
 				},
-			})
-				.then(() => {
-					station.resources = {
-						fuel: 0,
-						W: 0,
-						scrap: 0,
-					};
-					this.rechargeStations.push(station);
-				})
-				.catch((e) => console.error(e));
+			}).catch((e) => console.error(e));
 		} else {
 			return DB.UPDATE(resources.id, 'Ships', {
 				resources: {
@@ -119,7 +102,7 @@ export default class Game {
 
 	async getResources(data) {
 		return DB.GET(data.uuid, 'HighScores').then((r) => {
-			return { resources: r.resources, score: r.score };
+			return { resources: r.resources, score: r.score, health: r.health };
 		});
 	}
 
@@ -135,7 +118,7 @@ export default class Game {
 	 * @param {Socket} socket Socket of the player to add.
 	 */
 	async addPlayer(socket, data) {
-		const { resources, score } = await this.getResources(data);
+		const { resources, score, health } = await this.getResources(data);
 		this.players[socket.id] = new Player({
 			uuid: data.uuid,
 			name: data.name,
@@ -145,6 +128,7 @@ export default class Game {
 			rotation: Math.PI / 2,
 			resources: resources,
 			score: score,
+			health: health,
 		});
 		if (this.collision) {
 			this.collision.setPlayers(this.players);
