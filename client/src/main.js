@@ -66,7 +66,7 @@ export default function main() {
 		controller = new Controller({
 			socket: socket,
 			enableDS4: true,
-			toggleLayer: engine.toggleLayer.bind(engine),
+			control: engine.control.bind(engine),
 			getCurrentResource: engine.getCurrentResource.bind(engine),
 		});
 

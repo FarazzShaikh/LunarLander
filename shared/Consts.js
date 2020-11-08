@@ -54,9 +54,11 @@ export const DEFAULTS = {
 		Space: 'BOOST',
 		KeyE: 'TOGGLE-TAGS',
 		KeyF: 'COLLECT-RESOURCES',
+		KeyW: 'FIRE',
 
 		KeyA: 'N_ROTATE',
 		KeyD: 'P_ROTATE',
+		ArrowUp: 'FIRE',
 
 		X: 'BOOST',
 		L1: 'N_ROTATE',

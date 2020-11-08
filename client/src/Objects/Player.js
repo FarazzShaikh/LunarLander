@@ -11,7 +11,13 @@ import Side_booster1 from '../../Assets/RotationBoosters/exhaust1.png';
 import Side_booster2 from '../../Assets/RotationBoosters/exhaust2.png';
 import Side_booster3 from '../../Assets/RotationBoosters/exhaust3.png';
 import Side_booster4 from '../../Assets/RotationBoosters/exhaust4.png';
+
+import Shot_vid from '../../Assets/drone/shot.webm';
+import Shot_explosion from '../../Assets/drone/explosion.webm';
+import Shot_explosionBig from '../../Assets/drone/explosionBig.webm';
+
 import { DEFAULTS } from '../../../shared/Consts';
+import Terrain from './Terrain';
 
 // Class representing client side Player.
 export default class Player extends Sprite {
@@ -89,6 +95,66 @@ export default class Player extends Sprite {
 		this.score = 0;
 
 		this.radarText = '';
+		this.bullets = [];
+	}
+
+	fire() {
+		const bullet = document.createElement('video');
+		// bullet.style.width = '50px';
+		// bullet.style.width = '50px';
+		bullet.style.flexShrink = '0';
+		bullet.style.imageRendering = 'pixelated';
+		bullet.style.position = 'absolute';
+		bullet.style.zIndex = '14';
+
+		bullet.autoplay = true;
+		bullet.loop = true;
+		bullet.muted = true;
+		bullet.playsinline = true;
+		bullet.playbackRate = 1;
+
+		const src = document.createElement('source');
+		src.src = Shot_vid;
+		src.type = 'video/webm';
+
+		bullet.appendChild(src);
+		document.body.appendChild(bullet);
+
+		this.bullets.push({
+			id: this.bullets.length + 1,
+			HTML: bullet,
+			pos: {
+				x: null,
+				y: null,
+			},
+			rot: this.rotation,
+			lifetime: 3 * this.framerate,
+		});
+	}
+
+	explosion(p) {
+		const explosion = document.createElement('video');
+		explosion.style.flexShrink = '0';
+		explosion.style.imageRendering = 'pixelated';
+		explosion.style.position = 'absolute';
+		explosion.style.zIndex = '14';
+		explosion.style.transform = `translate(${p.x}px,${p.y - 55}px)`;
+
+		explosion.autoplay = true;
+		explosion.muted = true;
+		explosion.playsinline = true;
+		explosion.playbackRate = 1;
+
+		const src = document.createElement('source');
+		src.src = Shot_explosion;
+		src.type = 'video/webm';
+
+		explosion.appendChild(src);
+		document.body.appendChild(explosion);
+
+		explosion.addEventListener('ended', () => {
+			explosion.remove();
+		});
 	}
 
 	animate(i) {
@@ -194,6 +260,34 @@ export default class Player extends Sprite {
 				//p.y -= this.anchor.position.y;
 			}
 		}
+
+		self.bullets.forEach((b, i) => {
+			if (b.pos.x === null) {
+				b.pos = {
+					x: p.x + 5,
+					y: p.y + 5,
+				};
+			}
+			const fPos = {
+				x: (b.pos.x += 10 * Math.sin(b.rot)),
+				y: (b.pos.y += 10 * -Math.cos(b.rot)),
+			};
+			if (fPos.y + 20 >= Terrain.sample(fPos.x, this.anchor.position.x)) {
+				self.explosion(fPos);
+				b.lifetime = -1;
+			} else {
+				b.HTML.style.transform = `translate(
+					${fPos.x}px,
+					${fPos.y}px) 
+					rotate(${b.rot - Math.PI / 2}rad)`;
+				b.lifetime--;
+			}
+
+			if (b.lifetime <= 0) {
+				b.HTML.remove();
+				self.bullets.splice(i, 1);
+			}
+		});
 
 		if (self._isInViewport(p, 300 * 2)) {
 			if (self.HTML.style.display !== 'block') self.HTML.style.display = 'block';
