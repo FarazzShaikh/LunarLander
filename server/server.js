@@ -57,20 +57,24 @@ app.get('/', (req, res) => {
 });
 
 // Listens for http connections on port 3000.
-reload(app)
-	.then(function (reloadReturned) {
-		// reloadReturned is documented in the returns API in the README
+if (process.env.NODE_ENV === 'development') {
+	reload(app)
+		.then(function (reloadReturned) {
+			// reloadReturned is documented in the returns API in the README
 
-		// Reload started, start web server
-		http.listen(port, () => {
-			console.log('\n============================================\n');
-			console.log(`|   Listening on *:http://localhost:${port}   |\n`);
-			console.log('============================================\n');
+			// Reload started, start web server
+			http.listen(port, () => {
+				console.log('\n============================================\n');
+				console.log(`|   Listening on *:http://localhost:${port}   |\n`);
+				console.log('============================================\n');
+			});
+		})
+		.catch(function (err) {
+			console.error('Reload could not start.', err);
 		});
-	})
-	.catch(function (err) {
-		console.error('Reload could not start.', err);
-	});
+} else {
+	http.listen(port);
+}
 
 // Socket.io entrypoint.
 main(http);
