@@ -1,15 +1,36 @@
+#title {
+	font-family: monospace;
+	font-size: 60px;
+	color: white;
+
+	position: relative;
+	bottom: 10px;
+	text-align: center;
+}
 body {
 	background-color: #191919;
+	background: url(Images/lunarbackground.jpg);
+	background-size: cover;
+	background-position: center top;
 }
+.name-label {
+	padding-right: 10px;
+	font-family: monospace;
+	font-size: 30px;
+	font-weight: bold;
+	color: white;
 
+	position: relative;
+	left: 10px;
+	bottom: 75px;
+}
 .Modal-main {
 	width: 100vw;
-	height: 100vh;
+	height: 79vh;
+	padding-bottom: 50px;
 
-	position: absolute;
-	top: 0;
-	left: 0;
-	backdrop-filter: brightness(50%);
+	position: relative;
+	bottom: 85px;
 	z-index: 10;
 
 	display: flex;
@@ -18,11 +39,114 @@ body {
 }
 
 .Modal-container {
-	height: 500px;
+	border: 10px solid white;
+	border-radius: 14%;
+	height: 400px;
 	width: 500px;
 
-	background-color: white;
+	background-color: rgb(128,128,128,0.5);
 	display: flex;
 	justify-content: center;
 	align-items: center;
+
+	position: relative;
+	top: 30px;
+}
+.Modal-input {
+	position: relative;
+	left: 10px;
+	bottom: 72px;
+}
+.Modal-button {
+	background-color: black;
+	font-family: monospace;
+	font-size: 20px;
+	color: white;
+	
+	border: 2px solid white;
+	border-radius: 14%;
+	height: 40px;
+	width: 80px;
+
+	position: relative;
+	bottom: 75px;
+	left: 3px;
+	margin-left: auto;
+	margin-right: auto;
+}
+.controls-label {
+    font-family: monospace;
+    font-size: 30px;
+    font-weight: bold;
+	color: white;
+	
+	position: absolute;
+    top: 180px;
+    padding: 1px 10px;
+    border: 4px solid white;
+}
+.controls {
+	font-family: monospace;
+	color: white;
+	position: absolute;
+	top: 235px;
+}
+.spacekey{
+	display: inline-block;
+	position: relative;
+	top: 5px;
+	
+	height: 29px;
+	width: 64px;
+	background-image: url(Images/Space-Key.png);
+}
+.rightkey {
+	display: inline-block;
+	position: relative;
+	top: 5px;
+
+	height: 29px;
+	width: 32px;
+	background-image: url(Images/D-Key.png);
+}
+.leftkey {
+	display: inline-block;
+	position: relative;
+	top: 5px;
+
+	height: 29px;
+	width: 32px;
+	background-image: url(Images/A-Key.png);
+}
+.xbutton {
+	display: inline-block;
+	position: relative;
+	top: 5px;
+
+	height: 17px;
+	width: 17px;
+	background-image: url(Images/PS4.png);
+	background-position: 48px -48px;
+}
+.r1button {
+	display: inline-block;
+	position: relative;
+	top: 4px;
+
+	height: 17px;
+	width: 16px;
+	background-image: url(Images/PS4.png);
+	background-position: 32px -32px;
+	zoom: 1.75;
+}
+.l1button {
+	display: inline-block;
+	position: relative;
+	top: 4px;
+
+	height: 17px;
+	width: 16px;
+	background-image: url(Images/PS4.png);
+	background-position: 32px 0;
+	zoom: 1.75;
 }
