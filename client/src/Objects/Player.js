@@ -129,6 +129,7 @@ export default class Player extends Sprite {
 			},
 			rot: this.rotation,
 			lifetime: 3 * this.framerate,
+			mine: true,
 		});
 	}
 

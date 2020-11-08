@@ -18,7 +18,8 @@ export default class Controller {
 		document.addEventListener('keydown', (e) => {
 			this.using = 'k';
 			// If keycode maps to an input...
-			if (control(this.keyMap[e.code])) return;
+
+			if (control(this.keyMap[e.code], socket)) return;
 
 			if (this.keyMap[e.code] === 'COLLECT-RESOURCES') {
 				const resource = this.getCurrentResource();

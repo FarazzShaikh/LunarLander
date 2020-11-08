@@ -40,7 +40,7 @@ export default class Engine {
 		});
 	}
 
-	control(verb) {
+	control(verb, socket) {
 		switch (verb) {
 			case 'TOGGLE-TAGS': {
 				const layer = this.renderer.getLayer('NameTags');
@@ -49,7 +49,10 @@ export default class Engine {
 			}
 
 			case 'FIRE': {
-				if (this.players[this.me]) [this.players[this.me].fire()];
+				if (this.players[this.me]) {
+					[this.players[this.me].fire()];
+				}
+				socket.emit(EVENTS.PLAYER_HAS_SHOT);
 				return true;
 			}
 
@@ -264,6 +267,7 @@ export default class Engine {
 						fuel: p.resources.fuel,
 						health: p.health,
 						nameTag: nameTag,
+						fire: p.fire,
 					}),
 				],
 				['Players']
@@ -297,6 +301,11 @@ export default class Engine {
 					},
 					rotation: 0,
 				});
+				if (player.fire !== 0) {
+					for (let i = 0; i < player.fire; i++) {
+						this.players[player.id].fire();
+					}
+				}
 			}
 
 			radarPlayers = this._removeByAttr(radarPlayers, 'id', player.id);

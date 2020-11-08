@@ -180,6 +180,11 @@ export default class Game {
 		}
 	}
 
+	playerHasShot(socket) {
+		const player = this.players[socket.id];
+		player.setFire();
+	}
+
 	/**
 	 * Update Function called every 1/60th of a second.
 	 */
@@ -200,6 +205,7 @@ export default class Game {
 				EVENTS.SERVER_UPDATE_PLAYER,
 				player.getSerialized()
 			);
+			player.clearFire();
 		});
 	}
 
