@@ -1,11 +1,9 @@
 #title {
 	font-family: monospace;
-	font-size: 60px;
-	color: white;
-
-	position: relative;
-	bottom: 10px;
-	text-align: center;
+    font-size: 9vh;
+    color: white;
+    position: relative;
+    text-align: center;
 }
 body {
 	background-color: #191919;
@@ -13,21 +11,9 @@ body {
 	background-size: cover;
 	background-position: center top;
 }
-.name-label {
-	padding-right: 10px;
-	font-family: monospace;
-	font-size: 30px;
-	font-weight: bold;
-	color: white;
-
-	position: relative;
-	left: 10px;
-	bottom: 75px;
-}
 .Modal-main {
 	width: 100vw;
 	height: 79vh;
-	padding-bottom: 50px;
 
 	position: relative;
 	bottom: 85px;
@@ -37,59 +23,65 @@ body {
 	justify-content: center;
 	align-items: center;
 }
-
 .Modal-container {
-	border: 10px solid white;
-	border-radius: 14%;
-	height: 400px;
-	width: 500px;
-
-	background-color: rgb(128,128,128,0.5);
-	display: flex;
-	justify-content: center;
-	align-items: center;
-
-	position: relative;
-	top: 30px;
+	border: 2vh solid white;
+    border-radius: 14%;
+    height: 63vh;
+    width: 77vh;
+    background-color: rgb(128,128,128,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    top: 5vh;
 }
-.Modal-input {
-	position: relative;
-	left: 10px;
-	bottom: 72px;
-}
-.Modal-button {
-	background-color: black;
-	font-family: monospace;
-	font-size: 20px;
-	color: white;
-	
-	border: 2px solid white;
-	border-radius: 14%;
-	height: 40px;
-	width: 80px;
-
-	position: relative;
-	bottom: 75px;
-	left: 3px;
-	margin-left: auto;
-	margin-right: auto;
-}
-.controls-label {
+.name-label {
+	padding-right: 1vw;
     font-family: monospace;
-    font-size: 30px;
+    font-size: 5vh;
     font-weight: bold;
 	color: white;
 	
-	position: absolute;
-    top: 180px;
-    padding: 1px 10px;
-    border: 4px solid white;
+    position: relative;
+    left: 1vw;
+	bottom: 11.3vh;
+}
+.Modal-input {
+	position: relative;
+    left: 1vw;
+    bottom: 11vh;
+}
+.Modal-button {
+	background-color: black;
+    font-family: monospace;
+    font-size: 3.5vh;
+	color: white;
+	
+    border: 0.28vw solid white;
+	border-radius: 14%;
+	
+    position: relative;
+	bottom: 11vh;
+	left: 0.5vw;
+    margin-left: auto;
+    margin-right: auto;
+}
+.controls-label {
+    font-family: monospace;
+    font-size: 5vh;
+    font-weight: bold;
+	color: white;
+	
+    position: absolute;
+    top: 27vh;
+    padding: 0.01vh 1vw;
+    border: 0.5vw solid white;
 }
 .controls {
 	font-family: monospace;
-	color: white;
-	position: absolute;
-	top: 235px;
+    color: white;
+    position: absolute;
+    top: 37vh;
 }
 .spacekey{
 	display: inline-block;
