@@ -11,7 +11,12 @@ import Side_booster1 from '../../Assets/RotationBoosters/exhaust1.png';
 import Side_booster2 from '../../Assets/RotationBoosters/exhaust2.png';
 import Side_booster3 from '../../Assets/RotationBoosters/exhaust3.png';
 import Side_booster4 from '../../Assets/RotationBoosters/exhaust4.png';
-import { DEFAULTS } from '../../../shared/Consts';
+
+import Shot_vid from '../../Assets/drone/shot.webm';
+
+import { DEFAULTS, EVENTS, REQUEST } from '../../../shared/Consts';
+import Terrain from './Terrain';
+import Bullet from './Bullet';
 
 // Class representing client side Player.
 export default class Player extends Sprite {
@@ -26,19 +31,20 @@ export default class Player extends Sprite {
 		health,
 		nameTag,
 		usrname,
+		getPlayers,
+		getSocket,
 	}) {
 		super({
 			name: `${id}`,
 			sprite: Char_Fly,
 			position: position,
 			rotation: rotation,
-			zIndex: 10,
 			//scale: 0.5,
 		});
 		this.usrname = usrname;
 
 		this.HTML.style.padding = '8px';
-		this.HTML.style.borderRadius = '100px';
+
 		this.HTML.style.transition = '300ms ease-in-out';
 		this.HTML.style.transitionProperty =
 			'width, height, background-color, border';
@@ -90,6 +96,22 @@ export default class Player extends Sprite {
 		this.score = 0;
 
 		this.radarText = '';
+		this.bullets = [];
+
+		this.getPlayers = getPlayers;
+		this.getSocket = getSocket;
+	}
+
+	fire() {
+		console.log('s');
+		const bullet = new Bullet({
+			framerate: this.framerate,
+			_src: Shot_vid,
+			position: { ...this.position },
+			rotation: this.rotation,
+		});
+
+		this.bullets.push({ node: bullet, didAdd: false });
 	}
 
 	animate(i) {
@@ -195,6 +217,24 @@ export default class Player extends Sprite {
 				//p.y -= this.anchor.position.y;
 			}
 		}
+
+		self.bullets.forEach((b, i) => {
+			if (!b.didAdd) {
+				if (this.anchor) {
+					if (this.anchor.name === self.name) {
+						b.node.setPosition({
+							x: self.position.x + window.innerWidth / 2,
+							y: self.position.y,
+						});
+					}
+				}
+
+				b.node.setRemoveNode(this.removeNode.bind(this));
+				b.node.setGetPlayers(self.getPlayers, self.name);
+				this.addNode('Bullets', b.node);
+				b.didAdd = true;
+			}
+		});
 
 		if (self._isInViewport(p, 300 * 2)) {
 			if (self.HTML.style.display !== 'block') self.HTML.style.display = 'block';

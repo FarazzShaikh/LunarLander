@@ -40,6 +40,27 @@ export default class Engine {
 		});
 	}
 
+	control(verb, socket) {
+		switch (verb) {
+			case 'TOGGLE-TAGS': {
+				const layer = this.renderer.getLayer('NameTags');
+				layer.isHidden ? layer.show() : layer.hide();
+				return true;
+			}
+
+			case 'FIRE': {
+				if (this.players[this.me]) {
+					[this.players[this.me].fire()];
+				}
+				socket.emit(EVENTS.PLAYER_HAS_SHOT);
+				return true;
+			}
+
+			default:
+				break;
+		}
+	}
+
 	getNode(name) {
 		return this.renderer.getNode(name);
 	}
@@ -68,11 +89,6 @@ export default class Engine {
 		this.radar = radar;
 	}
 
-	toggleLayer(name) {
-		const layer = this.renderer.getLayer(name);
-		layer.isHidden ? layer.show() : layer.hide();
-	}
-
 	setCurrentResource(resource) {
 		this.currentResource = resource;
 	}
@@ -98,7 +114,7 @@ export default class Engine {
 						name: `${s.name}`,
 						position: {
 							x: s.xPosition + window.innerWidth / 2 - 60,
-							y: this.terrain[1].sample(s.xPosition, this.offset) - 60,
+							y: Terrain.sample(s.xPosition, this.offset) - 60,
 						},
 						hitbox: {
 							w: 60,
@@ -127,7 +143,7 @@ export default class Engine {
 						`,
 						position: {
 							x: s.xPosition + window.innerWidth / 2 + 60,
-							y: this.terrain[1].sample(s.xPosition, this.offset) - 110,
+							y: Terrain.sample(s.xPosition, this.offset) - 110,
 						},
 					}),
 				],
@@ -155,7 +171,7 @@ export default class Engine {
 						name: `${s.name}`,
 						position: {
 							x: s.xPosition + window.innerWidth / 2 - 300,
-							y: this.terrain[1].sample(s.xPosition, this.offset) - 300,
+							y: Terrain.sample(s.xPosition, this.offset) - 300,
 						},
 						hitbox: {
 							w: 300,
@@ -189,7 +205,7 @@ export default class Engine {
 						`,
 						position: {
 							x: s.xPosition + window.innerWidth / 2 + 30,
-							y: this.terrain[1].sample(s.xPosition, this.offset) - 180,
+							y: Terrain.sample(s.xPosition, this.offset) - 180,
 						},
 					}),
 				],
@@ -251,6 +267,9 @@ export default class Engine {
 						fuel: p.resources.fuel,
 						health: p.health,
 						nameTag: nameTag,
+						fire: p.fire,
+						getPlayers: () => this.players,
+						getSocket: () => this.socket,
 					}),
 				],
 				['Players']
@@ -284,6 +303,11 @@ export default class Engine {
 					},
 					rotation: 0,
 				});
+				if (player.fire !== 0) {
+					for (let i = 0; i < player.fire; i++) {
+						this.players[player.id].fire();
+					}
+				}
 			}
 
 			radarPlayers = this._removeByAttr(radarPlayers, 'id', player.id);

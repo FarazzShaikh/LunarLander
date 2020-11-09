@@ -14,6 +14,7 @@ export class Player {
 		name,
 		uuid,
 		score,
+		health,
 	}) {
 		// Socket associated with the player
 		this.socket = socket;
@@ -38,10 +39,25 @@ export class Player {
 		};
 		//Player fuel value (starts at 100)
 		this.resources = resources;
-		this.health = 100;
+		this.health = health;
 		this.name = name;
 		this.uuid = uuid;
 		this.score = score;
+		this.fire = 0;
+	}
+
+	setFire() {
+		this.fire += 1;
+	}
+
+	clearFire() {
+		this.fire = 0;
+	}
+
+	damage(val) {
+		if (this.health > 0) {
+			this.health -= val;
+		}
 	}
 
 	/**
@@ -152,6 +168,7 @@ export class Player {
 			resources: this.resources,
 			health: this.health,
 			score: this.score,
+			fire: this.fire,
 		};
 	}
 

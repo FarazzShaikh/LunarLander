@@ -57,6 +57,14 @@ export default function main(http) {
 				.catch((e) => console.error(e));
 		});
 
+		socket.on(EVENTS.PLAYER_HAS_SHOT, () => {
+			game.playerHasShot(socket);
+		});
+
+		socket.on(EVENTS.PLAYER_HAS_DAMAGED, ({ id, val }) => {
+			game.playerIsShot(id, val);
+		});
+
 		// Listens for 'disconnect' events.
 		socket.on('disconnect', () => {
 			// Removes disconected player from the game.

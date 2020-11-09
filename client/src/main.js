@@ -66,7 +66,7 @@ export default function main() {
 		controller = new Controller({
 			socket: socket,
 			enableDS4: true,
-			toggleLayer: engine.toggleLayer.bind(engine),
+			control: engine.control.bind(engine),
 			getCurrentResource: engine.getCurrentResource.bind(engine),
 		});
 
@@ -118,7 +118,7 @@ export default function main() {
 				new Terrain({
 					name: 'ForegroundTerrain',
 					scrollspeed: 1,
-					zIndex: 2, //12
+					zIndex: 5, //15
 					seed: seed,
 				}),
 
@@ -279,7 +279,7 @@ function initRenderer() {
 		// Layer for Players
 		new Layer({
 			name: 'Players',
-			zIndex: 10,
+			zIndex: 14,
 		}),
 		// Layer for HUD
 		new Layer({
@@ -297,6 +297,10 @@ function initRenderer() {
 		new Layer({
 			name: 'NameTags',
 			zIndex: 50,
+		}),
+		new Layer({
+			name: 'Bullets',
+			zIndex: 60,
 		}),
 	]);
 

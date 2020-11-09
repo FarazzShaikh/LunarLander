@@ -49,7 +49,7 @@ export default class Terrain extends Node {
 		for (let x = 0; x < window.innerWidth; x += 4) {
 			var point = svg.createSVGPoint();
 			const scale =
-				(this.zIndex / 2) * (window.innerHeight * 0.7 - window.innerHeight * 0.55) +
+				(this.zIndex / 5) * (window.innerHeight * 0.7 - window.innerHeight * 0.55) +
 				window.innerHeight * 0.55;
 
 			point.x = x;
@@ -76,14 +76,15 @@ export default class Terrain extends Node {
 		polygon.points.insertItemBefore(lPoint, 0);
 	}
 
-	sample(x, offset) {
+	static sample(x, offset) {
 		const scale =
-			(this.zIndex / 2) * (window.innerHeight * 0.7 - window.innerHeight * 0.55) +
+			window.innerHeight * 0.7 -
+			window.innerHeight * 0.55 +
 			window.innerHeight * 0.55;
 		return (
-			makeOctaves(noise, x + offset * this.scrollspeed, {
+			makeOctaves(noise, x + offset, {
 				octaves: DEFAULTS.GENERATION.OCTAVES,
-				frequency: DEFAULTS.GENERATION.SCALE * this.scrollspeed,
+				frequency: DEFAULTS.GENERATION.SCALE,
 				lacunarity: DEFAULTS.GENERATION.LACUNARITY,
 				persistence: DEFAULTS.GENERATION.PERSISTANCE,
 				amplitude: 100,
