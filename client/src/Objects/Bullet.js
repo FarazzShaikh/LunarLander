@@ -54,6 +54,4 @@ export default class Bullet {
 			explosion.remove();
 		});
 	}
-
-	update() {}
 }

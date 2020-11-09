@@ -268,6 +268,7 @@ export default class Engine {
 						health: p.health,
 						nameTag: nameTag,
 						fire: p.fire,
+						getPlayers: () => this.players,
 					}),
 				],
 				['Players']

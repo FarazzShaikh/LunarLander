@@ -33,6 +33,7 @@ export default class Player extends Sprite {
 		health,
 		nameTag,
 		usrname,
+		getPlayers,
 	}) {
 		super({
 			name: `${id}`,
@@ -44,7 +45,7 @@ export default class Player extends Sprite {
 		this.usrname = usrname;
 
 		this.HTML.style.padding = '8px';
-		this.HTML.style.borderRadius = '100px';
+
 		this.HTML.style.transition = '300ms ease-in-out';
 		this.HTML.style.transitionProperty =
 			'width, height, background-color, border';
@@ -97,6 +98,7 @@ export default class Player extends Sprite {
 
 		this.radarText = '';
 		this.bullets = [];
+		this.getPlayers = getPlayers;
 	}
 
 	fire() {
@@ -224,11 +226,33 @@ export default class Player extends Sprite {
 				b.explosion(fPos, Shot_explosion);
 				b.lifetime = -1;
 			} else {
-				b.HTML.style.transform = `translate(
-					${fPos.x}px,
-					${fPos.y}px) 
-					rotate(${b.rot - Math.PI / 2}rad)`;
-				b.lifetime--;
+				let skip = false;
+				const players = self.getPlayers();
+				for (const key in players) {
+					if (players.hasOwnProperty(key)) {
+						const pl = players[key];
+						if (key !== self.name) {
+							if (AABB.collide(b.HTML, pl.HTML)) {
+								b.explosion(
+									{
+										x: pl.position.x - this.anchor.position.x,
+										y: pl.position.y + 30,
+									},
+									Shot_explosion
+								);
+								b.lifetime = -1;
+								skip = true;
+							}
+						}
+					}
+				}
+				if (!skip) {
+					b.HTML.style.transform = `translate(
+						${fPos.x}px,
+						${fPos.y}px) 
+						rotate(${b.rot - Math.PI / 2}rad)`;
+					b.lifetime--;
+				}
 			}
 
 			if (b.lifetime <= 0) {
@@ -270,3 +294,32 @@ export default class Player extends Sprite {
 		return sideBooster;
 	}
 }
+
+var AABB = {
+	collide: function (el1, el2) {
+		var rect1 = el1.getBoundingClientRect();
+		var rect2 = el2.getBoundingClientRect();
+
+		return !(
+			rect1.top > rect2.bottom ||
+			rect1.right < rect2.left ||
+			rect1.bottom < rect2.top ||
+			rect1.left > rect2.right
+		);
+	},
+	inside: function (el1, el2) {
+		var rect1 = el1.getBoundingClientRect();
+		var rect2 = el2.getBoundingClientRect();
+
+		return (
+			rect2.top <= rect1.top &&
+			rect1.top <= rect2.bottom &&
+			rect2.top <= rect1.bottom &&
+			rect1.bottom <= rect2.bottom &&
+			rect2.left <= rect1.left &&
+			rect1.left <= rect2.right &&
+			rect2.left <= rect1.right &&
+			rect1.right <= rect2.right
+		);
+	},
+};
