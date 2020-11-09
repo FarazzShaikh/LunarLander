@@ -54,6 +54,12 @@ export class Player {
 		this.fire = 0;
 	}
 
+	damage(val) {
+		if (this.health > 0) {
+			this.health -= val;
+		}
+	}
+
 	/**
 	 * Calculate the Position of the Player
 	 * @param {Number} dt

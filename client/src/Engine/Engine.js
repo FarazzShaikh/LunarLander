@@ -269,6 +269,7 @@ export default class Engine {
 						nameTag: nameTag,
 						fire: p.fire,
 						getPlayers: () => this.players,
+						getSocket: () => this.socket,
 					}),
 				],
 				['Players']

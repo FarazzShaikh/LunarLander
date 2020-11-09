@@ -16,7 +16,7 @@ import Shot_vid from '../../Assets/drone/shot.webm';
 import Shot_explosion from '../../Assets/drone/explosion.webm';
 import Shot_explosionBig from '../../Assets/drone/explosionBig.webm';
 
-import { DEFAULTS } from '../../../shared/Consts';
+import { DEFAULTS, EVENTS } from '../../../shared/Consts';
 import Terrain from './Terrain';
 import Bullet from './Bullet';
 
@@ -34,6 +34,7 @@ export default class Player extends Sprite {
 		nameTag,
 		usrname,
 		getPlayers,
+		getSocket,
 	}) {
 		super({
 			name: `${id}`,
@@ -98,7 +99,9 @@ export default class Player extends Sprite {
 
 		this.radarText = '';
 		this.bullets = [];
+
 		this.getPlayers = getPlayers;
+		this.getSocket = getSocket;
 	}
 
 	fire() {
@@ -240,6 +243,9 @@ export default class Player extends Sprite {
 									},
 									Shot_explosion
 								);
+								self
+									.getSocket()
+									.emit(EVENTS.PLAYER_HAS_DAMAGED, { id: pl.name, val: 10 });
 								b.lifetime = -1;
 								skip = true;
 							}

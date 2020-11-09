@@ -185,6 +185,10 @@ export default class Game {
 		player.setFire();
 	}
 
+	playerIsShot(id, val) {
+		this.players[id].damage(val);
+	}
+
 	/**
 	 * Update Function called every 1/60th of a second.
 	 */
