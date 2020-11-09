@@ -5,7 +5,7 @@ import FingerprintJS from '@fingerprintjs/fingerprintjs';
 // Entrypoint
 
 const dev_login_bypass = true;
-const dev_only_splash = true;
+const dev_only_splash = false;
 
 if (dev_only_splash) {
 	Modal_main((data) => {

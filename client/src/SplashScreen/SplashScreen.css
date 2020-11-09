@@ -1,144 +1,96 @@
-#title {
-	font-family: monospace;
-    font-size: 9vh;
-    color: white;
-    position: relative;
-    text-align: center;
-}
-body {
-	background-color: #191919;
-	background: url(Images/lunarbackground.jpg);
-	background-size: cover;
-	background-position: center top;
-}
-.Modal-main {
-	width: 100vw;
-	height: 79vh;
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 
-	position: relative;
-	bottom: 85px;
-	z-index: 10;
+.SplashScreen-container {
+	width: 100vw;
+	height: 100vh;
+
+	background-color: #121212;
+	/* background: url('./Assets//background.gif'); */
+	background-repeat: no-repeat;
+	background-size: cover;
+	image-rendering: pixelated;
 
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	flex-direction: column;
 }
-.Modal-container {
-	border: 2vh solid white;
-    border-radius: 14%;
-    height: 63vh;
-    width: 77vh;
-    background-color: rgb(128,128,128,0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    top: 5vh;
-}
-.name-label {
-	padding-right: 1vw;
-    font-family: monospace;
-    font-size: 5vh;
-    font-weight: bold;
+
+.main-logo-text {
+	position: relative;
 	color: white;
-	
-    position: relative;
-    left: 1vw;
-	bottom: 11.3vh;
+	font-family: 'VT323', monospace;
+	padding: 16px;
 }
-.Modal-input {
+
+.main-logo-text .box {
+	width: 70%;
+	height: 120%;
+	border: 1px solid tomato;
+
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.main-logo-text .box2 {
+	width: 80%;
+	height: 140%;
+	border: 1px solid tomato;
+}
+
+.main-logo-text .box3 {
+	width: 90%;
+	height: 160%;
+	border: 1px solid tomato;
+}
+
+.main-logo-text .box_mask {
+	width: 100%;
+	height: 100%;
+	background-color: #121212;
+
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 2;
+}
+
+.main-logo-text .logo {
+	font-size: 70px;
+	letter-spacing: 10px;
+	z-index: 3;
 	position: relative;
-    left: 1vw;
-    bottom: 11vh;
 }
-.Modal-button {
-	background-color: black;
-    font-family: monospace;
-    font-size: 3.5vh;
+
+.main-logo-text .subtitle {
+	color: tomato;
+	font-size: 20px;
+	font-style: italic;
+
+	position: absolute;
+	bottom: 16px;
+	right: 16px;
+	z-index: 3;
+}
+
+.SplashScreen-container .start {
+	margin-top: 5%;
 	color: white;
-	
-    border: 0.28vw solid white;
-	border-radius: 14%;
-	
-    position: relative;
-	bottom: 11vh;
-	left: 0.5vw;
-    margin-left: auto;
-    margin-right: auto;
+	font-family: 'VT323', monospace;
+	font-size: 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
-.controls-label {
-    font-family: monospace;
-    font-size: 5vh;
-    font-weight: bold;
+
+.SplashScreen-container .controls {
+	margin-top: 5%;
 	color: white;
-	
-    position: absolute;
-    top: 27vh;
-    padding: 0.01vh 1vw;
-    border: 0.5vw solid white;
-}
-.controls {
-	font-family: monospace;
-    color: white;
-    position: absolute;
-    top: 37vh;
-}
-.spacekey{
-	display: inline-block;
-	position: relative;
-	top: 5px;
-	
-	height: 29px;
-	width: 64px;
-	background-image: url(Images/Space-Key.png);
-}
-.rightkey {
-	display: inline-block;
-	position: relative;
-	top: 5px;
+	font-family: 'VT323', monospace;
+	font-size: 20px;
 
-	height: 29px;
-	width: 32px;
-	background-image: url(Images/D-Key.png);
-}
-.leftkey {
-	display: inline-block;
-	position: relative;
-	top: 5px;
-
-	height: 29px;
-	width: 32px;
-	background-image: url(Images/A-Key.png);
-}
-.xbutton {
-	display: inline-block;
-	position: relative;
-	top: 5px;
-
-	height: 17px;
-	width: 17px;
-	background-image: url(Images/PS4.png);
-	background-position: 48px -48px;
-}
-.r1button {
-	display: inline-block;
-	position: relative;
-	top: 4px;
-
-	height: 17px;
-	width: 16px;
-	background-image: url(Images/PS4.png);
-	background-position: 32px -32px;
-	zoom: 1.75;
-}
-.l1button {
-	display: inline-block;
-	position: relative;
-	top: 4px;
-
-	height: 17px;
-	width: 16px;
-	background-image: url(Images/PS4.png);
-	background-position: 32px 0;
-	zoom: 1.75;
+	text-align: center;
 }

@@ -1,5 +1,4 @@
-# ***Lunar Lander***
-*A Remake of Atari's Lunar Lander, but in the Browser.*
+# Lunar Lander
 
 ![uses-javascript](https://badgen.net/badge/Uses/Javascript/f0db4f)
 ![uses-Node](https://badgen.net/badge/Uses/NodeJS/80bd01)
@@ -10,6 +9,8 @@
 ![uses-FaunaDB](https://badgen.net/badge/Uses/FaunaDB/323fcb)
 ![uses-Webpack](https://badgen.net/badge/Uses/Webpack/8ed6fb)
 ![uses-Heroku](https://badgen.net/badge/Uses/Heroku/5a1db2)
+
+*A Sci-Fi Survival Shooter, made entirely using the DOM and JavaScript*
 
 
 [Launch Lunar Lander Pre-Alpha](https://lunar-lander-js.herokuapp.com/)
@@ -26,9 +27,7 @@
 
 ## **Overview**
 ### What is Lunar Lander?
-Lunar Lander is a single-player arcade game developed by Atari Inc. in the year 1979 for the Atari 6502 Vector Arcade System. Our remake of the classic will include all the features that made it popular but enhance them using modern web technologies, and expand them by adding multiplayer.
-### What do we bring to the table?
-Our version of Lunar Lander will be a multiplayer game that allows there to be many players that are given the same goals. This results in a “race” to secure the highest scoring landing pads.
+Lunar Lander is a multiplayer arcade style, survival shooter, where you collect resources by scanvenging or hunting down players. The goal is to collect the highest amount of curruncy.
 
 ### Team Roles
 | Name  | HW Username  | Role  | Tasks |

@@ -1,28 +1,61 @@
-
-<html>
-    <head>
-        <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@900&display=swap" rel="stylesheet">
-        <link href="SplashScreen.css" type="text/css" rel="stylesheet">
-        <title>Lunar Lander</title>
-    </head>
-    <body>
-        <h1 id="title" >Lunar Lander</h1>
-        <div class="Modal-main">
-            <div class="Modal-container">
-                <label class="name-label" for="name">Enter Name:</label>
-                <input id="name" type="text" placeholder="name" class="Modal-input">
-                <button class="Modal-button">Start</button>
-                <h1 class="controls-label">Controls</h1>
-                <div class="controls">
-                    <p>
-                        <a href="#" class="spacekey icon"></a>&nbsp;: Boost :&nbsp;<a href="#" class="xbutton icon"></a><br>
-                        <a href="#" class="rightkey icon"></a>&nbsp;: Rotate Right :&nbsp;<a href="#" class="r1button icon"></a><br>
-                        <a href="#" class="leftkey icon"></a>&nbsp;: Rotate Left :&nbsp;<a href="#" class="l1button icon"></a>
-                    </p>
-                </div>
-            </div>
-        </div>
-    </body>
-    <footer>
-    </footer>
-</html>
+<div class="SplashScreen-container">
+	<div class="main-logo-text">
+		<div class="logo crt">Lunar Lander</div>
+		<div class="subtitle crt">See you in space, cowboy!</div>
+		<div class="box"></div>
+		<div class="box2 box"></div>
+		<div class="box3 box"></div>
+		<div class="box_mask"></div>
+	</div>
+	<div class="start">
+		<div class="text">Press</div>
+		<video autoplay loop muted playsinline>
+			<source src="./Assets/Space-Key.webm" type="video/webm" />
+		</video>
+	</div>
+	<div class="controls">
+		<table>
+			<tbody>
+				<tr>
+					<td>
+						<video autoplay loop muted playsinline width="50%">
+							<source src="./Assets/X.webm" type="video/webm" />
+						</video>
+					</td>
+					<td><div class="text">&emsp;Boost&emsp;</div></td>
+					<td>
+						<video autoplay loop muted playsinline>
+							<source src="./Assets/Space-Key.webm" type="video/webm" />
+						</video>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<video autoplay loop muted playsinline width="50%">
+							<source src="./Assets/L1.webm" type="video/webm" />
+						</video>
+					</td>
+					<td><div class="text">&emsp;Rotate Left&emsp;</div></td>
+					<td>
+						<video autoplay loop muted playsinline>
+							<source src="./Assets/A-Key.webm" type="video/webm" />
+						</video>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<video autoplay loop muted playsinline width="50%">
+							<source src="./Assets/R1.webm" type="video/webm" />
+						</video>
+					</td>
+					<td><div class="text">&emsp;Rotate Right&emsp;</div></td>
+					<td>
+						<video autoplay loop muted playsinline>
+							<source src="./Assets/D-Key.webm" type="video/webm" />
+						</video>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
