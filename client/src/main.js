@@ -298,6 +298,10 @@ function initRenderer() {
 			name: 'NameTags',
 			zIndex: 50,
 		}),
+		new Layer({
+			name: 'Bullets',
+			zIndex: 60,
+		}),
 	]);
 
 	return renderer;

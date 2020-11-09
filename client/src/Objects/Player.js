@@ -13,10 +13,8 @@ import Side_booster3 from '../../Assets/RotationBoosters/exhaust3.png';
 import Side_booster4 from '../../Assets/RotationBoosters/exhaust4.png';
 
 import Shot_vid from '../../Assets/drone/shot.webm';
-import Shot_explosion from '../../Assets/drone/explosion.webm';
-import Shot_explosionBig from '../../Assets/drone/explosionBig.webm';
 
-import { DEFAULTS, EVENTS } from '../../../shared/Consts';
+import { DEFAULTS, EVENTS, REQUEST } from '../../../shared/Consts';
 import Terrain from './Terrain';
 import Bullet from './Bullet';
 
@@ -105,9 +103,15 @@ export default class Player extends Sprite {
 	}
 
 	fire() {
-		const bullet = new Bullet(this.framerate, this.rotation, Shot_vid);
+		console.log('s');
+		const bullet = new Bullet({
+			framerate: this.framerate,
+			_src: Shot_vid,
+			position: { ...this.position },
+			rotation: this.rotation,
+		});
 
-		this.bullets.push(bullet);
+		this.bullets.push({ node: bullet, didAdd: false });
 	}
 
 	animate(i) {
@@ -215,56 +219,20 @@ export default class Player extends Sprite {
 		}
 
 		self.bullets.forEach((b, i) => {
-			if (b.pos.x === null) {
-				b.pos = {
-					x: p.x + 5,
-					y: p.y + 5,
-				};
-			}
-			const fPos = {
-				x: (b.pos.x += 10 * Math.sin(b.rot)),
-				y: (b.pos.y += 10 * -Math.cos(b.rot)),
-			};
-			if (fPos.y + 20 >= Terrain.sample(fPos.x, this.anchor.position.x)) {
-				b.explosion(fPos, Shot_explosion);
-				b.lifetime = -1;
-			} else {
-				let skip = false;
-				const players = self.getPlayers();
-				for (const key in players) {
-					if (players.hasOwnProperty(key)) {
-						const pl = players[key];
-						if (key !== self.name) {
-							if (AABB.collide(b.HTML, pl.HTML)) {
-								b.explosion(
-									{
-										x: pl.position.x - this.anchor.position.x,
-										y: pl.position.y + 30,
-									},
-									Shot_explosion
-								);
-								self
-									.getSocket()
-									.emit(EVENTS.PLAYER_HAS_DAMAGED, { id: pl.name, val: 10 });
-								b.lifetime = -1;
-								skip = true;
-							}
-						}
+			if (!b.didAdd) {
+				if (this.anchor) {
+					if (this.anchor.name === self.name) {
+						b.node.setPosition({
+							x: self.position.x + window.innerWidth / 2,
+							y: self.position.y,
+						});
 					}
 				}
-				if (!skip) {
-					b.HTML.style.transform = `translate(
-						${fPos.x}px,
-						${fPos.y}px) 
-						rotate(${b.rot - Math.PI / 2}rad)`;
-					b.lifetime--;
-				}
-			}
 
-			if (b.lifetime <= 0) {
-				b.HTML.remove();
-				b.explosion(fPos);
-				self.bullets.splice(i, 1);
+				b.node.setRemoveNode(this.removeNode.bind(this));
+				b.node.setGetPlayers(self.getPlayers, self.name);
+				this.addNode('Bullets', b.node);
+				b.didAdd = true;
 			}
 		});
 
@@ -300,32 +268,3 @@ export default class Player extends Sprite {
 		return sideBooster;
 	}
 }
-
-var AABB = {
-	collide: function (el1, el2) {
-		var rect1 = el1.getBoundingClientRect();
-		var rect2 = el2.getBoundingClientRect();
-
-		return !(
-			rect1.top > rect2.bottom ||
-			rect1.right < rect2.left ||
-			rect1.bottom < rect2.top ||
-			rect1.left > rect2.right
-		);
-	},
-	inside: function (el1, el2) {
-		var rect1 = el1.getBoundingClientRect();
-		var rect2 = el2.getBoundingClientRect();
-
-		return (
-			rect2.top <= rect1.top &&
-			rect1.top <= rect2.bottom &&
-			rect2.top <= rect1.bottom &&
-			rect1.bottom <= rect2.bottom &&
-			rect2.left <= rect1.left &&
-			rect1.left <= rect2.right &&
-			rect2.left <= rect1.right &&
-			rect1.right <= rect2.right
-		);
-	},
-};
