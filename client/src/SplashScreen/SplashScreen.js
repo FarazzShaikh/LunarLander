@@ -9,6 +9,12 @@ export default class SplashScreen {
 
 		this.HTML.style.transition = 'all 300ms ease-in-out';
 		this.HTML.style.opacity = '0';
+
+		setTimeout(() => {
+			document.querySelectorAll('video').forEach((v) => {
+				v.playbackRate = 0.7;
+			});
+		}, 1000);
 	}
 
 	show(onReady) {

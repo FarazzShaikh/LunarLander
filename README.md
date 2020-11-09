@@ -1,4 +1,4 @@
-# ***Lunar Lander***
+[Launch Lunar Lander Pre-Alpha](https://github.com/FarazzShaikh/LunarLander/blob/master/Assets/Logo.png)
 *A Remake of Atari's Lunar Lander, but in the Browser.*
 
 ![uses-javascript](https://badgen.net/badge/Uses/Javascript/f0db4f)
