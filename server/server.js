@@ -41,7 +41,6 @@ app.post('/api/registerUser/', (req, res) => {
 	})
 		.then(() => {
 			res.send({ uuid });
-			res.sendStatus(200);
 		})
 		.catch((e) => {
 			res.sendStatus(500);
