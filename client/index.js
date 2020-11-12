@@ -1,6 +1,6 @@
 import main from './src/main';
 import * as Cookies from './src/Engine/Cookies';
-import { Modal_main } from './src/SplashScreen/SplashScreen';
+import { Modal_main } from './src/TitleScreen/TitleScreen';
 import FingerprintJS from '@fingerprintjs/fingerprintjs';
 // Entrypoint
 
