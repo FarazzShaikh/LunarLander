@@ -69,10 +69,10 @@ export default class GameOver {
 							currUser.name.textContent = s.userName || '';
 							currUser.value.textContent = s.value || '';
 							currUser.rank.textContent = i + 1 || '';
+							deleteCookies();
 							return;
 						}
 					});
-					deleteCookies();
 				})
 
 				.catch((e) => console.error);
