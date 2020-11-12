@@ -118,16 +118,16 @@ export default class Game {
 	 * @param {Socket} socket Socket of the player to add.
 	 */
 	async addPlayer(socket, data) {
-		const { resources, score, health } = await this.getResources(data);
+		const { resources, value, health } = await this.getResources(data);
 		this.players[socket.id] = new Player({
 			uuid: data.uuid,
-			name: data.name,
+			name: data.userName,
 			socket: socket,
 			position: { x: this.rechargeStations[1].xPosition, y: 0 },
 			velocity: { x: 0, y: 0 },
 			rotation: Math.PI / 2,
 			resources: resources,
-			score: score,
+			value: value,
 			health: health,
 		});
 		if (this.collision) {
