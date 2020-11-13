@@ -231,12 +231,19 @@ export default function main() {
 	);
 
 	socket.on(EVENTS.SERVER_SEND_CRASHED_SHIPS, ({ recharge }) => {
-		getCrashedShips().then((s) => {
-			engine.addShips(s);
-			if (recharge) {
-				engine.addRechargeStation(recharge);
-			}
-		});
+		getCrashedShips()
+			.then((s) => {
+				engine.addShips(s);
+				getDeadPLayers()
+					.then((p) => {
+						engine.addDeadPlayers(p);
+						if (recharge) {
+							engine.addRechargeStation(recharge);
+						}
+					})
+					.catch((e) => console.error(e));
+			})
+			.catch((e) => console.error(e));
 	});
 
 	// Listens for Update PLayerss event. Then updates list of all players.
@@ -248,9 +255,9 @@ export default function main() {
 		engine.updatePlayer(player)
 	);
 
-	socket.on(REQUEST.REQUEST_DELETE_PLAYER.req, () =>
-		INTERRUPT.set('INTERRUPT-PLAYER-DEAD', true)
-	);
+	socket.on(REQUEST.REQUEST_DELETE_PLAYER.req, () => {
+		INTERRUPT.set('INTERRUPT-PLAYER-DEAD', true);
+	});
 
 	// setTimeout(() => {
 	// 	INTERRUPT.set('INTERRUPT-PLAYER-DEAD', true);
@@ -272,6 +279,7 @@ export default function main() {
 				if (!hud.hidden) {
 					gameOverScrren.show();
 					hud.hide();
+					socket.emit(REQUEST.REQUEST_DELETE_PLAYER.ack);
 				}
 			}
 		}
@@ -328,6 +336,12 @@ function initRenderer() {
 
 async function getCrashedShips() {
 	const url = `${window.location.href}api/CrashedShips/`;
+	const data = await fetch(url);
+	return await data.json();
+}
+
+async function getDeadPLayers() {
+	const url = `${window.location.href}api/DeadPlayers/`;
 	const data = await fetch(url);
 	return await data.json();
 }

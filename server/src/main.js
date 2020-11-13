@@ -65,6 +65,10 @@ export default function main(http) {
 			game.playerIsShot(id, val);
 		});
 
+		socket.on(REQUEST.REQUEST_DELETE_PLAYER.ack, () => {
+			game.killPLayer(socket);
+		});
+
 		// Listens for 'disconnect' events.
 		socket.on('disconnect', () => {
 			// Removes disconected player from the game.
