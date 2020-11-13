@@ -29,7 +29,8 @@ export default class Collision {
 			(this.window.h * 0.7 - this.window.h * 0.55) +
 			this.window.h * 0.55;
 
-		if (player.position.y + 60 >= noise && player.velocity.y > 0.3) {
+
+		if (player.position.y + 60 >= noise && (player.velocity.y > 0.3 || player.velocity.x > 0.3)) {
 			player.damage(player.velocity.y * DEFAULTS.COLLISION.dmg);
 			if (player.health <= 0) {
 				player.socket.emit(REQUEST.REQUEST_DELETE_PLAYER.req);
