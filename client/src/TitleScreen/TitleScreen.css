@@ -336,6 +336,11 @@
 	align-items: center;
 }
 
+.play-container .title {
+	font-size: 50px;
+	margin: 8px;
+}
+
 .SplashScreen-container input {
 	padding: 8px;
 
