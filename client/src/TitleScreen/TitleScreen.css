@@ -393,11 +393,7 @@
     
     text-align: center;
 }
-body {
-    background-color: black;
-    width: 50vw;
-}
-.credit-title {
+.Credits-Heading .credit-title {
     font-family: 'VT323', monospace;
     font-size: 30px;
     font-style: italic;
@@ -406,7 +402,7 @@ body {
     text-align: center;
     height: 0.5vh;
 }
-.credit-name {
+.Credits-Heading .credit-name {
     font-family: 'VT323', monospace;
     font-size: 20px;
     font-style: italic;
