@@ -152,10 +152,12 @@ export function Modal_main(setCookies, fingerprint) {
 
 		getScore()
 			.then((scores) => {
-				if (
-					scores.find((n) => n.userName === name && n.fingerprint !== fingerprint)
-				) {
-					alert('Username Taken');
+				if (scores.find((s) => s.userName === name)) {
+					new Error().show({
+						title: 'Name Taken.',
+						body: 'This username is already taken. Please try a different one.',
+					});
+					return;
 				} else {
 					const postData = { name, fingerprint };
 					setUser(postData).then((r) => {

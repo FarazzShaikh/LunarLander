@@ -93,6 +93,8 @@
 	color: white;
 	font-family: 'VT323', monospace;
 	padding: 16px;
+
+	pointer-events: none;
 }
 
 .main-logo-text .box {
@@ -206,6 +208,7 @@
 	margin-top: 10%;
 
 	z-index: 2;
+	pointer-events: none;
 }
 
 .SplashScreen-container .icons {
@@ -268,6 +271,10 @@
 	flex-direction: column;
 	justify-content: center;
 	align-items: flex-start;
+}
+
+.SplashScreen-container .inject-html-style .controls-container .controls {
+	pointer-events: none;
 }
 
 .SplashScreen-container .inject-html-style .controls-container video {
