@@ -13,7 +13,7 @@ export class Player {
 		resources,
 		name,
 		uuid,
-		score,
+		value,
 		health,
 	}) {
 		// Socket associated with the player
@@ -42,7 +42,7 @@ export class Player {
 		this.health = health;
 		this.name = name;
 		this.uuid = uuid;
-		this.score = score;
+		this.value = value;
 		this.fire = 0;
 	}
 
@@ -167,7 +167,7 @@ export class Player {
 			movementState: this.movementState,
 			resources: this.resources,
 			health: this.health,
-			score: this.score,
+			score: this.value,
 			fire: this.fire,
 		};
 	}

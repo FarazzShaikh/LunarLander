@@ -1,7 +1,7 @@
 import io from 'socket.io-client';
 
 // Class imports
-import { EVENTS, REQUEST } from '../../shared/Consts';
+import { EVENTS, INTERRUPT, REQUEST } from '../../shared/Consts';
 import Controller from './Engine/Controller';
 import Engine from './Engine/Engine';
 import Renderer, { Layer } from './Engine/Renderer';
@@ -20,12 +20,16 @@ import Radar from './Objects/HUD/Radar';
 import FPS from './Objects/HUD/FPS';
 import HUD from './Objects/HUD/_HUD';
 
+import GameOver from './GameOverScreen/GameOver';
+
 let frameCounter = 0;
 
 // Main
 export default function main() {
 	// Declaring in scope of main
 	let renderer, engine, controller, gamepad, hud;
+
+	const gameOverScrren = new GameOver();
 
 	// Create a Socket io instance.
 	const socket = io();
@@ -245,20 +249,36 @@ export default function main() {
 		engine.updatePlayer(player)
 	);
 
+	socket.on(REQUEST.REQUEST_DELETE_PLAYER.req, () =>
+		INTERRUPT.set('INTERRUPT-PLAYER-DEAD', true)
+	);
+
+	// setTimeout(() => {
+	// 	INTERRUPT.set('INTERRUPT-PLAYER-DEAD', true);
+	// }, 5000);
+
 	// GListens for Server Tick events.
 	socket.on(EVENTS.SERVER_TICK, (dt) => {
-		frameCounter++;
-		//console.log('server-tick');
-		// Calls engine update on every tick with given delta time.
-		if (controller.enableDS4 && frameCounter % 4 === 0) {
-			controller.getControllerState();
-		}
+		if (!INTERRUPT.get('INTERRUPT-PLAYER-DEAD')) {
+			frameCounter++;
+			//console.log('server-tick');
+			// Calls engine update on every tick with given delta time.
+			if (controller.enableDS4 && frameCounter % 4 === 0) {
+				controller.getControllerState();
+			}
 
-		engine.update(dt);
+			engine.update(dt);
+		} else {
+			if (hud) {
+				if (!hud.hidden) {
+					gameOverScrren.show();
+					hud.hide();
+				}
+			}
+		}
 	});
 
 	// Listens for Delete_Player event
-	socket.on(REQUEST.REQUEST_DELETE_PLAYER.req, () => console.log('Dead'));
 }
 
 /**
@@ -305,11 +325,6 @@ function initRenderer() {
 	]);
 
 	return renderer;
-}
-
-async function getScore() {
-	const url = `${window.location.href}api/scores/`;
-	console.log(await (await fetch(url)).json());
 }
 
 async function getCrashedShips() {
