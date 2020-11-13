@@ -30,7 +30,6 @@ app.post('/api/registerUser/', (req, res) => {
 	const uuid = new Date().valueOf();
 	DB.POST(uuid, 'HighScores', {
 		uuid: uuid,
-		fingerprint: body.fingerprint,
 		userName: body.name,
 		resources: {
 			fuel: 100,
