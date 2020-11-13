@@ -28,6 +28,7 @@ let frameCounter = 0;
 export default function main() {
 	// Declaring in scope of main
 	let renderer, engine, controller, gamepad, hud;
+	let init = true;
 
 	const gameOverScrren = new GameOver();
 
@@ -72,6 +73,7 @@ export default function main() {
 			enableDS4: true,
 			control: engine.control.bind(engine),
 			getCurrentResource: engine.getCurrentResource.bind(engine),
+			setRaderText: engine.setRaderText.bind(engine),
 		});
 
 		// Requests terrain options.
@@ -240,6 +242,13 @@ export default function main() {
 						if (recharge) {
 							engine.addRechargeStation(recharge);
 						}
+						if (!init) {
+							engine.setRaderText('Collected!');
+							setTimeout(() => {
+								engine.setRaderText('');
+							}, 3000);
+						}
+						init = false;
 					})
 					.catch((e) => console.error(e));
 			})

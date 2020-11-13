@@ -15,6 +15,7 @@ export class Player {
 		uuid,
 		value,
 		health,
+		setDamage,
 	}) {
 		// Socket associated with the player
 		this.socket = socket;
@@ -44,6 +45,8 @@ export class Player {
 		this.uuid = uuid;
 		this.value = value;
 		this.fire = 0;
+
+		this.setDamage = setDamage;
 	}
 
 	setFire() {
@@ -57,6 +60,10 @@ export class Player {
 	damage(val) {
 		if (this.health > 0) {
 			this.health -= val;
+
+			this.setDamage(this.uuid, 'HighScores', {
+				health: this.health,
+			}).catch((e) => console.error(e));
 		}
 	}
 

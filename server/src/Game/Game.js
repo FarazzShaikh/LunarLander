@@ -135,12 +135,14 @@ export default class Game {
 			uuid: data.uuid,
 			name: data.name,
 			socket: socket,
-			position: { x: 439234.6347766233, y: 0 },
-			velocity: { x: 0, y: 0 },
+			position: { x: 32796, y: 0 },
+			velocity: { x: 2, y: 0 },
 			rotation: Math.PI / 2,
 			resources: resources,
 			value: value,
 			health: health,
+
+			setDamage: DB.UPDATE.bind(DB),
 		});
 		if (this.collision) {
 			this.collision.setPlayers(this.players);

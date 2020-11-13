@@ -39,7 +39,9 @@ export default class Radar {
 
 	setRaderText(text) {
 		this.sound_textType.stop();
-		this.sound_textType.play();
+		if (text.length > 0) {
+			this.sound_textType.play();
+		}
 
 		if (this.notification) {
 			this.notification.innerHTML = `<h1>${text}</h1>`;

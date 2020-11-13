@@ -94,6 +94,10 @@ export default class Engine {
 		this.radar = radar;
 	}
 
+	setRaderText(text) {
+		this.radar.setRaderText(text);
+	}
+
 	setCurrentResource(resource) {
 		this.currentResource = resource;
 	}
