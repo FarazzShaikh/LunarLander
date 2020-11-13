@@ -25,6 +25,11 @@ app.get('/api/CrashedShips/', async (req, res) => {
 	res.send(await DB.GET('null', 'Ships'));
 });
 
+// Endpoint to get all Dead Players Locations
+app.get('/api/DeadPLayers/', async (req, res) => {
+	res.send(await DB.GET('null', 'KilledPlayers'));
+});
+
 app.post('/api/registerUser/', (req, res) => {
 	const body = req.body;
 	const uuid = new Date().valueOf();
