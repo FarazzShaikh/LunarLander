@@ -133,7 +133,7 @@ export default class SplashScreen {
 	}
 }
 
-export function Modal_main(setCookies, fingerprint) {
+export function Modal_main(setCookies) {
 	console.log('modal');
 
 	const modal = new SplashScreen();
@@ -159,7 +159,7 @@ export function Modal_main(setCookies, fingerprint) {
 					});
 					return;
 				} else {
-					const postData = { name, fingerprint };
+					const postData = { name };
 					setUser(postData).then((r) => {
 						if (r.status === 200) {
 							r.json()

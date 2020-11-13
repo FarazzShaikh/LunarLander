@@ -1,7 +1,6 @@
 import main from './src/main';
 import * as Cookies from './src/Engine/Cookies';
 import { Modal_main } from './src/TitleScreen/TitleScreen';
-import FingerprintJS from '@fingerprintjs/fingerprintjs';
 // Entrypoint
 
 const dev_login_bypass = false;
@@ -16,27 +15,16 @@ if (dev_only_splash) {
 		Cookies.setCookies({
 			name: 'test7',
 			uuid: 1234,
-			fingerprint: '000',
 		});
 		main();
 	} else {
-		getUserFingerprint()
-			.then((f) => {
-				if (!Cookies.userRegistered()) {
-					Modal_main((data) => {
-						Cookies.setCookies(data);
-						main();
-					}, f);
-				} else {
-					main();
-				}
-			})
-			.catch((e) => console.error(e));
+		if (!Cookies.userRegistered()) {
+			Modal_main((data) => {
+				Cookies.setCookies(data);
+				main();
+			});
+		} else {
+			main();
+		}
 	}
-}
-
-async function getUserFingerprint() {
-	const fp = await FingerprintJS.load();
-	const result = await fp.get();
-	return result.visitorId;
 }

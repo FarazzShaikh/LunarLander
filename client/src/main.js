@@ -221,7 +221,6 @@ export default function main() {
 		const cookies = Cookies.getCookies();
 		socket.emit(REQUEST.REQUEST_NEW_PLAYER.req, {
 			name: cookies.name,
-			fingerprint: cookies.fingerprint,
 			uuid: cookies.uuid,
 		});
 	});
