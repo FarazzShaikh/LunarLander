@@ -33,6 +33,16 @@ export const REQUEST = {
 	},
 };
 
+export const INTERRUPT = {
+	INTERRUPTS: {},
+	set: function (key, value) {
+		this.INTERRUPTS[key] = value;
+	},
+	get: function (key) {
+		return this.INTERRUPTS[key];
+	},
+};
+
 // Used to store Default values for various physics and other calculations
 export const DEFAULTS = {
 	CORE: {

@@ -16,6 +16,15 @@ export default class HUD extends Node {
 			}
 		}
 		this.needsUpdate = true;
+		this.hidden = false;
+	}
+
+	hide() {
+		this.hidden = true;
+		for (const key in this.components) {
+			const component = this.components[key];
+			component.HTML.style.display = 'none';
+		}
 	}
 
 	update(node) {

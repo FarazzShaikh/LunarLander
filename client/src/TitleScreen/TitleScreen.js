@@ -1,3 +1,4 @@
+import Error from '../Error/Error';
 import './TitleScreen.css';
 
 export default class SplashScreen {
@@ -51,7 +52,7 @@ export default class SplashScreen {
 						.querySelectorAll('.play-container table tbody tr td')
 						.forEach((cell) => {
 							cell.addEventListener('click', () => {
-								input.value += cell.textContent;
+								if (input.value.length < 10) input.value += cell.textContent;
 							});
 						});
 					document
@@ -132,7 +133,7 @@ export default class SplashScreen {
 	}
 }
 
-export function Modal_main(setCookies, fingerprint) {
+export function Modal_main(setCookies) {
 	console.log('modal');
 
 	const modal = new SplashScreen();
@@ -141,15 +142,24 @@ export function Modal_main(setCookies, fingerprint) {
 
 	function onReady(val) {
 		const name = val.trim();
+		if (name.length <= 0) {
+			new Error().show({
+				title: 'Enter a Name.',
+				body: 'Please set a username! ',
+			});
+			return;
+		}
 
 		getScore()
 			.then((scores) => {
-				if (
-					scores.find((n) => n.userName === name && n.fingerprint !== fingerprint)
-				) {
-					alert('Username Taken');
+				if (scores.find((s) => s.userName === name)) {
+					new Error().show({
+						title: 'Name Taken.',
+						body: 'This username is already taken. Please try a different one.',
+					});
+					return;
 				} else {
-					const postData = { name, fingerprint };
+					const postData = { name };
 					setUser(postData).then((r) => {
 						if (r.status === 200) {
 							r.json()

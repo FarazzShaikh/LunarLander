@@ -15,6 +15,8 @@
 
 [Launch Lunar Lander Pre-Alpha](https://lunar-lander-js.herokuapp.com/)
 
+![TitleDemo](https://github.com/FarazzShaikh/LunarLander/blob/master/Assets/TitleDemo.gif)
+
 ![Demo](https://github.com/FarazzShaikh/LunarLander/blob/master/Assets/Demo.gif)
 
 ## **Controls**

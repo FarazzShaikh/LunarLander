@@ -1,7 +1,7 @@
 import io from 'socket.io-client';
 
 // Class imports
-import { EVENTS, REQUEST } from '../../shared/Consts';
+import { EVENTS, INTERRUPT, REQUEST } from '../../shared/Consts';
 import Controller from './Engine/Controller';
 import Engine from './Engine/Engine';
 import Renderer, { Layer } from './Engine/Renderer';
@@ -20,12 +20,17 @@ import Radar from './Objects/HUD/Radar';
 import FPS from './Objects/HUD/FPS';
 import HUD from './Objects/HUD/_HUD';
 
+import GameOver from './GameOverScreen/GameOver';
+
 let frameCounter = 0;
 
 // Main
 export default function main() {
 	// Declaring in scope of main
 	let renderer, engine, controller, gamepad, hud;
+	let init = true;
+
+	const gameOverScrren = new GameOver();
 
 	// Create a Socket io instance.
 	const socket = io();
@@ -68,6 +73,7 @@ export default function main() {
 			enableDS4: true,
 			control: engine.control.bind(engine),
 			getCurrentResource: engine.getCurrentResource.bind(engine),
+			setRaderText: engine.setRaderText.bind(engine),
 		});
 
 		// Requests terrain options.
@@ -217,7 +223,6 @@ export default function main() {
 		const cookies = Cookies.getCookies();
 		socket.emit(REQUEST.REQUEST_NEW_PLAYER.req, {
 			name: cookies.name,
-			fingerprint: cookies.fingerprint,
 			uuid: cookies.uuid,
 		});
 	});
@@ -228,12 +233,26 @@ export default function main() {
 	);
 
 	socket.on(EVENTS.SERVER_SEND_CRASHED_SHIPS, ({ recharge }) => {
-		getCrashedShips().then((s) => {
-			engine.addShips(s);
-			if (recharge) {
-				engine.addRechargeStation(recharge);
-			}
-		});
+		getCrashedShips()
+			.then((s) => {
+				engine.addShips(s);
+				getDeadPLayers()
+					.then((p) => {
+						engine.addDeadPlayers(p);
+						if (recharge) {
+							engine.addRechargeStation(recharge);
+						}
+						if (!init) {
+							engine.setRaderText('Collected!');
+							setTimeout(() => {
+								engine.setRaderText('');
+							}, 3000);
+						}
+						init = false;
+					})
+					.catch((e) => console.error(e));
+			})
+			.catch((e) => console.error(e));
 	});
 
 	// Listens for Update PLayerss event. Then updates list of all players.
@@ -245,20 +264,37 @@ export default function main() {
 		engine.updatePlayer(player)
 	);
 
+	socket.on(REQUEST.REQUEST_DELETE_PLAYER.req, () => {
+		INTERRUPT.set('INTERRUPT-PLAYER-DEAD', true);
+	});
+
+	// setTimeout(() => {
+	// 	INTERRUPT.set('INTERRUPT-PLAYER-DEAD', true);
+	// }, 5000);
+
 	// GListens for Server Tick events.
 	socket.on(EVENTS.SERVER_TICK, (dt) => {
-		frameCounter++;
-		//console.log('server-tick');
-		// Calls engine update on every tick with given delta time.
-		if (controller.enableDS4 && frameCounter % 4 === 0) {
-			controller.getControllerState();
-		}
+		if (!INTERRUPT.get('INTERRUPT-PLAYER-DEAD')) {
+			frameCounter++;
+			//console.log('server-tick');
+			// Calls engine update on every tick with given delta time.
+			if (controller.enableDS4 && frameCounter % 4 === 0) {
+				controller.getControllerState();
+			}
 
-		engine.update(dt);
+			engine.update(dt);
+		} else {
+			if (hud) {
+				if (!hud.hidden) {
+					gameOverScrren.show();
+					hud.hide();
+					socket.emit(REQUEST.REQUEST_DELETE_PLAYER.ack);
+				}
+			}
+		}
 	});
 
 	// Listens for Delete_Player event
-	socket.on(REQUEST.REQUEST_DELETE_PLAYER.req, () => console.log('Dead'));
 }
 
 /**
@@ -307,13 +343,14 @@ function initRenderer() {
 	return renderer;
 }
 
-async function getScore() {
-	const url = `${window.location.href}api/scores/`;
-	console.log(await (await fetch(url)).json());
-}
-
 async function getCrashedShips() {
 	const url = `${window.location.href}api/CrashedShips/`;
+	const data = await fetch(url);
+	return await data.json();
+}
+
+async function getDeadPLayers() {
+	const url = `${window.location.href}api/DeadPlayers/`;
 	const data = await fetch(url);
 	return await data.json();
 }
