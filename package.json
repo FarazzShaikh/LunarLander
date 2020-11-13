@@ -31,13 +31,10 @@
 	},
 	"dependencies": {
 		"@chriscourses/perlin-noise": "^1.0.5",
-		"@fingerprintjs/fingerprintjs": "^3.0.0",
 		"dotenv": "^8.2.0",
 		"express": "^4.17.1",
 		"fantasy-name-generator": "^2.0.0",
 		"faunadb": "^3.0.1",
-		"firebase-admin": "^9.3.0",
-		"firebase-functions": "^3.11.0",
 		"numeral": "^2.0.6",
 		"reload": "^3.1.1",
 		"socket.io": "^2.3.0",

@@ -11,6 +11,7 @@ const {
 	Lambda,
 	Documents,
 	Update,
+	Delete,
 } = faunadb.query;
 
 /**
@@ -72,6 +73,12 @@ export async function UPDATE(id, collection, data) {
 			data: data,
 		})
 	);
+
+	return doc;
+}
+
+export async function DELETE(id, collection) {
+	const doc = await client.query(Delete(Ref(Collection(collection), id)));
 
 	return doc;
 }

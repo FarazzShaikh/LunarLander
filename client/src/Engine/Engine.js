@@ -5,6 +5,8 @@ import Terrain from '../Objects/Terrain';
 
 import sprite_rechargeStation from '../../Assets/Misc/RechargeStation/RechargeStation.webm';
 import sprite_ships from '../../Assets/Misc/Ships/Ships.webm';
+import sprite_deadPlayers from '../../Assets/drone/drone-3.png';
+
 import NameTag from '../Objects/NameTag';
 
 // Class Representing the Engine
@@ -22,8 +24,11 @@ export default class Engine {
 		this.pOffset = -1;
 
 		this.players = {};
+
 		this.ships = [];
 		this.rechargeStations = [];
+		this.deadPlayers = [];
+
 		this.radar = null;
 		this.currentResource = null;
 	}
@@ -87,6 +92,10 @@ export default class Engine {
 
 	setRadar(radar) {
 		this.radar = radar;
+	}
+
+	setRaderText(text) {
+		this.radar.setRaderText(text);
 	}
 
 	setCurrentResource(resource) {
@@ -206,6 +215,67 @@ export default class Engine {
 						position: {
 							x: s.xPosition + window.innerWidth / 2 + 30,
 							y: Terrain.sample(s.xPosition, this.offset) - 180,
+						},
+					}),
+				],
+				['Resources', 'NameTags']
+			);
+
+			this.radar.addDot(s.xPosition, this.players[this.me].position.x);
+		});
+	}
+
+	addDeadPlayers(resources) {
+		this.radar.setShips(resources);
+		this.deadPlayers.forEach((s, i) => {
+			this.renderer.removeNode(`Resources-Player-${s.name}`);
+			this.renderer.removeNode(`NameTags-${s.name}`);
+		});
+
+		this.deadPlayers = resources;
+
+		resources.forEach((s, i) => {
+			this.addNodes(
+				[
+					new Resource({
+						id: s.uuid,
+						name: `Player-${s.name}`,
+						position: {
+							x: s.xPosition + window.innerWidth / 2,
+							y: Terrain.sample(s.xPosition, this.offset) - 20,
+						},
+						hitbox: {
+							w: 0,
+							h: 20,
+						},
+						resources: s.resources,
+						setCurrentResource: this.setCurrentResource.bind(this),
+						setRAderText: this.radar.setRaderText.bind(this.radar),
+						size: {
+							w: 0,
+							h: 0,
+						},
+						scale: 5,
+						rotation: -0.5 + Math.random() * 0.2,
+						zIndex: 10,
+						sprite: sprite_deadPlayers,
+					}),
+					new NameTag({
+						name: `${s.name}`,
+						color: '#abeeab',
+						string: `
+							<div>
+								<div>${s.name}</div>
+								<div>&emsp;{</div>
+								<div>&emsp;&emsp;Fuel: ${s.resources.fuel}</div>
+								<div>&emsp;&emsp;W: ${s.resources.W}</div>
+								<div>&emsp;&emsp;Scrap: ${s.resources.scrap}</div>
+								<div>&emsp;}</div>
+							</div>
+						`,
+						position: {
+							x: s.xPosition + window.innerWidth / 2 + 30,
+							y: Terrain.sample(s.xPosition, this.offset) - 150,
 						},
 					}),
 				],
