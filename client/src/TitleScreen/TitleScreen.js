@@ -1,3 +1,4 @@
+import Error from '../Error/Error';
 import './TitleScreen.css';
 
 export default class SplashScreen {
@@ -141,6 +142,13 @@ export function Modal_main(setCookies, fingerprint) {
 
 	function onReady(val) {
 		const name = val.trim();
+		if (name.length <= 0) {
+			new Error().show({
+				title: 'Enter a Name.',
+				body: 'Please set a username! ',
+			});
+			return;
+		}
 
 		getScore()
 			.then((scores) => {
