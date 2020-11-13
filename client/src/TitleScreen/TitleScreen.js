@@ -52,7 +52,7 @@ export default class SplashScreen {
 						.querySelectorAll('.play-container table tbody tr td')
 						.forEach((cell) => {
 							cell.addEventListener('click', () => {
-								input.value += cell.textContent;
+								if (input.value.length < 10) input.value += cell.textContent;
 							});
 						});
 					document
