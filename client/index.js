@@ -4,7 +4,7 @@ import { Modal_main } from './src/Views/TitleScreen/TitleScreen';
 // Entrypoint
 
 const dev_login_bypass = false;
-const dev_only_splash = false;
+const dev_only_splash = true;
 
 if (dev_only_splash) {
 	Modal_main((data) => {
