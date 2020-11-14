@@ -398,3 +398,27 @@
 	background-color: #121212;
 	transition: all 100ms ease-in-out;
 }
+.Credits-Heading {
+    font-family: 'VT323', monospace;
+    font-size: 50px;
+    color: white;
+    
+    text-align: center;
+}
+.Credits-Heading .credit-title {
+    font-family: 'VT323', monospace;
+    font-size: 30px;
+    font-style: italic;
+    color: tomato;
+
+    text-align: center;
+    height: 0.5vh;
+}
+.Credits-Heading .credit-name {
+    font-family: 'VT323', monospace;
+    font-size: 20px;
+    font-style: italic;
+    color: white;
+
+    text-align: center;
+}
