@@ -62,7 +62,7 @@
 	height: 100vh;
 
 	background-color: #121212;
-	background: url('./Assets//background.gif');
+	background: url('../Assets//background.gif');
 	background-repeat: no-repeat;
 	background-size: cover;
 	image-rendering: pixelated;
@@ -240,7 +240,8 @@
 }
 
 .SplashScreen-container .controls-container .icons,
-.SplashScreen-container .play-container .icons {
+.SplashScreen-container .play-container .icons,
+.SplashScreen-container .credits-container .icons {
 	position: absolute;
 	right: 0;
 	top: 0;
@@ -282,7 +283,7 @@
 }
 
 .SplashScreen-container .inject-html-style .controls-container video.scaleDown {
-	width: 64px;
+	width: 32px;
 }
 
 .SplashScreen-container .inject-html-style .controls-container .title {
@@ -309,7 +310,7 @@
 
 .play-container table tbody tr td {
 	padding: 8px;
-	font-size: 40px;
+	font-size: 30px;
 	border: 1px solid transparent;
 	border-radius: 3px;
 	cursor: pointer;
@@ -398,27 +399,45 @@
 	background-color: #121212;
 	transition: all 100ms ease-in-out;
 }
-.Credits-Heading {
-    font-family: 'VT323', monospace;
-    font-size: 50px;
-    color: white;
-    
-    text-align: center;
-}
-.Credits-Heading .credit-title {
-    font-family: 'VT323', monospace;
-    font-size: 30px;
-    font-style: italic;
-    color: tomato;
 
-    text-align: center;
-    height: 0.5vh;
-}
-.Credits-Heading .credit-name {
-    font-family: 'VT323', monospace;
-    font-size: 20px;
-    font-style: italic;
-    color: white;
+.credits-container {
+	width: 50%;
+	height: 100%;
+	z-index: 2;
 
-    text-align: center;
+	color: white;
+	font-family: 'VT323', monospace;
+	font-size: 20px;
+	text-align: center;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.credits-container .Credits-Heading {
+	font-size: 50px;
+	color: white;
+}
+
+.credits-container table tbody tr td {
+	width: 150px;
+}
+
+.credits-container .title {
+	font-size: 20px;
+	color: white;
+}
+
+.credits-container .heading {
+	font-size: 30px;
+	color: tomato;
+	margin: 16px 0px;
+	font-style: italic;
+}
+
+.credits-container .text {
+	font-size: 20px;
+	color: white;
 }

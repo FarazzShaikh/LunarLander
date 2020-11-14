@@ -1,0 +1,231 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+@keyframes textShadow {
+	0% {
+		text-shadow: 0.4389924193300864px 0 1px rgba(0, 30, 255, 0.5),
+			-0.4389924193300864px 0 1px rgba(255, 0, 80, 0.3), 0 0 3px;
+	}
+	5% {
+		text-shadow: 2.7928974010788217px 0 1px rgba(0, 30, 255, 0.5),
+			-2.7928974010788217px 0 1px rgba(255, 0, 80, 0.3), 0 0 3px;
+	}
+	10% {
+		text-shadow: 0.02956275843481219px 0 1px rgba(0, 30, 255, 0.5),
+			-0.02956275843481219px 0 1px rgba(255, 0, 80, 0.3), 0 0 3px;
+	}
+	15% {
+		text-shadow: 0.40218538552878136px 0 1px rgba(0, 30, 255, 0.5),
+			-0.40218538552878136px 0 1px rgba(255, 0, 80, 0.3), 0 0 3px;
+	}
+	20% {
+		text-shadow: 3.4794037899852017px 0 1px rgba(0, 30, 255, 0.5),
+			-3.4794037899852017px 0 1px rgba(255, 0, 80, 0.3), 0 0 3px;
+	}
+	25% {
+		text-shadow: 1.6125630401149584px 0 1px rgba(0, 30, 255, 0.5),
+			-1.6125630401149584px 0 1px rgba(255, 0, 80, 0.3), 0 0 3px;
+	}
+	30% {
+		text-shadow: 0.7015590085143956px 0 1px rgba(0, 30, 255, 0.5),
+			-0.7015590085143956px 0 1px rgba(255, 0, 80, 0.3), 0 0 3px;
+	}
+	35% {
+		text-shadow: 3.896914047650351px 0 1px rgba(0, 30, 255, 0.5),
+			-3.896914047650351px 0 1px rgba(255, 0, 80, 0.3), 0 0 3px;
+	}
+	40% {
+		text-shadow: 3.870905614848819px 0 1px rgba(0, 30, 255, 0.5),
+			-3.870905614848819px 0 1px rgba(255, 0, 80, 0.3), 0 0 3px;
+	}
+	45% {
+		text-shadow: 2.231056963361899px 0 1px rgba(0, 30, 255, 0.5),
+			-2.231056963361899px 0 1px rgba(255, 0, 80, 0.3), 0 0 3px;
+	}
+	50% {
+		text-shadow: 0.08084290417898504px 0 1px rgba(0, 30, 255, 0.5),
+			-0.08084290417898504px 0 1px rgba(255, 0, 80, 0.3), 0 0 3px;
+	}
+	55% {
+		text-shadow: 2.3758461067427543px 0 1px rgba(0, 30, 255, 0.5),
+			-2.3758461067427543px 0 1px rgba(255, 0, 80, 0.3), 0 0 3px;
+	}
+	60% {
+		text-shadow: 2.202193051050636px 0 1px rgba(0, 30, 255, 0.5),
+			-2.202193051050636px 0 1px rgba(255, 0, 80, 0.3), 0 0 3px;
+	}
+	65% {
+		text-shadow: 2.8638780614874975px 0 1px rgba(0, 30, 255, 0.5),
+			-2.8638780614874975px 0 1px rgba(255, 0, 80, 0.3), 0 0 3px;
+	}
+	70% {
+		text-shadow: 0.48874025155497314px 0 1px rgba(0, 30, 255, 0.5),
+			-0.48874025155497314px 0 1px rgba(255, 0, 80, 0.3), 0 0 3px;
+	}
+	75% {
+		text-shadow: 1.8948491305757957px 0 1px rgba(0, 30, 255, 0.5),
+			-1.8948491305757957px 0 1px rgba(255, 0, 80, 0.3), 0 0 3px;
+	}
+	80% {
+		text-shadow: 0.0833037308038857px 0 1px rgba(0, 30, 255, 0.5),
+			-0.0833037308038857px 0 1px rgba(255, 0, 80, 0.3), 0 0 3px;
+	}
+	85% {
+		text-shadow: 0.09769827255241735px 0 1px rgba(0, 30, 255, 0.5),
+			-0.09769827255241735px 0 1px rgba(255, 0, 80, 0.3), 0 0 3px;
+	}
+	90% {
+		text-shadow: 3.443339761481782px 0 1px rgba(0, 30, 255, 0.5),
+			-3.443339761481782px 0 1px rgba(255, 0, 80, 0.3), 0 0 3px;
+	}
+	95% {
+		text-shadow: 2.1841838852799786px 0 1px rgba(0, 30, 255, 0.5),
+			-2.1841838852799786px 0 1px rgba(255, 0, 80, 0.3), 0 0 3px;
+	}
+	100% {
+		text-shadow: 2.6208764473832513px 0 1px rgba(0, 30, 255, 0.5),
+			-2.6208764473832513px 0 1px rgba(255, 0, 80, 0.3), 0 0 3px;
+	}
+}
+
+.crt::after {
+	content: ' ';
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	opacity: 0;
+	z-index: 2;
+	pointer-events: none;
+	animation: flicker 0.15s infinite;
+}
+.crt::before {
+	content: ' ';
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	z-index: 2;
+	background-size: 100% 2px, 3px 100%;
+	pointer-events: none;
+}
+.crt {
+	animation: textShadow 1.6s infinite;
+}
+
+.Blocked-main {
+	width: 100vw;
+	height: 100vh;
+	background-color: #121212;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	color: white;
+	font-family: 'VT323', monospace;
+	font-size: 20px;
+}
+
+.Blocked-main .logo {
+	height: fit-content;
+}
+
+.Blocked-main .logo img {
+	width: 100%;
+	image-rendering: pixelated;
+	object-fit: contain;
+}
+
+.Blocked-main .text {
+	margin-top: 32px;
+	position: relative;
+	width: fit-content;
+}
+
+.Blocked-main .title {
+	text-align: center;
+	font-size: 70px;
+}
+
+.Blocked-main .subtitle {
+	font-style: italic;
+	font-size: 20px;
+	text-align: center;
+	color: tomato;
+
+	position: absolute;
+	bottom: 0;
+	right: -10%;
+}
+
+.Blocked-main .message {
+	margin-top: 16px;
+	text-align: center;
+}
+
+.main-logo-text {
+	position: relative;
+	color: white;
+	font-family: 'VT323', monospace;
+	padding: 16px;
+
+	pointer-events: none;
+}
+
+.main-logo-text .box {
+	width: 70%;
+	height: 120%;
+	border: 1px solid tomato;
+	box-shadow: 0px 0px 10px 0px rgba(255, 99, 71, 0.459);
+
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.main-logo-text .box2 {
+	width: 80%;
+	height: 140%;
+	border: 1px solid tomato;
+}
+
+.main-logo-text .box3 {
+	width: 90%;
+	height: 160%;
+	border: 1px solid tomato;
+}
+
+.main-logo-text .box_mask {
+	width: 100%;
+	height: 100%;
+	background-color: #121212;
+
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 2;
+}
+
+.main-logo-text .logo {
+	font-size: 70px;
+	letter-spacing: 10px;
+	z-index: 3;
+	position: relative;
+}
+
+.main-logo-text .subtitle {
+	color: tomato;
+	font-size: 20px;
+	font-style: italic;
+
+	position: absolute;
+	bottom: 16px;
+	right: 16px;
+	z-index: 3;
+}

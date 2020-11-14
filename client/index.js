@@ -1,6 +1,6 @@
 import main from './src/main';
 import * as Cookies from './src/Engine/Cookies';
-import { Modal_main } from './src/TitleScreen/TitleScreen';
+import { Modal_main } from './src/Views/TitleScreen/TitleScreen';
 // Entrypoint
 
 const dev_login_bypass = false;
