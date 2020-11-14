@@ -1,5 +1,6 @@
 import { Node } from '../Engine/Renderer';
 
+import sound_explosion from '../../Assets/Sounds/Explosion.mp3';
 import Shot_explosion from '../../Assets/drone/explosion.webm';
 import Shot_explosionBig from '../../Assets/drone/explosionBig.webm';
 import Terrain from './Terrain';
@@ -23,7 +24,7 @@ export default class Bullet extends Node {
 		const src = document.createElement('source');
 		src.src = _src;
 		src.type = 'video/webm';
-
+		
 		bullet.appendChild(src);
 
 		const name = `${Math.random()}-Bullet`;
@@ -38,6 +39,8 @@ export default class Bullet extends Node {
 		this.getPlayers = null;
 		this.meName = null;
 
+		this.sound_explosion = new Audio(sound_explosion);
+		
 		this.transform({ position: p, rotation: r, scale: s });
 	}
 
@@ -54,6 +57,8 @@ export default class Bullet extends Node {
 		explosion.playsinline = true;
 		explosion.playbackRate = 1;
 
+		this.sound_explosion.play();
+		
 		const src = document.createElement('source');
 		src.src = _src;
 		src.type = 'video/webm';

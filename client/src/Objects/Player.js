@@ -2,6 +2,8 @@ import Sprite from './Sprite';
 
 import Char_Fly from '../../Assets/drone/drone-3.png';
 
+import sound_boost_f from '../../Assets/Sounds/boost_f.mp3'
+
 import Exhaust_Norm1 from '../../Assets/Normal_flight/Exhaust1/exhaust1.png';
 import Exhaust_Norm2 from '../../Assets/Normal_flight/Exhaust1/exhaust2.png';
 import Exhaust_Norm3 from '../../Assets/Normal_flight/Exhaust1/exhaust3.png';
@@ -13,10 +15,12 @@ import Side_booster3 from '../../Assets/RotationBoosters/exhaust3.png';
 import Side_booster4 from '../../Assets/RotationBoosters/exhaust4.png';
 
 import Shot_vid from '../../Assets/drone/shot.webm';
+import sound_shootRetro from '../../Assets/Sounds/shootRetro.mp3';
 
 import { DEFAULTS, EVENTS, REQUEST } from '../../../shared/Consts';
 import Terrain from './Terrain';
 import Bullet from './Bullet';
+import { _ } from 'core-js';
 
 // Class representing client side Player.
 export default class Player extends Sprite {
@@ -102,22 +106,25 @@ export default class Player extends Sprite {
 
 		this.getPlayers = getPlayers;
 		this.getSocket = getSocket;
+		this.sound_shootRetro = new Audio(sound_shootRetro);
+		this.sound_boost_f = new Audio(sound_boost_f);
 	}
 
 	fire() {
+		this.sound_shootRetro.play();
 		const bullet = new Bullet({
 			framerate: this.framerate,
 			_src: Shot_vid,
 			position: { ...this.position },
 			rotation: this.rotation,
 		});
-
 		this.bullets.push({ node: bullet, didAdd: false });
 	}
 
 	animate(i) {
 		if (this.resources.fuel > 0) {
 			if (this.boostState === 'BOOST') {
+				this.sound_boost_f.play();
 				this.flame.style.opacity = '1';
 			} else {
 				this.flame.style.opacity = '0';
@@ -168,7 +175,7 @@ export default class Player extends Sprite {
 	setBoostState(state) {
 		this.boostState = state;
 	}
-
+	
 	setVelocity(velocity) {
 		this.velocity = velocity;
 	}
