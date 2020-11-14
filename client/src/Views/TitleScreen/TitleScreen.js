@@ -1,4 +1,4 @@
-import Error from '../Views/Error/Error';
+import Error from '../Error/Error';
 import './TitleScreen.css';
 
 export default class SplashScreen {
@@ -81,6 +81,22 @@ export default class SplashScreen {
 					.addEventListener(
 						'click',
 						this.closeSubTab.bind(this, ['controls-container'])
+					);
+
+				break;
+
+			case 2:
+				injectPoint.innerHTML = require('./Components/Credits.html');
+				document.querySelectorAll('video').forEach((v) => {
+					v.playbackRate = 0.5;
+				});
+				injectPoint.classList.add('inject-html-style');
+				injectPoint.classList.add('slide-opacity');
+				document
+					.querySelector('.SplashScreen-container .credits-container .icons')
+					.addEventListener(
+						'click',
+						this.closeSubTab.bind(this, ['credits-container'])
 					);
 
 				break;
