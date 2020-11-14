@@ -1,4 +1,5 @@
 // Library Imports.
+import { dirname } from 'path';
 import * as DB from './db/db';
 
 const express = require('express');
@@ -8,6 +9,7 @@ var http = require('http').createServer(app);
 const dotenv = require('dotenv').config();
 const reload = require('reload');
 const bodyParser = require('body-parser');
+var path = require('path');
 
 const port = process.env.PORT || 3000;
 
@@ -58,6 +60,10 @@ app.use('/', express.static('client'));
 // Serves /client/index.html as entry point to the client.
 app.get('/', (req, res) => {
 	res.sendFile(__dirname + '/index.html');
+});
+
+app.get('/*', (req, res) => {
+	res.sendFile(path.resolve('client/src/Views/404/404.html'));
 });
 
 // Listens for http connections on port 3000.
