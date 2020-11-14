@@ -1,4 +1,4 @@
-import Error from '../Error/Error';
+import Error from '../Views/Error/Error';
 import './TitleScreen.css';
 
 export default class SplashScreen {

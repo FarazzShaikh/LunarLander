@@ -20,7 +20,7 @@ import Radar from './Objects/HUD/Radar';
 import FPS from './Objects/HUD/FPS';
 import HUD from './Objects/HUD/_HUD';
 
-import GameOver from './GameOverScreen/GameOver';
+import GameOver from './Views/GameOverScreen/GameOver';
 
 let frameCounter = 0;
 
