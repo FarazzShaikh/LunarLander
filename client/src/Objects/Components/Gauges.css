@@ -12,22 +12,6 @@
 	margin: 8px;
 }
 
-.Gague-FPS-text {
-	padding: 8px;
-	min-width: 100px;
-
-	color: white;
-	font-family: monospace;
-	font-weight: bold;
-
-	display: flex;
-	justify-content: center;
-	align-items: center;
-
-	border: 1px solid white;
-	border-radius: 5px;
-}
-
 .Gague-container {
 	display: flex;
 	justify-content: center;
@@ -36,7 +20,7 @@
 	color: white;
 	font-family: monospace;
 	font-weight: bold;
-	font-size: 21px;
+	font-size: 20px;
 }
 
 .Gague-container table tbody tr .text {
@@ -55,6 +39,7 @@
 .Gague-container table tbody tr .text.label {
 	font-weight: 300;
 	font-size: 12px;
+	font-style: italic;
 }
 
 .Gague-container table tbody tr .shape {
@@ -71,15 +56,15 @@
 }
 
 .Gague-container table tbody tr .red {
-	color: #ff8e8e;
+	color: tomato;
 }
 
 .Gague-container table tbody tr .yellow {
-	color: #ffe18e;
+	color: wheat;
 }
 
 .Gague-container table tbody tr .white {
-	color: #ceff8e;
+	color: white;
 }
 
 .Song-Display {

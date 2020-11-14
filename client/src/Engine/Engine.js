@@ -79,8 +79,18 @@ export default class Engine {
 	getSystems() {
 		if (this.players[this.me]) {
 			return {
-				fuel: this.players[this.me].fuel,
+				fuel: this.players[this.me].resources.fuel,
 				health: this.players[this.me].health,
+			};
+		}
+	}
+
+	getResources() {
+		if (this.players[this.me]) {
+			console.log();
+			return {
+				W: this.players[this.me].resources.W,
+				scrap: this.players[this.me].resources.scrap,
 			};
 		}
 	}
@@ -334,10 +344,10 @@ export default class Engine {
 						position: p.position,
 						rotation: p.rotation,
 						velocity: p.velocity,
-						fuel: p.resources.fuel,
 						health: p.health,
 						nameTag: nameTag,
 						fire: p.fire,
+						resources: p.resources,
 						getPlayers: () => this.players,
 						getSocket: () => this.socket,
 					}),
@@ -390,8 +400,8 @@ export default class Engine {
 				});
 
 				this.players[player.id].setVelocity(player.velocity);
-				this.players[player.id].setSystems({
-					fuel: player.resources.fuel,
+				this.players[player.id].setResources({
+					resources: player.resources,
 					health: player.health,
 				});
 				this.players[player.id].setNameTag(player.score);
