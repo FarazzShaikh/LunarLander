@@ -31,7 +31,7 @@ export default class Player extends Sprite {
 		velocity,
 		scale,
 		movementState,
-		fuel,
+		resources,
 		health,
 		nameTag,
 		usrname,
@@ -48,6 +48,7 @@ export default class Player extends Sprite {
 		this.usrname = usrname;
 
 		this.HTML.style.padding = '8px';
+		this.HTML.style.borderRadius = '50px';
 
 		this.HTML.style.transition = '300ms ease-in-out';
 		this.HTML.style.transitionProperty =
@@ -94,7 +95,8 @@ export default class Player extends Sprite {
 		this.HTML.appendChild(this.booserL);
 
 		this.framerate = DEFAULTS.CORE.FRAMERATE;
-		this.fuel = fuel;
+		this.resources = resources;
+
 		this.health = health;
 		this.nameTag = nameTag;
 		this.score = 0;
@@ -109,7 +111,6 @@ export default class Player extends Sprite {
 	}
 
 	fire() {
-		console.log('s');
 		this.sound_shootRetro.play();
 		const bullet = new Bullet({
 			framerate: this.framerate,
@@ -121,7 +122,7 @@ export default class Player extends Sprite {
 	}
 
 	animate(i) {
-		if (this.fuel > 0) {
+		if (this.resources.fuel > 0) {
 			if (this.boostState === 'BOOST') {
 				this.sound_boost_f.play();
 				this.flame.style.opacity = '1';
@@ -179,8 +180,8 @@ export default class Player extends Sprite {
 		this.velocity = velocity;
 	}
 
-	setSystems({ fuel, health }) {
-		this.fuel = fuel;
+	setResources({ resources, health }) {
+		this.resources = resources;
 		this.health = health;
 	}
 

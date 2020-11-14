@@ -15,10 +15,10 @@ export default class NameTag extends Node {
 		node.style.fontWeight = '100';
 
 		node.style.color = color;
-		node.style.textShadow = `0px 0px 13px ${color}`;
+		// node.style.textShadow = `0px 0px 13px ${color}`;
 		node.innerHTML = string;
 
-		node.className += 'crt';
+		node.className += '';
 
 		super(name, node);
 
