@@ -125,9 +125,12 @@ export default class SplashScreen {
 			document
 					.querySelector('.SplashScreen-container .icons')
 					.addEventListener(
-						this.muteToggle = false,
 						'click',
-						mutePage()
+						() => {
+							let muteToggle = true
+							mutePage(muteToggle)
+							muteToggle = !muteToggle
+						}
 					);
 		}, 100);
 	}
@@ -206,7 +209,6 @@ function muteMe(elem, muteToggle) {
     elem.pause();
 }
 // Try to mute all video and audio elements on the page
-function mutePage() {
-	muteToggle = ! muteToggle;
+function mutePage(muteToggle) {
 	document.querySelectorAll("video, audio").forEach( elem => muteMe(elem, muteToggle) );
 }
