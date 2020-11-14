@@ -13,6 +13,7 @@ export default class SplashScreen {
 
 		this.activeScreen = -1;
 		this.onReady = null;
+		this.muteToggle = true
 
 		setTimeout(() => {
 			this.items = document.querySelectorAll(
@@ -141,9 +142,8 @@ export default class SplashScreen {
 			document
 				.querySelector('.SplashScreen-container .icons')
 				.addEventListener('click', () => {
-					let muteToggle = true;
-					mutePage(muteToggle);
-					muteToggle = !muteToggle;
+					mutePage(this.muteToggle);
+					this.muteToggle = !this.muteToggle;
 				});
 		}, 100);
 	}
