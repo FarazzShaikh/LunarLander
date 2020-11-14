@@ -50,7 +50,12 @@ export default function main() {
 		hud = new HUD({
 			name: 'HUD',
 			components: {
-				radar: { class: Radar, options: {} },
+				radar: {
+					class: Radar,
+					options: {
+						resources: () => engine.getResources(),
+					},
+				},
 				fps: {
 					class: FPS,
 					options: {

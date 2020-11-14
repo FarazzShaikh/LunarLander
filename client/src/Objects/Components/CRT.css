@@ -84,6 +84,7 @@
 			-2.6208764473832513px 0 1px rgba(255, 0, 80, 0.3), 0 0 3px;
 	}
 }
+
 .crt::after {
 	content: ' ';
 	display: block;

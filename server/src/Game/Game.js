@@ -68,27 +68,34 @@ export default class Game {
 		this.didCollide = this.collision.didColide.bind(this.collision);
 	}
 
+	async updateLocalPlayerResources(currResources, resources, id) {
+		this.players[id].resources = {
+			fuel: currResources.fuel + resources.resources.fuel,
+			W: currResources.W + resources.resources.W,
+			scrap: currResources.scrap + resources.resources.scrap,
+		};
+		return DB.UPDATE(this.players[id].uuid, 'HighScores', {
+			resources: {
+				fuel: currResources.fuel + resources.resources.fuel,
+				W: currResources.W + resources.resources.W,
+				scrap: currResources.scrap + resources.resources.scrap,
+			},
+		});
+	}
+
 	async setResources(id, resources) {
 		const currResources = this.players[id].resources;
 
 		if (resources.name.includes('STATION')) {
-			return DB.UPDATE(this.players[id].uuid, 'HighScores', {
-				resources: {
-					fuel: currResources.fuel + resources.resources.fuel,
-					W: currResources.W + resources.resources.W,
-					scrap: currResources.scrap + resources.resources.scrap,
-				},
-			}).catch((e) => console.error(e));
+			this.updateLocalPlayerResources(currResources, resources, id).catch((e) =>
+				console.error(e)
+			);
 		} else if (resources.name.includes('Player')) {
 			return DB.DELETE(resources.id, 'KilledPlayers')
 				.then(() =>
-					DB.UPDATE(this.players[id].uuid, 'HighScores', {
-						resources: {
-							fuel: currResources.fuel + resources.resources.fuel,
-							W: currResources.W + resources.resources.W,
-							scrap: currResources.scrap + resources.resources.scrap,
-						},
-					}).catch((e) => console.error(e))
+					this.updateLocalPlayerResources(currResources, resources, id).catch((e) =>
+						console.error(e)
+					)
 				)
 				.catch((e) => console.error(e));
 		} else {
@@ -100,13 +107,9 @@ export default class Game {
 				},
 			})
 				.then(() =>
-					DB.UPDATE(this.players[id].uuid, 'HighScores', {
-						resources: {
-							fuel: currResources.fuel + resources.resources.fuel,
-							W: currResources.W + resources.resources.W,
-							scrap: currResources.scrap + resources.resources.scrap,
-						},
-					})
+					this.updateLocalPlayerResources(currResources, resources, id).catch((e) =>
+						console.error(e)
+					)
 				)
 				.catch((e) => console.error(e));
 		}
@@ -135,8 +138,8 @@ export default class Game {
 			uuid: data.uuid,
 			name: data.name,
 			socket: socket,
-			position: { x: 32796, y: 0 },
-			velocity: { x: 2, y: 0 },
+			position: { x: this.rechargeStations[1].xPosition, y: 0 },
+			velocity: { x: 0, y: 0 },
 			rotation: Math.PI / 2,
 			resources: resources,
 			value: value,

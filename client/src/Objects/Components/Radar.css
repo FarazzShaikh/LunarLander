@@ -11,6 +11,21 @@
 	flex-direction: column;
 
 	padding: 16px 0px;
+
+	font-family: 'VT323', monospace;
+}
+
+.Radar-Container p {
+	color: tomato;
+	font-size: 20px;
+	font-style: italic;
+
+	margin: 0;
+	padding: 0;
+}
+
+.Radar-Container p.strike {
+	text-decoration: line-through;
 }
 
 .Radar-Dot-Container {
@@ -36,10 +51,10 @@
 
 .Radar-line {
 	height: 25px;
-	width: 1px;
+	width: 2px;
 	border-radius: 15px;
 	position: absolute;
-	background-color: white;
+	background-color: tomato;
 	list-style: none;
 	transform: translate(40.5vw, 0px);
 }
@@ -49,7 +64,7 @@
 	width: 15px;
 	border-radius: 15px;
 	position: absolute;
-	border: 1px solid #eeabab;
+	border: 1px solid tomato;
 	background-color: #202020;
 }
 
