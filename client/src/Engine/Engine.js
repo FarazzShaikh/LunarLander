@@ -91,6 +91,7 @@ export default class Engine {
 			return {
 				W: this.players[this.me].resources.W,
 				scrap: this.players[this.me].resources.scrap,
+				val: this.players[this.me].value,
 			};
 		}
 	}
@@ -329,7 +330,7 @@ export default class Engine {
 					<div>
 						<div>${p.name}</div>
 						<div>&emsp;{</div>
-						<div>&emsp;&emsp;Value: ${p.score}</div>
+						<div>&emsp;&emsp;Value: ${p.value}</div>
 						<div>&emsp;}</div>
 					</div>
 					`,
@@ -352,6 +353,7 @@ export default class Engine {
 						nameTag: nameTag,
 						fire: p.fire,
 						resources: p.resources,
+						value: p.value,
 						getPlayers: () => this.players,
 						getSocket: () => this.socket,
 						damagePlayer: this.damagePlayer.bind(this),
@@ -409,11 +411,11 @@ export default class Engine {
 					resources: player.resources,
 					health: player.health,
 				});
-				this.players[player.id].setNameTag(player.score);
 			}
 		}
 
 		if (this.players[player.id]) {
+			this.players[player.id].setNameTag(player.value);
 			this.players[player.id].setBoostState(player.movementState);
 		}
 	}

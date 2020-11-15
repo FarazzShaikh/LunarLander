@@ -43,7 +43,7 @@ app.post('/api/registerUser/', (req, res) => {
 			W: 1000,
 			scrap: 0,
 		},
-		value: 101000,
+		value: 11000,
 		health: 100,
 	})
 		.then(() => {

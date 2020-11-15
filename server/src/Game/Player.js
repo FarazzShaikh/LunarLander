@@ -67,6 +67,8 @@ export class Player {
 
 			this.setDamage(this.uuid, 'HighScores', {
 				health: this.health,
+				value:
+					100 * this.resources.fuel + this.resources.W + 10 * this.resources.scrap,
 			}).catch((e) => console.error(e));
 		} else {
 			this.socket.emit(REQUEST.REQUEST_DELETE_PLAYER.req);
@@ -180,7 +182,7 @@ export class Player {
 			movementState: this.movementState,
 			resources: this.resources,
 			health: this.health,
-			score: this.value,
+			value: this.value,
 			fire: this.fire,
 		};
 	}

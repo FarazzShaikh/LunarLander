@@ -38,6 +38,7 @@ export default class Player extends Sprite {
 		getPlayers,
 		getSocket,
 		damagePlayer,
+		value,
 	}) {
 		super({
 			name: `${id}`,
@@ -100,7 +101,7 @@ export default class Player extends Sprite {
 
 		this.health = health;
 		this.nameTag = nameTag;
-		this.score = 0;
+		this.value = value;
 
 		this.radarText = '';
 		this.bullets = [];
@@ -187,14 +188,15 @@ export default class Player extends Sprite {
 		this.health = health;
 	}
 
-	setNameTag(score) {
-		this.score = score;
+	setNameTag(value) {
+		this.value = value;
+		console.log(this.value);
 		if (this.nameTag) {
 			this.nameTag.setText(`
 		<div>
 			<div>${this.usrname}</div>
 			<div>&emsp;{</div>
-			<div>&emsp;&emsp;Value: ${this.score}</div>
+			<div>&emsp;&emsp;Value: ~${this.value}</div>
 			<div>&emsp;}</div>
 		</div>
 		`);
