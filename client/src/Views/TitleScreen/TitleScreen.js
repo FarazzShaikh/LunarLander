@@ -226,4 +226,7 @@ function mutePage(muteToggle) {
 	document
 		.querySelectorAll('video, audio')
 		.forEach((elem) => muteMe(elem, muteToggle));
+	document
+	.querySelector('.SplashScreen-container .icons img').src = muteToggle ? '/src/Views/Assets/Icons/Unmute.svg' : '/src/Views/Assets/Icons/Mute.svg'
 }
+
