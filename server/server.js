@@ -62,9 +62,9 @@ app.get('/', (req, res) => {
 	res.sendFile(__dirname + '/index.html');
 });
 
-app.get('/*', (req, res) => {
-	res.sendFile(path.resolve('client/src/Views/404/404.html'));
-});
+// app.get('/*', (req, res) => {
+// 	res.sendFile(path.resolve('client/src/Views/404/404.html'));
+// });
 
 // Listens for http connections on port 3000.
 if (process.env.NODE_ENV === 'development') {

@@ -2,7 +2,7 @@ import Sprite from './Sprite';
 
 import Char_Fly from '../../Assets/drone/drone-3.png';
 
-import sound_boost_f from '../../Assets/Sounds/boost_f.mp3'
+import sound_boost_f from '../../Assets/Sounds/boost_f.mp3';
 
 import Exhaust_Norm1 from '../../Assets/Normal_flight/Exhaust1/exhaust1.png';
 import Exhaust_Norm2 from '../../Assets/Normal_flight/Exhaust1/exhaust2.png';
@@ -37,6 +37,7 @@ export default class Player extends Sprite {
 		usrname,
 		getPlayers,
 		getSocket,
+		damagePlayer,
 	}) {
 		super({
 			name: `${id}`,
@@ -108,6 +109,7 @@ export default class Player extends Sprite {
 		this.getSocket = getSocket;
 		this.sound_shootRetro = new Audio(sound_shootRetro);
 		this.sound_boost_f = new Audio(sound_boost_f);
+		this.damagePlayer = damagePlayer;
 	}
 
 	fire() {
@@ -175,7 +177,7 @@ export default class Player extends Sprite {
 	setBoostState(state) {
 		this.boostState = state;
 	}
-	
+
 	setVelocity(velocity) {
 		this.velocity = velocity;
 	}

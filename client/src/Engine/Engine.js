@@ -95,6 +95,10 @@ export default class Engine {
 		}
 	}
 
+	damagePlayer(id, val) {
+		this.socket.emit(EVENTS.PLAYER_HAS_DAMAGED, { id, val });
+	}
+
 	setAnchor(anchor) {
 		this.isAnchored = true;
 		this.renderer.setAnchor(anchor);
@@ -350,6 +354,7 @@ export default class Engine {
 						resources: p.resources,
 						getPlayers: () => this.players,
 						getSocket: () => this.socket,
+						damagePlayer: this.damagePlayer.bind(this),
 					}),
 				],
 				['Players']
