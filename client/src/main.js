@@ -25,7 +25,7 @@ import GameOver from './Views/GameOverScreen/GameOver';
 let frameCounter = 0;
 
 // Main
-export default function main() {
+export default function main(radio) {
 	// Declaring in scope of main
 	let renderer, engine, controller, gamepad, hud;
 	let init = true;
@@ -79,6 +79,7 @@ export default function main() {
 			control: engine.control.bind(engine),
 			getCurrentResource: engine.getCurrentResource.bind(engine),
 			setRaderText: engine.setRaderText.bind(engine),
+			radio: radio,
 		});
 
 		// Requests terrain options.
@@ -280,6 +281,10 @@ export default function main() {
 	// GListens for Server Tick events.
 	socket.on(EVENTS.SERVER_TICK, (dt) => {
 		if (!INTERRUPT.get('INTERRUPT-PLAYER-DEAD')) {
+			if (radio.filtered) {
+				radio.toggleLowPass();
+			}
+
 			frameCounter++;
 			//console.log('server-tick');
 			// Calls engine update on every tick with given delta time.

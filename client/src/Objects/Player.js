@@ -20,7 +20,7 @@ import sound_shootRetro from '../../Assets/Sounds/shootRetro.mp3';
 import { DEFAULTS, EVENTS, REQUEST } from '../../../shared/Consts';
 import Terrain from './Terrain';
 import Bullet from './Bullet';
-import { _ } from 'core-js';
+import Audio from '../Engine/Audio';
 
 // Class representing client side Player.
 export default class Player extends Sprite {
@@ -190,7 +190,6 @@ export default class Player extends Sprite {
 
 	setNameTag(value) {
 		this.value = value;
-		console.log(this.value);
 		if (this.nameTag) {
 			this.nameTag.setText(`
 		<div>

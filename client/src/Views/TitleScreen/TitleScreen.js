@@ -13,7 +13,7 @@ export default class SplashScreen {
 
 		this.activeScreen = -1;
 		this.onReady = null;
-		this.muteToggle = true
+		this.muteToggle = true;
 
 		setTimeout(() => {
 			this.items = document.querySelectorAll(
@@ -219,14 +219,11 @@ async function setUser(body) {
 // Mute a singular HTML5 element
 function muteMe(elem, muteToggle) {
 	elem.muted = muteToggle;
-	elem.pause();
 }
 // Try to mute all video and audio elements on the page
 function mutePage(muteToggle) {
-	document
-		.querySelectorAll('video, audio')
-		.forEach((elem) => muteMe(elem, muteToggle));
-	document
-	.querySelector('.SplashScreen-container .icons img').src = muteToggle ? '/src/Views/Assets/Icons/Unmute.svg' : '/src/Views/Assets/Icons/Mute.svg'
+	document.querySelectorAll('audio').forEach((elem) => muteMe(elem, muteToggle));
+	document.querySelector('.SplashScreen-container .icons img').src = !muteToggle
+		? '/src/Views/Assets/Icons/Unmute.svg'
+		: '/src/Views/Assets/Icons/Mute.svg';
 }
-

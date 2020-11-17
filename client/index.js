@@ -1,10 +1,15 @@
 import main from './src/main';
 import * as Cookies from './src/Engine/Cookies';
 import { Modal_main } from './src/Views/TitleScreen/TitleScreen';
+import Radio from './src/Objects/Radio';
+
 // Entrypoint
 
-const dev_login_bypass = false;
+const dev_login_bypass = true;
 const dev_only_splash = false;
+
+const radio = new Radio();
+radio.play();
 
 if (dev_only_splash) {
 	Modal_main((data) => {
@@ -16,15 +21,15 @@ if (dev_only_splash) {
 			name: 'test7',
 			uuid: 1234,
 		});
-		main();
+		main(radio);
 	} else {
 		if (!Cookies.userRegistered()) {
 			Modal_main((data) => {
 				Cookies.setCookies(data);
-				main();
+				main(radio);
 			});
 		} else {
-			main();
+			main(radio);
 		}
 	}
 }

@@ -67,6 +67,8 @@ export const DEFAULTS = {
 		KeyE: 'TOGGLE-TAGS',
 		KeyF: 'COLLECT-RESOURCES',
 		KeyW: 'FIRE',
+		KeyZ: 'RADIO-REWIND',
+		KeyC: 'RADIO-NEXT',
 
 		KeyA: 'N_ROTATE',
 		KeyD: 'P_ROTATE',
