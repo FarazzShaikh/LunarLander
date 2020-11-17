@@ -5,7 +5,7 @@ import Radio from './src/Objects/Radio';
 
 // Entrypoint
 
-const dev_login_bypass = true;
+const dev_login_bypass = false;
 const dev_only_splash = false;
 
 const radio = new Radio();

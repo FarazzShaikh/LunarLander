@@ -7,6 +7,7 @@ import {
 	Volume,
 	Output,
 } from 'audio-effects';
+import { call } from 'file-loader';
 
 export default class Radio {
 	constructor() {
@@ -16,12 +17,12 @@ export default class Radio {
 
 		document.body.appendChild(node);
 
-		this.tracks = BeofreTheNight;
+		this.tracks = songTable.HOME.__songs;
 		this.tracks.get = function (index) {
 			return this[inWords(index)];
 		};
 
-		this.songIndex = 1;
+		this.songIndex = Math.floor(Math.random() * 10 + 1);
 
 		this.audio = new Audio(this.tracks.get(this.songIndex), 1);
 
@@ -62,6 +63,18 @@ export default class Radio {
 		this.filtered = !this.filtered;
 	}
 
+	setOnSongChange(f) {
+		this.onSongChange = f;
+	}
+
+	getSongData() {
+		return {
+			name: songTable.HOME.tracks[this.songIndex - 1],
+			artist: songTable.HOME.artist,
+			album: songTable.HOME.album,
+		};
+	}
+
 	play() {
 		this.audio.play();
 	}
@@ -74,16 +87,24 @@ export default class Radio {
 		this.songIndex++;
 		if (this.songIndex === 12) this.songIndex = 1;
 		this.audio.setSrc(this.tracks.get(this.songIndex));
+
+		const data = this.getSongData();
+
+		if (this.onSongChange) this.onSongChange(data);
 	}
 
 	previous() {
 		this.songIndex--;
 		if (this.songIndex === 0) this.songIndex = 11;
 		this.audio.setSrc(this.tracks.get(this.songIndex));
+
+		const data = this.getSongData();
+
+		if (this.onSongChange) this.onSongChange(data);
 	}
 }
 
-var a = [
+var numTable = [
 	'Zero',
 	'One',
 	'Two',
@@ -98,6 +119,27 @@ var a = [
 	'Eleven',
 ];
 
+var songTable = {
+	HOME: {
+		artist: 'HOME',
+		album: 'Before The Night',
+		tracks: [
+			"We're Finally Landing",
+			'Synchronize',
+			'Overflow',
+			'Without A Sound',
+			'Above All',
+			'Pyxis',
+			'Before The Night',
+			"If I'm Wrong",
+			'Nosebleed',
+			'Sun',
+			'Sleep',
+		],
+		__songs: BeofreTheNight,
+	},
+};
+
 function inWords(num) {
-	return a[num];
+	return numTable[num];
 }

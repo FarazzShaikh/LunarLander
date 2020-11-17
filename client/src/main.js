@@ -21,6 +21,7 @@ import FPS from './Objects/HUD/FPS';
 import HUD from './Objects/HUD/_HUD';
 
 import GameOver from './Views/GameOverScreen/GameOver';
+import RadioUI from './Objects/HUD/RadioUI';
 
 let frameCounter = 0;
 
@@ -65,6 +66,12 @@ export default function main(radio) {
 							velocity: () => engine.getVelocity(),
 							systems: () => engine.getSystems(),
 						},
+					},
+				},
+				radioUI: {
+					class: RadioUI,
+					options: {
+						radio: radio,
 					},
 				},
 			},

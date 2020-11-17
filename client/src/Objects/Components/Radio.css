@@ -1,0 +1,41 @@
+.Song-Display {
+	height: 100%;
+	padding: 8px;
+	padding-right: 16px;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	position: absolute;
+	bottom: 0;
+	right: 0;
+}
+
+.Song-Display .cover img {
+	width: 70px;
+	height: 70px;
+
+	object-fit: contain;
+	margin-left: 8px;
+}
+
+.Song-Display .text {
+	font-family: 'VT323', monospace;
+	color: white;
+	font-size: 20px;
+	text-align: right;
+}
+
+.Song-Display .text .name {
+	font-style: italic;
+}
+
+.Song-Display .text .artist {
+	color: rgb(185, 185, 185);
+}
+
+.Song-Display .text .album {
+	color: rgb(185, 185, 185);
+	font-size: 18px;
+}
