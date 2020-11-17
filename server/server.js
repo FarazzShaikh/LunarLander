@@ -62,6 +62,8 @@ app.get('/', (req, res) => {
 	res.sendFile(__dirname + '/index.html');
 });
 
+app.get('/favicon.ico', (req, res) => res.status(204));
+
 // app.get('/*', (req, res) => {
 // 	res.sendFile(path.resolve('client/src/Views/404/404.html'));
 // });
