@@ -39,5 +39,5 @@ Lunar Lander is a multiplayer arcade style, survival shooter, where you collect 
 |  [Gaurav Nayar](https://github.com/GauravNayar) |  gan4 | Front End Developer  | Developing art assets and UI. |
 |  [Mostafa Elsayed](https://github.com/TheChosenSir) |  mme10 | Backend Developer  | Helping impliment serverside code |
 
-### TODO: Rewrite Readme.
+### TODO: Rewrite Readme
 
