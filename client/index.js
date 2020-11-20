@@ -1,7 +1,6 @@
-import main from './src/main';
 import * as Cookies from './Shared/Cookies';
 import { Modal_main } from './TitleScreen/TitleScreen';
-import Radio from './src/Objects/Radio';
+import Radio from './Shared/Radio';
 
 // Entrypoint
 
@@ -15,18 +14,34 @@ if (dev_login_bypass) {
 		uuid: 1234,
 	});
 
-	main(radio);
+	getMain()
+		.then((main) => {
+			main.default(radio);
+		})
+		.catch((e) => console.error(e));
 } else {
 	if (!Cookies.userRegistered()) {
 		Modal_main((data) => {
 			Cookies.setCookies(data);
-			main(radio);
+			getMain()
+				.then((main) => {
+					main.default(radio);
+				})
+				.catch((e) => console.error(e));
 		});
 	} else {
-		main(radio);
+		getMain()
+			.then((main) => {
+				main.default(radio);
+			})
+			.catch((e) => console.error(e));
 	}
 }
 
 async function getMain() {
-	return await import(/* webpackMode: "eager" */ `./src/main`);
+	return await import(
+		/* webpackChunkName: "main_chunk" */
+		/* webpackMode: "lazy" */
+		`./src/main`
+	);
 }

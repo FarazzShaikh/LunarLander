@@ -19,6 +19,7 @@ export default class SplashScreen {
 			this.items = document.querySelectorAll(
 				'.SplashScreen-container .options .item'
 			);
+
 			this.items.forEach((i, ind) => {
 				i.addEventListener('click', () => this.selectItem(ind));
 			});

@@ -61,16 +61,28 @@
 	width: 100vw;
 	height: 100vh;
 
-	background-color: #121212;
-	background: url('./Assets/gifs/background.gif');
+	/* background-color: #121212;
+	background: url('https://github.com/F28WP-Dubai-Group-6/LunarLander/blob/master/Assets/Demo.gif');
 	background-repeat: no-repeat;
 	background-size: cover;
-	image-rendering: pixelated;
+	image-rendering: pixelated; */
+}
+
+.SplashScreen-container img {
+	width: 100vw;
+	height: 100vh;
+
+	position: absolute;
+	top: 0;
+	left: 0;
+
+	object-fit: cover;
 }
 
 .gradient-filter {
 	width: 100vw;
 	height: 100vh;
+	position: relative;
 
 	background: linear-gradient(-45deg, #121212 40%, #ffffff00 100%);
 }

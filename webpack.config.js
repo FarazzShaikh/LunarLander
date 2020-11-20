@@ -9,12 +9,13 @@ module.exports = [
 		entry: __dirname + '/client/index.js',
 		output: {
 			path: __dirname + '/client/dist',
-			publicPath: '/client/dist/',
+			publicPath: '/dist/',
 			filename: 'client_bundle.js',
 		},
 		target: 'web',
 		devtool: 'source-map',
 		plugins: [new CompressionPlugin({ compressionOptions: { level: 9 } })],
+
 		module: {
 			rules: [
 				{
@@ -63,6 +64,7 @@ module.exports = [
 		target: 'node',
 		externals: [nodeExternals()],
 		devtool: 'source-map',
+
 		module: {
 			rules: [
 				{
