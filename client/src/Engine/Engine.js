@@ -3,9 +3,9 @@ import Resource from '../Objects/Resource';
 import Player from '../Objects/Player';
 import Terrain from '../Objects/Terrain';
 
-import sprite_rechargeStation from '../../Assets/Misc/RechargeStation/RechargeStation.webm';
-import sprite_ships from '../../Assets/Misc/Ships/Ships.webm';
-import sprite_deadPlayers from '../../Assets/drone/drone-3.png';
+import sprite_rechargeStation from '../Assets/Misc/RechargeStation/RechargeStation.webm';
+import sprite_ships from '../Assets/Misc/Ships/Ships.webm';
+import sprite_deadPlayers from '../Assets/drone/drone-3.png';
 
 import NameTag from '../Objects/NameTag';
 

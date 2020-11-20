@@ -62,7 +62,7 @@
 	height: 100vh;
 
 	background-color: #121212;
-	background: url('../Assets//background.gif');
+	background: url('./Assets/gifs/background.gif');
 	background-repeat: no-repeat;
 	background-size: cover;
 	image-rendering: pixelated;

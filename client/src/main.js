@@ -8,13 +8,13 @@ import Renderer, { Layer } from './Engine/Renderer';
 import Sprite from './Objects/Sprite';
 import Terrain from './Objects/Terrain';
 import PostProcess, { Volume } from './Objects/PostProcess';
-import * as Cookies from './Engine/Cookies';
+import * as Cookies from '../Shared/Cookies';
 
-import Sprite_Earth from '../Assets/Planets/Earth.png';
-import Sprite_Baren from '../Assets/Planets/Baren.png';
-import Sprite_Ice from '../Assets/Planets/Ice.png';
-import Sprite_Lava from '../Assets/Planets/Lava.png';
-import Sprite_Background from '../Assets/Planets/background-black.png';
+import Sprite_Earth from './Assets/Planets/Earth.png';
+import Sprite_Baren from './Assets/Planets/Baren.png';
+import Sprite_Ice from './Assets/Planets/Ice.png';
+import Sprite_Lava from './Assets/Planets/Lava.png';
+import Sprite_Background from './Assets/Planets/background-black.png';
 
 import Radar from './Objects/HUD/Radar';
 import FPS from './Objects/HUD/FPS';

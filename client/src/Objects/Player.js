@@ -1,21 +1,21 @@
 import Sprite from './Sprite';
 
-import Char_Fly from '../../Assets/drone/drone-3.png';
+import Char_Fly from '../Assets/drone/drone-3.png';
 
-import sound_boost_f from '../../Assets/Sounds/boost_f.mp3';
+import sound_boost_f from '../Assets/Sounds/boost_f.mp3';
 
-import Exhaust_Norm1 from '../../Assets/Normal_flight/Exhaust1/exhaust1.png';
-import Exhaust_Norm2 from '../../Assets/Normal_flight/Exhaust1/exhaust2.png';
-import Exhaust_Norm3 from '../../Assets/Normal_flight/Exhaust1/exhaust3.png';
-import Exhaust_Norm4 from '../../Assets/Normal_flight/Exhaust1/exhaust4.png';
+import Exhaust_Norm1 from '../Assets/Normal_flight/Exhaust1/exhaust1.png';
+import Exhaust_Norm2 from '../Assets/Normal_flight/Exhaust1/exhaust2.png';
+import Exhaust_Norm3 from '../Assets/Normal_flight/Exhaust1/exhaust3.png';
+import Exhaust_Norm4 from '../Assets/Normal_flight/Exhaust1/exhaust4.png';
 
-import Side_booster1 from '../../Assets/RotationBoosters/exhaust1.png';
-import Side_booster2 from '../../Assets/RotationBoosters/exhaust2.png';
-import Side_booster3 from '../../Assets/RotationBoosters/exhaust3.png';
-import Side_booster4 from '../../Assets/RotationBoosters/exhaust4.png';
+import Side_booster1 from '../Assets/RotationBoosters/exhaust1.png';
+import Side_booster2 from '../Assets/RotationBoosters/exhaust2.png';
+import Side_booster3 from '../Assets/RotationBoosters/exhaust3.png';
+import Side_booster4 from '../Assets/RotationBoosters/exhaust4.png';
 
-import Shot_vid from '../../Assets/drone/shot.webm';
-import sound_shootRetro from '../../Assets/Sounds/shootRetro.mp3';
+import Shot_vid from '../Assets/drone/shot.webm';
+import sound_shootRetro from '../Assets/Sounds/shootRetro.mp3';
 
 import { DEFAULTS, EVENTS, REQUEST } from '../../../shared/Consts';
 import Terrain from './Terrain';

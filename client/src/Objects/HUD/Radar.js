@@ -1,7 +1,7 @@
 import numeral from 'numeral';
 import Audio from '../../Engine/Audio';
 
-import sound_textType from '../../../Assets/Sounds/TextType.mp3';
+import sound_textType from '../../Assets/Sounds/TextType.mp3';
 
 import '../Components/Radar.css';
 

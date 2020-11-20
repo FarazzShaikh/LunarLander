@@ -1,8 +1,8 @@
 import { Node } from '../Engine/Renderer';
 
-import sound_explosion from '../../Assets/Sounds/Explosion.mp3';
-import Shot_explosion from '../../Assets/drone/explosion.webm';
-import Shot_explosionBig from '../../Assets/drone/explosionBig.webm';
+import sound_explosion from '../Assets/Sounds/Explosion.mp3';
+import Shot_explosion from '../Assets/drone/explosion.webm';
+import Shot_explosionBig from '../Assets/drone/explosionBig.webm';
 import Terrain from './Terrain';
 import Audio from '../Engine/Audio';
 

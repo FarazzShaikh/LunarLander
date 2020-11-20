@@ -12,8 +12,8 @@ const bodyParser = require('body-parser');
 const port = process.env.PORT || 3000;
 
 // Init Database
-DB.init();
 dotenv.config();
+DB.init();
 app.use(bodyParser.json());
 
 // Endpoint to get all Scores or Scores with uuid

@@ -1,4 +1,4 @@
-import { getSong } from '../../Assets/Sounds/Radio/Before the night/BeforeTheNight';
+import { getSong } from '../Assets/Sounds/Radio/Before the night/BeforeTheNight';
 import Audio from '../Engine/Audio';
 
 export default class Radio {
