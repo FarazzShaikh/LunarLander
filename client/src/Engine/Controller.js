@@ -2,7 +2,7 @@ import { DEFAULTS, EVENTS } from '../../../shared/Consts';
 
 // Class Representing the COntroller for the game
 export default class Controller {
-	constructor({ socket, enableDS4, getCurrentResource, control }) {
+	constructor({ socket, enableDS4, getCurrentResource, control, radio }) {
 		// The Socket of the player
 		this.socket = socket;
 		// A Map, mapping the keyboard keys -> movement commands
@@ -21,13 +21,29 @@ export default class Controller {
 
 			if (control(this.keyMap[e.code], socket)) return;
 
-			if (this.keyMap[e.code] === 'COLLECT-RESOURCES') {
-				const resource = this.getCurrentResource();
-				if (resource) {
-					this.socket.emit(EVENTS.PLAYER_SEND_RESOURCES, resource.getSerialized());
-				}
+			switch (this.keyMap[e.code]) {
+				case 'COLLECT-RESOURCES':
+					const resource = this.getCurrentResource();
+					if (resource) {
+						this.socket.emit(EVENTS.PLAYER_SEND_RESOURCES, resource.getSerialized());
+					}
 
-				return;
+					return;
+
+				case 'RADIO-REWIND':
+					radio.stop();
+					radio.previous();
+					radio.play();
+					return;
+
+				case 'RADIO-NEXT':
+					radio.stop();
+					radio.next();
+					radio.play();
+					return;
+
+				default:
+					break;
 			}
 
 			if (this.keyMap[e.code]) {

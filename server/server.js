@@ -1,19 +1,18 @@
 // Library Imports.
-import { dirname } from 'path';
 import * as DB from './db/db';
 
 const express = require('express');
 const { default: main } = require('./src/main');
 const app = express();
 var http = require('http').createServer(app);
-const dotenv = require('dotenv').config();
+const dotenv = require('dotenv');
 const reload = require('reload');
 const bodyParser = require('body-parser');
-var path = require('path');
 
 const port = process.env.PORT || 3000;
 
 // Init Database
+dotenv.config();
 DB.init();
 app.use(bodyParser.json());
 
@@ -43,7 +42,7 @@ app.post('/api/registerUser/', (req, res) => {
 			W: 1000,
 			scrap: 0,
 		},
-		value: 101000,
+		value: 11000,
 		health: 100,
 	})
 		.then(() => {
@@ -62,9 +61,11 @@ app.get('/', (req, res) => {
 	res.sendFile(__dirname + '/index.html');
 });
 
-app.get('/*', (req, res) => {
-	res.sendFile(path.resolve('client/src/Views/404/404.html'));
-});
+app.get('/favicon.ico', (req, res) => res.status(204));
+
+// app.get('/*', (req, res) => {
+// 	res.sendFile(path.resolve('client/src/Views/404/404.html'));
+// });
 
 // Listens for http connections on port 3000.
 if (process.env.NODE_ENV === 'development') {

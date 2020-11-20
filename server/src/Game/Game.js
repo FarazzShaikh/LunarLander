@@ -74,12 +74,17 @@ export default class Game {
 			W: currResources.W + resources.resources.W,
 			scrap: currResources.scrap + resources.resources.scrap,
 		};
+		this.players[id].value =
+			100 * this.players[id].resources.fuel +
+			this.players[id].resources.W +
+			10 * this.players[id].resources.scrap;
 		return DB.UPDATE(this.players[id].uuid, 'HighScores', {
 			resources: {
 				fuel: currResources.fuel + resources.resources.fuel,
 				W: currResources.W + resources.resources.W,
 				scrap: currResources.scrap + resources.resources.scrap,
 			},
+			value: this.players[id].value,
 		});
 	}
 

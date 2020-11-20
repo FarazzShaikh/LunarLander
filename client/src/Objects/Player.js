@@ -1,26 +1,26 @@
 import Sprite from './Sprite';
 
-import Char_Fly from '../../Assets/drone/drone-3.png';
+import Char_Fly from '../Assets/drone/drone-3.png';
 
-import sound_boost_f from '../../Assets/Sounds/boost_f.mp3'
+import sound_boost_f from '../Assets/Sounds/boost_f.mp3';
 
-import Exhaust_Norm1 from '../../Assets/Normal_flight/Exhaust1/exhaust1.png';
-import Exhaust_Norm2 from '../../Assets/Normal_flight/Exhaust1/exhaust2.png';
-import Exhaust_Norm3 from '../../Assets/Normal_flight/Exhaust1/exhaust3.png';
-import Exhaust_Norm4 from '../../Assets/Normal_flight/Exhaust1/exhaust4.png';
+import Exhaust_Norm1 from '../Assets/Normal_flight/Exhaust1/exhaust1.png';
+import Exhaust_Norm2 from '../Assets/Normal_flight/Exhaust1/exhaust2.png';
+import Exhaust_Norm3 from '../Assets/Normal_flight/Exhaust1/exhaust3.png';
+import Exhaust_Norm4 from '../Assets/Normal_flight/Exhaust1/exhaust4.png';
 
-import Side_booster1 from '../../Assets/RotationBoosters/exhaust1.png';
-import Side_booster2 from '../../Assets/RotationBoosters/exhaust2.png';
-import Side_booster3 from '../../Assets/RotationBoosters/exhaust3.png';
-import Side_booster4 from '../../Assets/RotationBoosters/exhaust4.png';
+import Side_booster1 from '../Assets/RotationBoosters/exhaust1.png';
+import Side_booster2 from '../Assets/RotationBoosters/exhaust2.png';
+import Side_booster3 from '../Assets/RotationBoosters/exhaust3.png';
+import Side_booster4 from '../Assets/RotationBoosters/exhaust4.png';
 
-import Shot_vid from '../../Assets/drone/shot.webm';
-import sound_shootRetro from '../../Assets/Sounds/shootRetro.mp3';
+import Shot_vid from '../Assets/drone/shot.webm';
+import sound_shootRetro from '../Assets/Sounds/shootRetro.mp3';
 
 import { DEFAULTS, EVENTS, REQUEST } from '../../../shared/Consts';
 import Terrain from './Terrain';
 import Bullet from './Bullet';
-import { _ } from 'core-js';
+import Audio from '../Engine/Audio';
 
 // Class representing client side Player.
 export default class Player extends Sprite {
@@ -37,6 +37,8 @@ export default class Player extends Sprite {
 		usrname,
 		getPlayers,
 		getSocket,
+		damagePlayer,
+		value,
 	}) {
 		super({
 			name: `${id}`,
@@ -99,7 +101,7 @@ export default class Player extends Sprite {
 
 		this.health = health;
 		this.nameTag = nameTag;
-		this.score = 0;
+		this.value = value;
 
 		this.radarText = '';
 		this.bullets = [];
@@ -108,6 +110,7 @@ export default class Player extends Sprite {
 		this.getSocket = getSocket;
 		this.sound_shootRetro = new Audio(sound_shootRetro);
 		this.sound_boost_f = new Audio(sound_boost_f);
+		this.damagePlayer = damagePlayer;
 	}
 
 	fire() {
@@ -175,7 +178,7 @@ export default class Player extends Sprite {
 	setBoostState(state) {
 		this.boostState = state;
 	}
-	
+
 	setVelocity(velocity) {
 		this.velocity = velocity;
 	}
@@ -185,14 +188,14 @@ export default class Player extends Sprite {
 		this.health = health;
 	}
 
-	setNameTag(score) {
-		this.score = score;
+	setNameTag(value) {
+		this.value = value;
 		if (this.nameTag) {
 			this.nameTag.setText(`
 		<div>
 			<div>${this.usrname}</div>
 			<div>&emsp;{</div>
-			<div>&emsp;&emsp;Value: ${this.score}</div>
+			<div>&emsp;&emsp;Value: ~${this.value}</div>
 			<div>&emsp;}</div>
 		</div>
 		`);

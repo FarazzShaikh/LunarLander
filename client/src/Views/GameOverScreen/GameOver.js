@@ -1,4 +1,4 @@
-import { deleteCookies, getCookies } from '../../Engine/Cookies';
+import { deleteCookies, getCookies } from '../../../Shared/Cookies';
 import './GameOver.css';
 
 export default class GameOver {

@@ -8,24 +8,25 @@ import Renderer, { Layer } from './Engine/Renderer';
 import Sprite from './Objects/Sprite';
 import Terrain from './Objects/Terrain';
 import PostProcess, { Volume } from './Objects/PostProcess';
-import * as Cookies from './Engine/Cookies';
+import * as Cookies from '../Shared/Cookies';
 
-import Sprite_Earth from '../Assets/Planets/Earth.png';
-import Sprite_Baren from '../Assets/Planets/Baren.png';
-import Sprite_Ice from '../Assets/Planets/Ice.png';
-import Sprite_Lava from '../Assets/Planets/Lava.png';
-import Sprite_Background from '../Assets/Planets/background-black.png';
+import Sprite_Earth from './Assets/Planets/Earth.png';
+import Sprite_Baren from './Assets/Planets/Baren.png';
+import Sprite_Ice from './Assets/Planets/Ice.png';
+import Sprite_Lava from './Assets/Planets/Lava.png';
+import Sprite_Background from './Assets/Planets/background-black.png';
 
 import Radar from './Objects/HUD/Radar';
 import FPS from './Objects/HUD/FPS';
 import HUD from './Objects/HUD/_HUD';
 
 import GameOver from './Views/GameOverScreen/GameOver';
+import RadioUI from './Objects/HUD/RadioUI';
 
 let frameCounter = 0;
 
 // Main
-export default function main() {
+export default function main(radio) {
 	// Declaring in scope of main
 	let renderer, engine, controller, gamepad, hud;
 	let init = true;
@@ -67,6 +68,12 @@ export default function main() {
 						},
 					},
 				},
+				radioUI: {
+					class: RadioUI,
+					options: {
+						radio: radio,
+					},
+				},
 			},
 		});
 
@@ -79,6 +86,7 @@ export default function main() {
 			control: engine.control.bind(engine),
 			getCurrentResource: engine.getCurrentResource.bind(engine),
 			setRaderText: engine.setRaderText.bind(engine),
+			radio: radio,
 		});
 
 		// Requests terrain options.
@@ -280,6 +288,10 @@ export default function main() {
 	// GListens for Server Tick events.
 	socket.on(EVENTS.SERVER_TICK, (dt) => {
 		if (!INTERRUPT.get('INTERRUPT-PLAYER-DEAD')) {
+			if (radio.filtered) {
+				radio.toggleLowPass();
+			}
+
 			frameCounter++;
 			//console.log('server-tick');
 			// Calls engine update on every tick with given delta time.

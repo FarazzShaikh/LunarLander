@@ -1,9 +1,10 @@
 import { Node } from '../Engine/Renderer';
 
-import sound_explosion from '../../Assets/Sounds/Explosion.mp3';
-import Shot_explosion from '../../Assets/drone/explosion.webm';
-import Shot_explosionBig from '../../Assets/drone/explosionBig.webm';
+import sound_explosion from '../Assets/Sounds/Explosion.mp3';
+import Shot_explosion from '../Assets/drone/explosion.webm';
+import Shot_explosionBig from '../Assets/drone/explosionBig.webm';
 import Terrain from './Terrain';
+import Audio from '../Engine/Audio';
 
 export default class Bullet extends Node {
 	constructor({ framerate, _src, position, rotation, scale }) {
@@ -24,7 +25,7 @@ export default class Bullet extends Node {
 		const src = document.createElement('source');
 		src.src = _src;
 		src.type = 'video/webm';
-		
+
 		bullet.appendChild(src);
 
 		const name = `${Math.random()}-Bullet`;
@@ -40,7 +41,7 @@ export default class Bullet extends Node {
 		this.meName = null;
 
 		this.sound_explosion = new Audio(sound_explosion);
-		
+
 		this.transform({ position: p, rotation: r, scale: s });
 	}
 
@@ -58,7 +59,7 @@ export default class Bullet extends Node {
 		explosion.playbackRate = 1;
 
 		this.sound_explosion.play();
-		
+
 		const src = document.createElement('source');
 		src.src = _src;
 		src.type = 'video/webm';
@@ -126,6 +127,7 @@ export default class Bullet extends Node {
 								},
 								Shot_explosion
 							);
+							pl.damagePlayer(pl.name, 20);
 							self.lifetime = -1;
 							skip = true;
 						}

@@ -3,9 +3,9 @@ import Resource from '../Objects/Resource';
 import Player from '../Objects/Player';
 import Terrain from '../Objects/Terrain';
 
-import sprite_rechargeStation from '../../Assets/Misc/RechargeStation/RechargeStation.webm';
-import sprite_ships from '../../Assets/Misc/Ships/Ships.webm';
-import sprite_deadPlayers from '../../Assets/drone/drone-3.png';
+import sprite_rechargeStation from '../Assets/Misc/RechargeStation/RechargeStation.webm';
+import sprite_ships from '../Assets/Misc/Ships/Ships.webm';
+import sprite_deadPlayers from '../Assets/drone/drone-3.png';
 
 import NameTag from '../Objects/NameTag';
 
@@ -91,8 +91,13 @@ export default class Engine {
 			return {
 				W: this.players[this.me].resources.W,
 				scrap: this.players[this.me].resources.scrap,
+				val: this.players[this.me].value,
 			};
 		}
+	}
+
+	damagePlayer(id, val) {
+		this.socket.emit(EVENTS.PLAYER_HAS_DAMAGED, { id, val });
 	}
 
 	setAnchor(anchor) {
@@ -325,7 +330,7 @@ export default class Engine {
 					<div>
 						<div>${p.name}</div>
 						<div>&emsp;{</div>
-						<div>&emsp;&emsp;Value: ${p.score}</div>
+						<div>&emsp;&emsp;Value: ${p.value}</div>
 						<div>&emsp;}</div>
 					</div>
 					`,
@@ -348,8 +353,10 @@ export default class Engine {
 						nameTag: nameTag,
 						fire: p.fire,
 						resources: p.resources,
+						value: p.value,
 						getPlayers: () => this.players,
 						getSocket: () => this.socket,
+						damagePlayer: this.damagePlayer.bind(this),
 					}),
 				],
 				['Players']
@@ -404,11 +411,11 @@ export default class Engine {
 					resources: player.resources,
 					health: player.health,
 				});
-				this.players[player.id].setNameTag(player.score);
 			}
 		}
 
 		if (this.players[player.id]) {
+			this.players[player.id].setNameTag(player.value);
 			this.players[player.id].setBoostState(player.movementState);
 		}
 	}

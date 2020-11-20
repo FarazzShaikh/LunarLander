@@ -1,30 +1,47 @@
-import main from './src/main';
-import * as Cookies from './src/Engine/Cookies';
-import { Modal_main } from './src/Views/TitleScreen/TitleScreen';
+import * as Cookies from './Shared/Cookies';
+import { Modal_main } from './TitleScreen/TitleScreen';
+import Radio from './Shared/Radio';
+
 // Entrypoint
 
 const dev_login_bypass = false;
-const dev_only_splash = false;
 
-if (dev_only_splash) {
-	Modal_main((data) => {
-		console.log(data);
-	}, 1234);
+const radio = new Radio();
+
+if (dev_login_bypass) {
+	Cookies.setCookies({
+		name: 'test7',
+		uuid: 1234,
+	});
+
+	getMain()
+		.then((main) => {
+			main.default(radio);
+		})
+		.catch((e) => console.error(e));
 } else {
-	if (dev_login_bypass) {
-		Cookies.setCookies({
-			name: 'test7',
-			uuid: 1234,
+	if (!Cookies.userRegistered()) {
+		Modal_main((data) => {
+			Cookies.setCookies(data);
+			getMain()
+				.then((main) => {
+					main.default(radio);
+				})
+				.catch((e) => console.error(e));
 		});
-		main();
 	} else {
-		if (!Cookies.userRegistered()) {
-			Modal_main((data) => {
-				Cookies.setCookies(data);
-				main();
-			});
-		} else {
-			main();
-		}
+		getMain()
+			.then((main) => {
+				main.default(radio);
+			})
+			.catch((e) => console.error(e));
 	}
+}
+
+async function getMain() {
+	return await import(
+		/* webpackChunkName: "main_chunk" */
+		/* webpackMode: "lazy" */
+		`./src/main`
+	);
 }

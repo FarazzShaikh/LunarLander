@@ -1,7 +1,7 @@
 import numeral from 'numeral';
 import Audio from '../../Engine/Audio';
 
-import sound_textType from '../../../Assets/Sounds/TextType.mp3';
+import sound_textType from '../../Assets/Sounds/TextType.mp3';
 
 import '../Components/Radar.css';
 
@@ -136,6 +136,7 @@ export default class Radar {
 					const r = {
 						w: numeral(resources.W).format('0,0'),
 						s: numeral(resources.scrap).format('0,0'),
+						v: numeral(resources.val).format('0,0'),
 					};
 
 					if (this.prevResources.w !== r.w || this.prevResources.s !== r.s) {

@@ -1,4 +1,4 @@
-import { DEFAULTS } from '../../../shared/Consts';
+import { DEFAULTS, REQUEST } from '../../../shared/Consts';
 import Drag from './Physics/Drag';
 import Gravity from './Physics/Gravity';
 import Wind from './Physics/Wind';
@@ -60,10 +60,18 @@ export class Player {
 	damage(val) {
 		if (this.health > 0) {
 			this.health -= val;
+			if (this.health <= 0) {
+				this.socket.emit(REQUEST.REQUEST_DELETE_PLAYER.req);
+				return;
+			}
 
 			this.setDamage(this.uuid, 'HighScores', {
 				health: this.health,
+				value:
+					100 * this.resources.fuel + this.resources.W + 10 * this.resources.scrap,
 			}).catch((e) => console.error(e));
+		} else {
+			this.socket.emit(REQUEST.REQUEST_DELETE_PLAYER.req);
 		}
 	}
 
@@ -174,7 +182,7 @@ export class Player {
 			movementState: this.movementState,
 			resources: this.resources,
 			health: this.health,
-			score: this.value,
+			value: this.value,
 			fire: this.fire,
 		};
 	}

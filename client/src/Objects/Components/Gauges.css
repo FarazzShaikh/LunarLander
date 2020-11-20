@@ -6,7 +6,7 @@
 	left: 0;
 
 	display: flex;
-	justify-content: space-between;
+	justify-content: center;
 	align-items: flex-end;
 
 	margin: 8px;
@@ -65,11 +65,4 @@
 
 .Gague-container table tbody tr .white {
 	color: white;
-}
-
-.Song-Display {
-	width: 100px;
-	height: 100%;
-
-	padding: 8px;
 }
