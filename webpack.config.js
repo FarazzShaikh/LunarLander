@@ -2,6 +2,7 @@ const webpack = require('webpack');
 var nodeExternals = require('webpack-node-externals');
 const NodemonPlugin = require('nodemon-webpack-plugin');
 const path = require('path');
+const CompressionPlugin = require('compression-webpack-plugin');
 
 module.exports = [
 	{
@@ -13,6 +14,7 @@ module.exports = [
 		},
 		target: 'web',
 		devtool: 'source-map',
+		plugins: [new CompressionPlugin({ compressionOptions: { level: 9 } })],
 		module: {
 			rules: [
 				{

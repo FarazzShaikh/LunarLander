@@ -1,13 +1,5 @@
 import { getSong } from '../../Assets/Sounds/Radio/Before the night/BeforeTheNight';
 import Audio from '../Engine/Audio';
-import {
-	HasAudioContext,
-	Reverb,
-	Distortion,
-	Volume,
-	Output,
-} from 'audio-effects';
-import { call } from 'file-loader';
 
 export default class Radio {
 	constructor() {
@@ -29,11 +21,7 @@ export default class Radio {
 		// 	}
 		// );
 
-		let audioContext = null;
-
-		if (HasAudioContext) {
-			audioContext = new AudioContext();
-		}
+		let audioContext = new AudioContext();
 
 		const source = audioContext.createMediaElementSource(this.audio.sound);
 

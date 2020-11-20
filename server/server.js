@@ -1,20 +1,19 @@
 // Library Imports.
-import { dirname } from 'path';
 import * as DB from './db/db';
 
 const express = require('express');
 const { default: main } = require('./src/main');
 const app = express();
 var http = require('http').createServer(app);
-const dotenv = require('dotenv').config();
+const dotenv = require('dotenv');
 const reload = require('reload');
 const bodyParser = require('body-parser');
-var path = require('path');
 
 const port = process.env.PORT || 3000;
 
 // Init Database
 DB.init();
+dotenv.config();
 app.use(bodyParser.json());
 
 // Endpoint to get all Scores or Scores with uuid
