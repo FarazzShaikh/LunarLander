@@ -1,4 +1,4 @@
-import * as BeofreTheNight from '../../Assets/Sounds/Radio/Before the night/BeforeTheNight';
+import { getSong } from '../../Assets/Sounds/Radio/Before the night/BeforeTheNight';
 import Audio from '../Engine/Audio';
 import {
 	HasAudioContext,
@@ -17,14 +17,17 @@ export default class Radio {
 
 		document.body.appendChild(node);
 
-		this.tracks = songTable.HOME.__songs;
-		this.tracks.get = function (index) {
-			return this[inWords(index)];
-		};
+		this.songIndex = 1;
 
-		this.songIndex = Math.floor(Math.random() * 10 + 1);
-
-		this.audio = new Audio(this.tracks.get(this.songIndex), 1);
+		this.audio = new Audio('', 1);
+		// getSong(this.songIndex, songTable.HOME.tracks[this.songIndex - 1]).then(
+		// 	(s) => {
+		// 		this.audio.setSrc(s.default);
+		// 		setTimeout(() => {
+		// 			this.play();
+		// 		}, 1000);
+		// 	}
+		// );
 
 		let audioContext = null;
 
@@ -84,40 +87,35 @@ export default class Radio {
 	}
 
 	next() {
-		this.songIndex++;
-		if (this.songIndex === 12) this.songIndex = 1;
-		this.audio.setSrc(this.tracks.get(this.songIndex));
-
-		const data = this.getSongData();
-
-		if (this.onSongChange) this.onSongChange(data);
+		// this.songIndex++;
+		// if (this.songIndex === 12) this.songIndex = 1;
+		// getSong(this.songIndex, songTable.HOME.tracks[this.songIndex - 1]).then(
+		// 	(s) => {
+		// 		this.audio.setSrc(s.default);
+		// 		setTimeout(() => {
+		// 			this.play();
+		// 		}, 1000);
+		// 	}
+		// );
+		// const data = this.getSongData();
+		// if (this.onSongChange) this.onSongChange(data);
 	}
 
 	previous() {
-		this.songIndex--;
-		if (this.songIndex === 0) this.songIndex = 11;
-		this.audio.setSrc(this.tracks.get(this.songIndex));
-
-		const data = this.getSongData();
-
-		if (this.onSongChange) this.onSongChange(data);
+		// this.songIndex--;
+		// if (this.songIndex === 0) this.songIndex = 11;
+		// getSong(this.songIndex, songTable.HOME.tracks[this.songIndex - 1]).then(
+		// 	(s) => {
+		// 		this.audio.setSrc(s.default);
+		// 		setTimeout(() => {
+		// 			this.play();
+		// 		}, 1000);
+		// 	}
+		// );
+		// const data = this.getSongData();
+		// if (this.onSongChange) this.onSongChange(data);
 	}
 }
-
-var numTable = [
-	'Zero',
-	'One',
-	'Two',
-	'Three',
-	'Four',
-	'Five',
-	'Six',
-	'Seven',
-	'Eight',
-	'Nine',
-	'Ten',
-	'Eleven',
-];
 
 var songTable = {
 	HOME: {
@@ -136,10 +134,5 @@ var songTable = {
 			'Sun',
 			'Sleep',
 		],
-		__songs: BeofreTheNight,
 	},
 };
-
-function inWords(num) {
-	return numTable[num];
-}

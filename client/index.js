@@ -9,7 +9,6 @@ const dev_login_bypass = false;
 const dev_only_splash = false;
 
 const radio = new Radio();
-radio.play();
 
 if (dev_only_splash) {
 	Modal_main((data) => {
