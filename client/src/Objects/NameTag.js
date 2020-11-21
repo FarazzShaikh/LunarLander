@@ -1,5 +1,5 @@
 import { Node } from '../Engine/Renderer';
-import './Components/CRT.css';
+import '../../Shared/CRT.css';
 
 export default class NameTag extends Node {
 	constructor({ name, position, rotation, scale, string, color }) {

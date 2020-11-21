@@ -1,5 +1,7 @@
+import Error from './Error/Error';
+
 export default class Audio {
-	constructor(src, vol) {
+	constructor(src, vol, dontAppend) {
 		this.sound = document.createElement('audio');
 		this.sound.src = src;
 		this.sound.setAttribute('preload', 'auto');
@@ -8,7 +10,7 @@ export default class Audio {
 
 		this.sound.volume = vol ? vol : 0.3;
 
-		document.body.appendChild(this.sound);
+		if (!dontAppend) document.body.appendChild(this.sound);
 	}
 
 	setSrc(src) {
@@ -25,5 +27,9 @@ export default class Audio {
 
 	stop() {
 		this.sound.pause();
+	}
+
+	append() {
+		document.body.appendChild(this.sound);
 	}
 }

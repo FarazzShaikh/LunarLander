@@ -113,6 +113,10 @@ export default class Engine {
 		this.radar.setRaderText(text);
 	}
 
+	getRaderText() {
+		return this.radar.getText();
+	}
+
 	setCurrentResource(resource) {
 		this.currentResource = resource;
 	}
@@ -146,7 +150,8 @@ export default class Engine {
 						},
 						resources: s.resources,
 						setCurrentResource: this.setCurrentResource.bind(this),
-						setRAderText: this.radar.setRaderText.bind(this.radar),
+						setRAderText: this.setRaderText.bind(this),
+						getRaderText: this.getRaderText.bind(this),
 						scale: 3,
 						zIndex: 11,
 						sprite: sprite_rechargeStation,
@@ -203,7 +208,8 @@ export default class Engine {
 						},
 						resources: s.resources,
 						setCurrentResource: this.setCurrentResource.bind(this),
-						setRAderText: this.radar.setRaderText.bind(this.radar),
+						setRAderText: this.setRaderText.bind(this),
+						getRaderText: this.getRaderText.bind(this),
 						size: {
 							w: 100,
 							h: 100,
@@ -265,7 +271,8 @@ export default class Engine {
 						},
 						resources: s.resources,
 						setCurrentResource: this.setCurrentResource.bind(this),
-						setRAderText: this.radar.setRaderText.bind(this.radar),
+						setRAderText: this.setRaderText.bind(this),
+						getRaderText: this.getRaderText.bind(this),
 						size: {
 							w: 0,
 							h: 0,

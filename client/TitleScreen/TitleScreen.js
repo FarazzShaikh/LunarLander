@@ -13,7 +13,7 @@ export default class SplashScreen {
 
 		this.activeScreen = -1;
 		this.onReady = null;
-		this.muteToggle = true;
+		this.muteToggle = false;
 
 		setTimeout(() => {
 			this.items = document.querySelectorAll(
@@ -225,6 +225,6 @@ function muteMe(elem, muteToggle) {
 function mutePage(muteToggle) {
 	document.querySelectorAll('audio').forEach((elem) => muteMe(elem, muteToggle));
 	document.querySelector('.SplashScreen-container .icons img').src = !muteToggle
-		? '/src/Views/Assets/Icons/Unmute.svg'
-		: '/src/Views/Assets/Icons/Mute.svg';
+		? 'TitleScreen/Assets/Icons/Unmute.svg'
+		: 'TitleScreen/Assets/Icons/Mute.svg';
 }

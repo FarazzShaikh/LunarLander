@@ -63,20 +63,31 @@ export const DEFAULTS = {
 	KEYMAP: {
 		ArrowLeft: 'N_ROTATE',
 		ArrowRight: 'P_ROTATE',
+		ArrowUp: 'FIRE',
+
 		Space: 'BOOST',
-		KeyE: 'TOGGLE-TAGS',
-		KeyF: 'COLLECT-RESOURCES',
-		KeyW: 'FIRE',
-		KeyZ: 'RADIO-REWIND',
-		KeyC: 'RADIO-NEXT',
 
 		KeyA: 'N_ROTATE',
 		KeyD: 'P_ROTATE',
-		ArrowUp: 'FIRE',
 
-		X: 'BOOST',
+		KeyE: 'TOGGLE-TAGS',
+		KeyW: 'COLLECT-RESOURCES',
+		KeyF: 'FIRE',
+		KeyZ: 'RADIO-REWIND',
+		KeyC: 'RADIO-NEXT',
+		Escape: 'PAUSE',
+
 		L1: 'N_ROTATE',
 		R1: 'P_ROTATE',
+		X: 'BOOST',
+
+		TRIANGLE: 'TOGGLE-TAGS',
+		CIRCLE: 'COLLECT-RESOURCES',
+		SQUARE: 'FIRE',
+
+		LEFT: 'RADIO-REWIND',
+		RIGHT: 'RADIO-NEXT',
+		PS: 'PAUSE',
 	},
 	SCATTER: {
 		N: 10,

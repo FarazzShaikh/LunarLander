@@ -1,5 +1,5 @@
 import numeral from 'numeral';
-import Audio from '../../Engine/Audio';
+import Audio from '../../../Shared/Audio';
 
 import sound_textType from '../../Assets/Sounds/TextType.mp3';
 
@@ -26,6 +26,7 @@ export default class Radar {
 		};
 
 		this.frameCounter = 0;
+		this.text = null;
 
 		setTimeout(() => {
 			this.notification = document.querySelector('.HUD-notification-text');
@@ -47,6 +48,10 @@ export default class Radar {
 		this.rechargeStations = stations;
 	}
 
+	getText() {
+		return this.text;
+	}
+
 	setRaderText(text) {
 		this.sound_textType.stop();
 		if (text.length > 0) {
@@ -54,6 +59,7 @@ export default class Radar {
 		}
 
 		if (this.notification) {
+			this.text = text;
 			this.notification.innerHTML = `<h1>${text}</h1>`;
 			this.notification.addEventListener(
 				'animationend',

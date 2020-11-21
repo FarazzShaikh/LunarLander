@@ -8,8 +8,11 @@ var http = require('http').createServer(app);
 const dotenv = require('dotenv');
 const reload = require('reload');
 const bodyParser = require('body-parser');
+var cors = require('cors');
 
 const port = process.env.PORT || 3000;
+
+app.options('*', cors());
 
 // Init Database
 dotenv.config();
@@ -57,7 +60,7 @@ app.post('/api/registerUser/', (req, res) => {
 // Serves client folder as a static resource at root url.
 app.use('/', express.static('client'));
 // Serves /client/index.html as entry point to the client.
-app.get('/', (req, res) => {
+app.get('/', cors(), (req, res) => {
 	res.sendFile(__dirname + '/index.html');
 });
 

@@ -1,0 +1,123 @@
+.Group6-container {
+	width: 100vw;
+	height: 100vh;
+	background-color: #121212;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+	position: relative;
+	color: white;
+	font-family: 'VT323', monospace;
+}
+
+.Group6-container .logo-container {
+	width: 100vw;
+	height: 100vh;
+	position: absolute;
+	top: 0;
+	right: 0;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
+.Group6-container .main-logo-text {
+	pointer-events: none;
+	font-style: italic;
+}
+
+.Group6-container .main-logo-text .text {
+	width: auto;
+	height: auto;
+	display: flex;
+
+	z-index: 2;
+	background-color: #121212;
+	position: relative;
+}
+
+.Group6-container .main-logo-text .text .six {
+	color: tomato;
+	border-bottom: 1px solid tomato;
+	border-top: 1px solid tomato;
+
+	box-shadow: 0 10px 10px -10px tomato, 0 -10px 10px -10px tomato;
+}
+
+.Group6-container .logo-container .triangle {
+	z-index: 1;
+	position: absolute;
+	top: -90%;
+	right: -10%;
+	text-shadow: -1px 0 tomato, 0 1px tomato, 1px 0 tomato, 0 -1px tomato,
+		0 0 10px tomato;
+	color: #121212;
+	font-size: 380px;
+
+	transform: rotate(-130deg);
+}
+
+.Group6-container .logo-container .triangle.one {
+	font-size: 350px;
+}
+
+.Group6-container .logo-container .triangle.two {
+	font-size: 320px;
+}
+
+.Group6-container .main-logo-text .logo {
+	font-size: 70px;
+	letter-spacing: 10px;
+	z-index: 3;
+	position: relative;
+}
+
+.Group6-container .main-logo-text .subtitle {
+	color: tomato;
+	font-size: 20px;
+	font-style: italic;
+
+	position: absolute;
+	bottom: 16px;
+	right: 16px;
+	z-index: 3;
+}
+
+.Group6-container .waring {
+	color: white;
+	font-style: italic;
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	transform: translate(-50%, 0%);
+
+	padding: 16px;
+}
+
+.Group6-container .build {
+	color: white;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+
+	padding: 16px;
+}
+
+.Group6-container .host {
+	color: white;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+
+	padding: 16px;
+}
+
+.Group6-container .launch {
+	width: fit-content;
+	height: fit-content;
+	color: white;
+	border: 1px solid tomato;
+}

@@ -17,6 +17,7 @@ export default class Resource extends Sprite {
 		resources,
 		setCurrentResource,
 		setRAderText,
+		getRaderText,
 		hitbox,
 	}) {
 		super({
@@ -40,6 +41,7 @@ export default class Resource extends Sprite {
 		this.hitbox = hitbox;
 
 		this.setRAderText = setRAderText;
+		this.getRaderText = getRaderText;
 		this.radarText = '';
 	}
 
@@ -68,24 +70,28 @@ export default class Resource extends Sprite {
 			}
 
 			if (self._isInViewport(p, self.hitbox.w * 2)) {
-				if (AABB.collide(self.HTML, this.anchor.HTML)) {
-					if (this.anchor.velocity.x > 0 || this.anchor.velocity.y > 0) {
-						if (self.radarText !== 'Land to collect resources!') {
-							self.radarText = 'Land to collect resources!';
-							self.setRAderText(self.radarText);
+				if (self.getRaderText) {
+					if (self.getRaderText() !== 'Collected!') {
+						if (AABB.collide(self.HTML, this.anchor.HTML)) {
+							if (this.anchor.velocity.x > 0 || this.anchor.velocity.y > 0) {
+								if (self.radarText !== 'Land to collect resources!') {
+									self.radarText = 'Land to collect resources!';
+									self.setRAderText(self.radarText);
+								}
+							} else {
+								if (self.radarText !== `Collect from ${self.name}?`) {
+									self.radarText = `Collect from ${self.name}?`;
+									self.setRAderText(self.radarText);
+									self.setCurrentResource(self);
+								}
+							}
+						} else {
+							if (self.radarText !== '') {
+								self.radarText = '';
+								self.setRAderText(self.radarText);
+								self.setCurrentResource(null);
+							}
 						}
-					} else {
-						if (self.radarText !== 'Press F to collect.') {
-							self.radarText = 'Press F to collect.';
-							self.setRAderText(self.radarText);
-							self.setCurrentResource(self);
-						}
-					}
-				} else {
-					if (self.radarText !== '') {
-						self.radarText = '';
-						self.setRAderText(self.radarText);
-						self.setCurrentResource(null);
 					}
 				}
 
