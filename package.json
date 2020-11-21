@@ -30,7 +30,6 @@
 	},
 	"dependencies": {
 		"cors": "^2.8.5",
-		"cors-anywhere": "^0.4.3",
 		"dotenv": "^8.2.0",
 		"express": "^4.17.1",
 		"fantasy-name-generator": "^2.0.0",

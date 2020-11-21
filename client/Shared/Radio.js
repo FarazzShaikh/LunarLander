@@ -11,9 +11,11 @@ export default class Radio {
 		this.songIndex = 10;
 
 		this.audio = new Audio('', 1);
-		this.audio.sound.crossOrigin = 'anonymous';
-		this.audio.setSrc(sanitizeLink(songTable.HOME.url[this.songIndex - 1]));
-		this.audio.play();
+		setTimeout(() => {
+			this.audio.sound.crossOrigin = 'anonymous';
+			this.audio.setSrc(sanitizeLink(songTable.HOME.url[this.songIndex - 1]));
+			this.audio.play();
+		}, 2000);
 
 		this.audio.sound.addEventListener('ended', () => {
 			this.stop();
