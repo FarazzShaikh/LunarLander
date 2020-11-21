@@ -75,7 +75,7 @@ export const DEFAULTS = {
 		KeyF: 'FIRE',
 		KeyZ: 'RADIO-REWIND',
 		KeyC: 'RADIO-NEXT',
-		ESC: 'PAUSE',
+		Escape: 'PAUSE',
 
 		L1: 'N_ROTATE',
 		R1: 'P_ROTATE',

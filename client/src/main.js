@@ -22,6 +22,7 @@ import HUD from './Objects/HUD/_HUD';
 
 import GameOver from './Views/GameOverScreen/GameOver';
 import RadioUI from './Objects/HUD/RadioUI';
+import PauseScreen from './Views/PauseScreen/PauseScreen';
 
 let frameCounter = 0;
 
@@ -32,6 +33,7 @@ export default function main(radio) {
 	let init = true;
 
 	const gameOverScrren = new GameOver();
+	const pauseScreen = new PauseScreen();
 
 	// Create a Socket io instance.
 	const socket = io();
@@ -287,7 +289,12 @@ export default function main(radio) {
 
 	// GListens for Server Tick events.
 	socket.on(EVENTS.SERVER_TICK, (dt) => {
-		if (!INTERRUPT.get('INTERRUPT-PLAYER-DEAD')) {
+		if (!INTERRUPT.get('INTERRUPT-PLAYER-DEAD') && !INTERRUPT.get('PAUSE')) {
+			if (hud.hidden) {
+				pauseScreen.hide();
+				hud.show();
+			}
+
 			if (radio.filtered) {
 				radio.toggleLowPass();
 			}
@@ -303,9 +310,14 @@ export default function main(radio) {
 		} else {
 			if (hud) {
 				if (!hud.hidden) {
-					gameOverScrren.show();
-					hud.hide();
-					socket.emit(REQUEST.REQUEST_DELETE_PLAYER.ack);
+					if (INTERRUPT.get('PAUSE')) {
+						pauseScreen.show();
+						hud.hide();
+					} else {
+						gameOverScrren.show();
+						hud.hide();
+						socket.emit(REQUEST.REQUEST_DELETE_PLAYER.ack);
+					}
 				}
 			}
 		}

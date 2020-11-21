@@ -1,0 +1,35 @@
+.PauseScreen-Container {
+	width: 100%;
+	height: 100%;
+	color: white;
+	font-family: 'VT323', monospace;
+	font-size: 20px;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+
+	background: radial-gradient(50% 50% at 50% 50%, #00000085 61%, #ffffff00 100%)
+		no-repeat 50% 50% / 100% 100%;
+}
+
+.PauseScreen-Container .main-container {
+	position: relative;
+}
+
+.PauseScreen-Container .text {
+	font-size: 70px;
+	letter-spacing: 10px;
+}
+
+.PauseScreen-Container .subtitle {
+	font-style: italic;
+	font-size: 20px;
+	text-align: center;
+	color: tomato;
+
+	position: absolute;
+	bottom: 0;
+	right: -10%;
+}

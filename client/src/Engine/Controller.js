@@ -1,4 +1,4 @@
-import { DEFAULTS, EVENTS } from '../../../shared/Consts';
+import { DEFAULTS, EVENTS, INTERRUPT } from '../../../shared/Consts';
 
 // Class Representing the COntroller for the game
 export default class Controller {
@@ -54,6 +54,10 @@ export default class Controller {
 					this.socket.emit(EVENTS.PLAYER_SEND_RESOURCES, resource.getSerialized());
 				}
 
+				return true;
+
+			case 'PAUSE':
+				INTERRUPT.set('PAUSE', true);
 				return true;
 
 			case 'RADIO-REWIND':

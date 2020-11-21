@@ -4,7 +4,7 @@ import Radio from './Shared/Radio';
 
 // Entrypoint
 
-const dev_login_bypass = true;
+const dev_login_bypass = false;
 
 const radio = new Radio();
 

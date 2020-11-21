@@ -27,6 +27,14 @@ export default class HUD extends Node {
 		}
 	}
 
+	show() {
+		this.hidden = false;
+		for (const key in this.components) {
+			const component = this.components[key];
+			component.HTML.style.display = 'flex';
+		}
+	}
+
 	update(node) {
 		const self = node;
 		for (const key in self.components) {
