@@ -8,9 +8,11 @@ var http = require('http').createServer(app);
 const dotenv = require('dotenv');
 const reload = require('reload');
 const bodyParser = require('body-parser');
+var cors = require('cors');
 
 const port = process.env.PORT || 3000;
-const host = process.env.PORT ? '0.0.0.0' : '127.0.0.1';
+
+app.options('*', cors());
 
 // Init Database
 dotenv.config();
@@ -58,7 +60,7 @@ app.post('/api/registerUser/', (req, res) => {
 // Serves client folder as a static resource at root url.
 app.use('/', express.static('client'));
 // Serves /client/index.html as entry point to the client.
-app.get('/', (req, res) => {
+app.get('/', cors(), (req, res) => {
 	res.sendFile(__dirname + '/index.html');
 });
 
@@ -85,16 +87,24 @@ if (process.env.NODE_ENV === 'development') {
 			console.error('Reload could not start.', err);
 		});
 } else {
-	cors_proxy
-		.createServer({
-			originWhitelist: [], // Allow all origins
-			requireHeader: ['origin', 'x-requested-with'],
-			removeHeaders: ['cookie', 'cookie2'],
-		})
-		.listen(port, host, function () {
-			console.log('Running Server on ' + host + ':' + port);
-		});
+	http.listen(port);
 }
+
+var allowCrossDomain = function (req, res, next) {
+	res.header('Access-Control-Allow-Origin', '*');
+	res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+	res.header(
+		'Access-Control-Allow-Headers',
+		'Content-Type, Authorization, Content-Length, X-Requested-With'
+	);
+
+	// intercept OPTIONS method
+	if ('OPTIONS' == req.method) {
+		res.send(200);
+	} else {
+		next();
+	}
+};
 
 // Socket.io entrypoint.
 main(http);
