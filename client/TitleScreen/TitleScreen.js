@@ -13,7 +13,7 @@ export default class SplashScreen {
 
 		this.activeScreen = -1;
 		this.onReady = null;
-		this.muteToggle = true;
+		this.muteToggle = false;
 
 		setTimeout(() => {
 			this.items = document.querySelectorAll(

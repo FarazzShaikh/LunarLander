@@ -1,4 +1,4 @@
-import Audio from '../src/Engine/Audio';
+import Audio from './Audio';
 
 export default class Radio {
 	constructor() {
@@ -11,11 +11,20 @@ export default class Radio {
 		this.songIndex = 10;
 
 		this.audio = new Audio('', 1);
+		this.audio.sound.muted = true;
+
 		setTimeout(() => {
 			this.audio.sound.crossOrigin = 'anonymous';
 			this.audio.setSrc(sanitizeLink(songTable.HOME.url[this.songIndex - 1]));
-			this.audio.play();
 		}, 2000);
+
+		const interval = setInterval(() => {
+			if (!this.audio.sound.muted) {
+				this.audio.play();
+
+				clearInterval(interval);
+			}
+		}, 100);
 
 		this.audio.sound.addEventListener('ended', () => {
 			this.stop();

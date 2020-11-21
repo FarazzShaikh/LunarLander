@@ -20,7 +20,7 @@ import sound_shootRetro from '../Assets/Sounds/shootRetro.mp3';
 import { DEFAULTS, EVENTS, REQUEST } from '../../../shared/Consts';
 import Terrain from './Terrain';
 import Bullet from './Bullet';
-import Audio from '../Engine/Audio';
+import Audio from '../../Shared/Audio';
 
 // Class representing client side Player.
 export default class Player extends Sprite {

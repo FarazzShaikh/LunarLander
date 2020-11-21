@@ -1,3 +1,5 @@
+import Error from './Error/Error';
+
 export default class Audio {
 	constructor(src, vol) {
 		this.sound = document.createElement('audio');
