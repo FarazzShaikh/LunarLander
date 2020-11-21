@@ -16,7 +16,27 @@ const port = process.env.PORT || 3000;
 dotenv.config();
 DB.init();
 app.use(bodyParser.json());
-app.use(cors());
+
+const whitelist = ['https://www.dropbox.com/', 'https://github.com/']; // list of allow domain
+
+const corsOptions = {
+	origin: function (origin, callback) {
+		if (!origin) {
+			return callback(null, true);
+		}
+
+		if (whitelist.indexOf(origin) === -1) {
+			var msg =
+				'The CORS policy for this site does not ' +
+				'allow access from the specified Origin.';
+			return callback(new Error(msg), false);
+		}
+		return callback(null, true);
+	},
+};
+
+// end
+app.use(cors(corsOptions));
 
 // Endpoint to get all Scores or Scores with uuid
 app.get('/api/scores/:uuid', async (req, res) => {
@@ -88,22 +108,6 @@ if (process.env.NODE_ENV === 'development') {
 } else {
 	http.listen(port);
 }
-
-var allowCrossDomain = function (req, res, next) {
-	res.header('Access-Control-Allow-Origin', '*');
-	res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-	res.header(
-		'Access-Control-Allow-Headers',
-		'Content-Type, Authorization, Content-Length, X-Requested-With'
-	);
-
-	// intercept OPTIONS method
-	if ('OPTIONS' == req.method) {
-		res.send(200);
-	} else {
-		next();
-	}
-};
 
 // Socket.io entrypoint.
 main(http);
