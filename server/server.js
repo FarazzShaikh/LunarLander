@@ -8,35 +8,14 @@ var http = require('http').createServer(app);
 const dotenv = require('dotenv');
 const reload = require('reload');
 const bodyParser = require('body-parser');
-var cors = require('cors');
 
 const port = process.env.PORT || 3000;
+const host = process.env.PORT ? '0.0.0.0' : '127.0.0.1';
 
 // Init Database
 dotenv.config();
 DB.init();
 app.use(bodyParser.json());
-
-const whitelist = ['https://www.dropbox.com/', 'https://github.com/']; // list of allow domain
-
-const corsOptions = {
-	origin: function (origin, callback) {
-		if (!origin) {
-			return callback(null, true);
-		}
-
-		if (whitelist.indexOf(origin) === -1) {
-			var msg =
-				'The CORS policy for this site does not ' +
-				'allow access from the specified Origin.';
-			return callback(new Error(msg), false);
-		}
-		return callback(null, true);
-	},
-};
-
-// end
-app.use(cors(corsOptions));
 
 // Endpoint to get all Scores or Scores with uuid
 app.get('/api/scores/:uuid', async (req, res) => {
@@ -106,7 +85,15 @@ if (process.env.NODE_ENV === 'development') {
 			console.error('Reload could not start.', err);
 		});
 } else {
-	http.listen(port);
+	cors_proxy
+		.createServer({
+			originWhitelist: [], // Allow all origins
+			requireHeader: ['origin', 'x-requested-with'],
+			removeHeaders: ['cookie', 'cookie2'],
+		})
+		.listen(port, host, function () {
+			console.log('Running Server on ' + host + ':' + port);
+		});
 }
 
 // Socket.io entrypoint.
