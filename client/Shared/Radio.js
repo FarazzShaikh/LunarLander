@@ -20,34 +20,35 @@ export default class Radio {
 
 		const interval = setInterval(() => {
 			if (!this.audio.sound.muted) {
+				this.audio.append();
 				this.audio.play();
 
 				clearInterval(interval);
+
+				this.audio.sound.addEventListener('ended', () => {
+					this.stop();
+					this.next();
+					this.play();
+				});
+
+				let audioContext = new AudioContext();
+
+				const source = audioContext.createMediaElementSource(this.audio.sound);
+
+				const filter = audioContext.createBiquadFilter();
+				source.connect(filter);
+				filter.connect(audioContext.destination);
+
+				filter.type = 'highshelf';
+				filter.frequency.value = 910;
+				filter.gain.value = -24;
+
+				this.filter = filter;
+				this.audioContext = audioContext;
+
+				this.filtered = true;
 			}
 		}, 100);
-
-		this.audio.sound.addEventListener('ended', () => {
-			this.stop();
-			this.next();
-			this.play();
-		});
-
-		let audioContext = new AudioContext();
-
-		const source = audioContext.createMediaElementSource(this.audio.sound);
-
-		const filter = audioContext.createBiquadFilter();
-		source.connect(filter);
-		filter.connect(audioContext.destination);
-
-		filter.type = 'highshelf';
-		filter.frequency.value = 910;
-		filter.gain.value = -24;
-
-		this.filter = filter;
-		this.audioContext = audioContext;
-
-		this.filtered = true;
 	}
 
 	toggleLowPass() {

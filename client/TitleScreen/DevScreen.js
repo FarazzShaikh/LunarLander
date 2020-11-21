@@ -16,7 +16,7 @@ export default class DevScreen {
 		setTimeout(() => {
 			this.HTML.style.opacity = '1';
 			this.HTML.querySelector('.host').textContent =
-				'Host:' + truncate(location.hostname, 10);
+				'Host:' + truncate(location.host, 10);
 			setTimeout(() => {
 				callback();
 			}, 2000);
