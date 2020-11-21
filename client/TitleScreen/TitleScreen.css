@@ -224,9 +224,6 @@
 }
 
 .SplashScreen-container .icons {
-	width: fit-content;
-	height: fit-content;
-
 	position: absolute;
 	right: 0;
 	bottom: 0;
@@ -241,12 +238,12 @@
 	transition: all 200ms ease-in-out;
 }
 
-.SplashScreen-container .icons:hover {
-	filter: invert(0%);
-	background-color: white;
+.SplashScreen-container .icons img:hover {
+	transform: scale(1.2, 1.2);
 }
 
 .SplashScreen-container .icons img {
+	object-fit: contain;
 	width: 25px;
 	height: 25px;
 }

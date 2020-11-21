@@ -2,6 +2,7 @@ import * as Cookies from './Shared/Cookies';
 import { Modal_main } from './TitleScreen/TitleScreen';
 import Radio from './Shared/Radio';
 
+import './Shared/CRT.css';
 // Entrypoint
 
 const dev_login_bypass = false;
