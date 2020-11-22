@@ -75,6 +75,7 @@ export const DEFAULTS = {
 		KeyF: 'FIRE',
 		KeyZ: 'RADIO-REWIND',
 		KeyC: 'RADIO-NEXT',
+		KeyP: 'SELF-DESTRUCT',
 		Escape: 'PAUSE',
 
 		L1: 'N_ROTATE',
@@ -87,7 +88,7 @@ export const DEFAULTS = {
 
 		LEFT: 'RADIO-REWIND',
 		RIGHT: 'RADIO-NEXT',
-		PS: 'PAUSE',
+		OPT: 'PAUSE',
 	},
 	SCATTER: {
 		N: 10,

@@ -61,6 +61,10 @@ export default class Engine {
 				return true;
 			}
 
+			case 'SELF-DESTRUCT':
+				this.damagePlayer(this.me, 10000);
+				return true;
+
 			default:
 				break;
 		}
