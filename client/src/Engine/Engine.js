@@ -61,6 +61,10 @@ export default class Engine {
 				return true;
 			}
 
+			case 'SELF-DESTRUCT':
+				this.damagePlayer(this.me, 10000);
+				return true;
+
 			default:
 				break;
 		}
@@ -87,13 +91,20 @@ export default class Engine {
 
 	getResources() {
 		if (this.players[this.me]) {
-			console.log();
 			return {
 				W: this.players[this.me].resources.W,
 				scrap: this.players[this.me].resources.scrap,
 				val: this.players[this.me].value,
 			};
 		}
+	}
+
+	getRadarInterrupt() {
+		return this.radar.getInterrupt();
+	}
+
+	setRadarInterrupt(val) {
+		this.radar.setInterrupt(val);
 	}
 
 	damagePlayer(id, val) {
@@ -125,6 +136,10 @@ export default class Engine {
 		return this.currentResource;
 	}
 
+	explodePlayer(callback) {
+		if (this.players[this.me]) this.players[this.me].explode(callback);
+	}
+
 	addRechargeStation(resources) {
 		this.radar.setRechargeStations(resources);
 		this.rechargeStations.forEach((s, i) => {
@@ -152,6 +167,7 @@ export default class Engine {
 						setCurrentResource: this.setCurrentResource.bind(this),
 						setRAderText: this.setRaderText.bind(this),
 						getRaderText: this.getRaderText.bind(this),
+						getRadarInterrupt: this.getRadarInterrupt.bind(this),
 						scale: 3,
 						zIndex: 11,
 						sprite: sprite_rechargeStation,
@@ -210,6 +226,7 @@ export default class Engine {
 						setCurrentResource: this.setCurrentResource.bind(this),
 						setRAderText: this.setRaderText.bind(this),
 						getRaderText: this.getRaderText.bind(this),
+						getRadarInterrupt: this.getRadarInterrupt.bind(this),
 						size: {
 							w: 100,
 							h: 100,
@@ -273,6 +290,7 @@ export default class Engine {
 						setCurrentResource: this.setCurrentResource.bind(this),
 						setRAderText: this.setRaderText.bind(this),
 						getRaderText: this.getRaderText.bind(this),
+						getRadarInterrupt: this.getRadarInterrupt.bind(this),
 						size: {
 							w: 0,
 							h: 0,

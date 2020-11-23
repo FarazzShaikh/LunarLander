@@ -183,6 +183,7 @@ export function Modal_main(setCookies) {
 					});
 					return;
 				} else {
+					document.querySelectorAll('audio').forEach((elem) => muteMe(elem, false));
 					const postData = { name };
 					setUser(postData).then((r) => {
 						if (r.status === 200) {

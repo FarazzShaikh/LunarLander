@@ -2,16 +2,11 @@ import Audio from './Audio';
 
 export default class Radio {
 	constructor() {
-		const node = document.createElement('div');
-		node.classList.add('Radio');
-		node.style.display = 'none';
-
-		document.body.appendChild(node);
-
 		this.songIndex = 10;
 
 		this.audio = new Audio('', 1);
 		this.audio.sound.muted = true;
+		this.audio.sound.classList.add('radio');
 
 		setTimeout(() => {
 			this.audio.sound.crossOrigin = 'anonymous';

@@ -258,9 +258,11 @@ export default function main(radio) {
 							engine.addRechargeStation(recharge);
 						}
 						if (!init) {
+							engine.setRadarInterrupt(true);
 							engine.setRaderText('Collected!');
 							setTimeout(() => {
 								engine.setRaderText('');
+								engine.setRadarInterrupt(false);
 							}, 3000);
 						}
 						init = false;
@@ -268,6 +270,15 @@ export default function main(radio) {
 					.catch((e) => console.error(e));
 			})
 			.catch((e) => console.error(e));
+	});
+
+	socket.on(EVENTS.SERVER_ERROR, (d) => {
+		engine.setRadarInterrupt(true);
+		engine.setRaderText(d.message);
+		setTimeout(() => {
+			engine.setRaderText('');
+			engine.setRadarInterrupt(false);
+		}, 3000);
 	});
 
 	// Listens for Update PLayerss event. Then updates list of all players.
@@ -280,7 +291,9 @@ export default function main(radio) {
 	);
 
 	socket.on(REQUEST.REQUEST_DELETE_PLAYER.req, () => {
-		INTERRUPT.set('INTERRUPT-PLAYER-DEAD', true);
+		engine.explodePlayer(() => {
+			INTERRUPT.set('INTERRUPT-PLAYER-DEAD', true);
+		});
 	});
 
 	// setTimeout(() => {
@@ -308,15 +321,37 @@ export default function main(radio) {
 
 			engine.update(dt);
 		} else {
+			if (radio.filter) {
+				radio.toggleLowPass();
+			}
+
 			if (hud) {
-				if (!hud.hidden) {
-					if (INTERRUPT.get('PAUSE')) {
+				if (INTERRUPT.get('INTERRUPT-PLAYER-DEAD')) {
+					if (!pauseScreen.isHidden) {
+						pauseScreen.hide();
+						setTimeout(() => {
+							gameOverScrren.show();
+							hud.hide();
+
+							socket.emit(REQUEST.REQUEST_DELETE_PLAYER.ack);
+							return;
+						}, 300);
+					} else {
+						if (!hud.hidden) {
+							gameOverScrren.show();
+							hud.hide();
+
+							socket.emit(REQUEST.REQUEST_DELETE_PLAYER.ack);
+							return;
+						}
+					}
+				}
+
+				if (INTERRUPT.get('PAUSE')) {
+					if (!hud.hidden) {
 						pauseScreen.show();
 						hud.hide();
-					} else {
-						gameOverScrren.show();
-						hud.hide();
-						socket.emit(REQUEST.REQUEST_DELETE_PLAYER.ack);
+						return;
 					}
 				}
 			}

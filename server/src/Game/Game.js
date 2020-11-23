@@ -74,16 +74,31 @@ export default class Game {
 			W: currResources.W + resources.resources.W,
 			scrap: currResources.scrap + resources.resources.scrap,
 		};
-		this.players[id].value =
+
+		if (this.players[id].resources.W < 0) {
+			this.players[id].resources.W = 0;
+
+			return {
+				code: 100,
+				message: 'Not Enough W',
+			};
+		}
+		if (this.players[id].resources.scrap < 0) {
+			this.players[id].resources.scrap = 0;
+
+			return {
+				code: 100,
+				message: 'Not Enough W',
+			};
+		}
+
+		this.players[id].value = Math.floor(
 			100 * this.players[id].resources.fuel +
-			this.players[id].resources.W +
-			10 * this.players[id].resources.scrap;
+				this.players[id].resources.W +
+				10 * this.players[id].resources.scrap
+		);
 		return DB.UPDATE(this.players[id].uuid, 'HighScores', {
-			resources: {
-				fuel: currResources.fuel + resources.resources.fuel,
-				W: currResources.W + resources.resources.W,
-				scrap: currResources.scrap + resources.resources.scrap,
-			},
+			resources: this.players[id].resources,
 			value: this.players[id].value,
 		});
 	}
@@ -92,17 +107,17 @@ export default class Game {
 		const currResources = this.players[id].resources;
 
 		if (resources.name.includes('STATION')) {
-			this.updateLocalPlayerResources(currResources, resources, id).catch((e) =>
-				console.error(e)
-			);
+			return this.updateLocalPlayerResources(
+				currResources,
+				resources,
+				id
+			).catch((e) => console.error(e));
 		} else if (resources.name.includes('Player')) {
-			return DB.DELETE(resources.id, 'KilledPlayers')
-				.then(() =>
-					this.updateLocalPlayerResources(currResources, resources, id).catch((e) =>
-						console.error(e)
-					)
+			return DB.DELETE(resources.id, 'KilledPlayers').then(() =>
+				this.updateLocalPlayerResources(currResources, resources, id).catch((e) =>
+					console.error(e)
 				)
-				.catch((e) => console.error(e));
+			);
 		} else {
 			return DB.UPDATE(resources.id, 'Ships', {
 				resources: {
@@ -110,13 +125,11 @@ export default class Game {
 					W: 0,
 					scrap: 0,
 				},
-			})
-				.then(() =>
-					this.updateLocalPlayerResources(currResources, resources, id).catch((e) =>
-						console.error(e)
-					)
+			}).then(() =>
+				this.updateLocalPlayerResources(currResources, resources, id).catch((e) =>
+					console.error(e)
 				)
-				.catch((e) => console.error(e));
+			);
 		}
 	}
 
@@ -143,7 +156,7 @@ export default class Game {
 			uuid: data.uuid,
 			name: data.name,
 			socket: socket,
-			position: { x: this.rechargeStations[1].xPosition, y: 0 },
+			position: { x: 100000, y: 0 },
 			velocity: { x: 0, y: 0 },
 			rotation: Math.PI / 2,
 			resources: resources,
@@ -217,9 +230,9 @@ export default class Game {
 			uuid: dead.uuid,
 			name: dead.name,
 			resources: dead.resources,
-			value: dead.value,
-			health: dead.health,
-			xPosition: dead.position.x,
+			value: Math.floor(dead.value),
+			health: Math.floor(dead.health),
+			xPosition: Math.floor(dead.position.x),
 		};
 		DB.POST(dead.uuid, 'KilledPlayers', data)
 			.then(() => {

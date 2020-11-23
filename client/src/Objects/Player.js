@@ -22,6 +22,8 @@ import Terrain from './Terrain';
 import Bullet from './Bullet';
 import Audio from '../../Shared/Audio';
 
+import explosion_vid from '../Assets/drone/explosion.webm';
+
 // Class representing client side Player.
 export default class Player extends Sprite {
 	constructor({
@@ -200,6 +202,42 @@ export default class Player extends Sprite {
 		</div>
 		`);
 		}
+	}
+
+	explode(callback) {
+		const boom = document.createElement('video');
+		// boom.style.width = '50px';
+		// boom.style.width = '50px';
+		boom.style.flexShrink = '0';
+		boom.style.imageRendering = 'pixelated';
+		boom.style.position = 'absolute';
+		boom.style.top = '-10px';
+		boom.style.left = '-10px';
+		boom.style.zIndex = '14';
+
+		// boom.style.transform = `translate(${window.innerWidth / 2}px, ${
+		// 	this.position.y
+		// }px)`;
+
+		boom.style.zIndex = '10000';
+
+		boom.autoplay = true;
+		boom.muted = true;
+		boom.playsinline = true;
+		boom.playbackRate = 1;
+
+		const src = document.createElement('source');
+		src.src = explosion_vid;
+		src.type = 'video/webm';
+
+		boom.appendChild(src);
+
+		this.HTML.appendChild(boom);
+
+		boom.addEventListener('ended', () => {
+			this.HTML.style.opacity = '0';
+			callback();
+		});
 	}
 
 	update(node) {
