@@ -291,7 +291,9 @@ export default function main(radio) {
 	);
 
 	socket.on(REQUEST.REQUEST_DELETE_PLAYER.req, () => {
-		INTERRUPT.set('INTERRUPT-PLAYER-DEAD', true);
+		engine.explodePlayer(() => {
+			INTERRUPT.set('INTERRUPT-PLAYER-DEAD', true);
+		});
 	});
 
 	// setTimeout(() => {

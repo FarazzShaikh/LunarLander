@@ -136,6 +136,10 @@ export default class Engine {
 		return this.currentResource;
 	}
 
+	explodePlayer(callback) {
+		if (this.players[this.me]) this.players[this.me].explode(callback);
+	}
+
 	addRechargeStation(resources) {
 		this.radar.setRechargeStations(resources);
 		this.rechargeStations.forEach((s, i) => {
