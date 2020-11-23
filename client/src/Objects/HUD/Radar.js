@@ -27,6 +27,7 @@ export default class Radar {
 
 		this.frameCounter = 0;
 		this.text = null;
+		this.interrupt === false;
 
 		setTimeout(() => {
 			this.notification = document.querySelector('.HUD-notification-text');
@@ -50,6 +51,14 @@ export default class Radar {
 
 	getText() {
 		return this.text;
+	}
+
+	setInterrupt(val) {
+		this.interrupt = val;
+	}
+
+	getInterrupt() {
+		return this.interrupt;
 	}
 
 	setRaderText(text) {

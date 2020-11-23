@@ -258,9 +258,11 @@ export default function main(radio) {
 							engine.addRechargeStation(recharge);
 						}
 						if (!init) {
+							engine.setRadarInterrupt(true);
 							engine.setRaderText('Collected!');
 							setTimeout(() => {
 								engine.setRaderText('');
+								engine.setRadarInterrupt(false);
 							}, 3000);
 						}
 						init = false;
@@ -268,6 +270,15 @@ export default function main(radio) {
 					.catch((e) => console.error(e));
 			})
 			.catch((e) => console.error(e));
+	});
+
+	socket.on(EVENTS.SERVER_ERROR, (d) => {
+		engine.setRadarInterrupt(true);
+		engine.setRaderText(d.message);
+		setTimeout(() => {
+			engine.setRaderText('');
+			engine.setRadarInterrupt(false);
+		}, 3000);
 	});
 
 	// Listens for Update PLayerss event. Then updates list of all players.

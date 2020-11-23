@@ -19,6 +19,7 @@ export default class Resource extends Sprite {
 		setRAderText,
 		getRaderText,
 		hitbox,
+		getRadarInterrupt,
 	}) {
 		super({
 			name,
@@ -42,6 +43,7 @@ export default class Resource extends Sprite {
 
 		this.setRAderText = setRAderText;
 		this.getRaderText = getRaderText;
+		this.getRadarInterrupt = getRadarInterrupt;
 		this.radarText = '';
 	}
 
@@ -71,7 +73,7 @@ export default class Resource extends Sprite {
 
 			if (self._isInViewport(p, self.hitbox.w * 2)) {
 				if (self.getRaderText) {
-					if (self.getRaderText() !== 'Collected!') {
+					if (!self.getRadarInterrupt()) {
 						if (AABB.collide(self.HTML, this.anchor.HTML)) {
 							if (this.anchor.velocity.x > 0 || this.anchor.velocity.y > 0) {
 								if (self.radarText !== 'Land to collect resources!') {
