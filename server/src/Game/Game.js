@@ -74,10 +74,11 @@ export default class Game {
 			W: currResources.W + resources.resources.W,
 			scrap: currResources.scrap + resources.resources.scrap,
 		};
-		this.players[id].value =
+		this.players[id].value = Math.floor(
 			100 * this.players[id].resources.fuel +
-			this.players[id].resources.W +
-			10 * this.players[id].resources.scrap;
+				this.players[id].resources.W +
+				10 * this.players[id].resources.scrap
+		);
 		return DB.UPDATE(this.players[id].uuid, 'HighScores', {
 			resources: {
 				fuel: currResources.fuel + resources.resources.fuel,
@@ -217,9 +218,9 @@ export default class Game {
 			uuid: dead.uuid,
 			name: dead.name,
 			resources: dead.resources,
-			value: dead.value,
-			health: dead.health,
-			xPosition: dead.position.x,
+			value: Math.floor(dead.value),
+			health: Math.floor(dead.health),
+			xPosition: Math.floor(dead.position.x),
 		};
 		DB.POST(dead.uuid, 'KilledPlayers', data)
 			.then(() => {
