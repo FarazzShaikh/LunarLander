@@ -81,7 +81,11 @@ export default class Controller {
 		const gamepad = navigator.getGamepads()[0];
 
 		if (gamepad) {
+			gamepad.buttons.forEach((b, i) => {
+				if (b.pressed) console.log(i);
+			});
 			const buttons = {
+				OPT: gamepad.buttons[9],
 				X: gamepad.buttons[0],
 				L1: gamepad.buttons[4],
 				R1: gamepad.buttons[5],

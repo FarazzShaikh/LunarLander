@@ -66,7 +66,12 @@ export default class SplashScreen {
 						.querySelectorAll(
 							'.play-container .play-container-holder .buttons button'
 						)[1]
-						.addEventListener('click', () => this.onReady(input.value));
+						.addEventListener('click', () => {
+							document
+								.querySelectorAll('audio')
+								.forEach((elem) => muteMe(elem, false));
+							this.onReady(input.value);
+						});
 				}, 2000);
 
 				break;

@@ -321,15 +321,37 @@ export default function main(radio) {
 
 			engine.update(dt);
 		} else {
+			if (radio.filter) {
+				radio.toggleLowPass();
+			}
+
 			if (hud) {
-				if (!hud.hidden) {
-					if (INTERRUPT.get('PAUSE')) {
+				if (INTERRUPT.get('INTERRUPT-PLAYER-DEAD')) {
+					if (!pauseScreen.isHidden) {
+						pauseScreen.hide();
+						setTimeout(() => {
+							gameOverScrren.show();
+							hud.hide();
+
+							socket.emit(REQUEST.REQUEST_DELETE_PLAYER.ack);
+							return;
+						}, 300);
+					} else {
+						if (!hud.hidden) {
+							gameOverScrren.show();
+							hud.hide();
+
+							socket.emit(REQUEST.REQUEST_DELETE_PLAYER.ack);
+							return;
+						}
+					}
+				}
+
+				if (INTERRUPT.get('PAUSE')) {
+					if (!hud.hidden) {
 						pauseScreen.show();
 						hud.hide();
-					} else {
-						gameOverScrren.show();
-						hud.hide();
-						socket.emit(REQUEST.REQUEST_DELETE_PLAYER.ack);
+						return;
 					}
 				}
 			}

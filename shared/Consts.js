@@ -90,6 +90,7 @@ export const DEFAULTS = {
 		LEFT: 'RADIO-REWIND',
 		RIGHT: 'RADIO-NEXT',
 		OPT: 'PAUSE',
+		PS: 'SELF-DESTRUCT',
 	},
 	SCATTER: {
 		N: 10,

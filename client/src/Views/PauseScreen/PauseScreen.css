@@ -33,3 +33,58 @@
 	bottom: 0;
 	right: -10%;
 }
+
+.PauseScreen-Container .options {
+	width: 50%;
+	color: white;
+	font-family: 'VT323', monospace;
+	font-size: 20px;
+	text-align: center;
+
+	margin-top: 5%;
+
+	z-index: 2;
+}
+
+.PauseScreen-Container .options .item {
+	border: 1px solid transparent;
+	padding: 8px;
+	cursor: pointer;
+	transition: all 200ms ease-in-out;
+	border-radius: 3px;
+}
+
+.PauseScreen-Container .options .item:hover {
+	border-color: tomato;
+}
+
+.PauseScreen-Container .options .item.active {
+	background-color: black;
+	color: tomato;
+	box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.596);
+}
+
+.PauseScreen-Container .icons {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+
+	padding: 8px;
+	margin: 16px;
+	border-radius: 5px;
+
+	cursor: pointer;
+
+	filter: invert(100%);
+	transition: all 200ms ease-in-out;
+}
+
+.PauseScreen-Container .icons img:hover {
+	transform: scale(1.2, 1.2);
+}
+
+.PauseScreen-Container .icons img {
+	object-fit: contain;
+	width: 25px;
+	height: 25px;
+}
