@@ -89,9 +89,14 @@ export default class SplashScreen {
 
 			case 2:
 				injectPoint.innerHTML = require('./Components/Credits.html');
-				document.querySelectorAll('video').forEach((v) => {
-					v.playbackRate = 0.5;
-				});
+
+				document
+					.querySelectorAll('.credits-container .socials img')
+					.forEach((s) => {
+						s.title = s.classList[0];
+						s.src = `TitleScreen/Assets/Icons/Socials/${s.classList[0]}.svg`;
+						s.addEventListener('click', () => window.open(s.dataset.url));
+					});
 				injectPoint.classList.add('inject-html-style');
 				injectPoint.classList.add('slide-opacity');
 				document
