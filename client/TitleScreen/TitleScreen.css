@@ -430,10 +430,11 @@
 
 .credits-container table tbody tr td {
 	width: 155px;
+	margin: 4px 0px;
 }
 
 .credits-container .title {
-	font-size: 20px;
+	font-size: 17px;
 	color: white;
 }
 
@@ -447,4 +448,31 @@
 .credits-container .text {
 	font-size: 20px;
 	color: white;
+}
+
+.credits-container .credit-list {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
+.credits-container .socials {
+	display: flex;
+	height: auto;
+	width: auto;
+}
+
+.credits-container .socials img {
+	width: 25px;
+	height: 25px;
+	margin: 8px;
+	position: relative;
+	filter: invert(100);
+	transition: all 200ms ease-in-out;
+	cursor: pointer;
+}
+
+.credits-container .socials img:hover {
+	transform: scale(1.2, 1.2);
 }
