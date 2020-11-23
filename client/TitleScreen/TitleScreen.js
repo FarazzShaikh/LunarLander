@@ -66,12 +66,7 @@ export default class SplashScreen {
 						.querySelectorAll(
 							'.play-container .play-container-holder .buttons button'
 						)[1]
-						.addEventListener('click', () => {
-							document
-								.querySelectorAll('audio')
-								.forEach((elem) => muteMe(elem, false));
-							this.onReady(input.value);
-						});
+						.addEventListener('click', () => this.onReady(input.value));
 				}, 2000);
 
 				break;
@@ -188,6 +183,7 @@ export function Modal_main(setCookies) {
 					});
 					return;
 				} else {
+					document.querySelectorAll('audio').forEach((elem) => muteMe(elem, false));
 					const postData = { name };
 					setUser(postData).then((r) => {
 						if (r.status === 200) {

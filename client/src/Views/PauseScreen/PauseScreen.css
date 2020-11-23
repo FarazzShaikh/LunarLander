@@ -1,37 +1,90 @@
 .PauseScreen-Container {
-	width: 100%;
-	height: 100%;
-	color: white;
-	font-family: 'VT323', monospace;
-	font-size: 20px;
+	width: 100vw;
+	height: 100vh;
+}
+
+.gradient-filter {
+	width: 100vw;
+	height: 100vh;
+	position: relative;
+
+	background: linear-gradient(-45deg, #121212 40%, #ffffff00 100%);
+}
+
+.PauseScreen-Container .logo-container {
+	width: 40vw;
+	height: 100vh;
+	position: absolute;
+	top: 0;
+	right: 0;
 
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
-
-	background: radial-gradient(50% 50% at 50% 50%, #00000085 61%, #ffffff00 100%)
-		no-repeat 50% 50% / 100% 100%;
 }
 
-.PauseScreen-Container .main-container {
+.PauseScreen-Container .main-logo-text {
+	position: relative;
+	color: white;
+	font-family: 'VT323', monospace;
+	padding: 16px;
+
+	pointer-events: none;
+}
+
+.PauseScreen-Container .main-logo-text .box {
+	width: 70%;
+	height: 120%;
+	border: 1px solid tomato;
+	box-shadow: 0px 0px 10px 0px rgba(255, 99, 71, 0.459);
+
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.PauseScreen-Container .main-logo-text .box2 {
+	width: 80%;
+	height: 140%;
+	border: 1px solid tomato;
+}
+
+.PauseScreen-Container .main-logo-text .box3 {
+	width: 90%;
+	height: 160%;
+	border: 1px solid tomato;
+}
+
+.PauseScreen-Container .main-logo-text .box_mask {
+	width: 100%;
+	height: 100%;
+	background-color: #121212;
+
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 2;
+}
+
+.PauseScreen-Container .main-logo-text .logo {
+	font-size: 70px;
+	letter-spacing: 10px;
+	z-index: 3;
 	position: relative;
 }
 
-.PauseScreen-Container .text {
-	font-size: 70px;
-	letter-spacing: 10px;
-}
-
-.PauseScreen-Container .subtitle {
-	font-style: italic;
-	font-size: 20px;
-	text-align: center;
+.PauseScreen-Container .main-logo-text .subtitle {
 	color: tomato;
+	font-size: 20px;
+	font-style: italic;
 
 	position: absolute;
-	bottom: 0;
-	right: -10%;
+	bottom: 16px;
+	right: 16px;
+	z-index: 3;
 }
 
 .PauseScreen-Container .options {
@@ -41,7 +94,7 @@
 	font-size: 20px;
 	text-align: center;
 
-	margin-top: 5%;
+	margin-top: 10%;
 
 	z-index: 2;
 }
@@ -74,6 +127,7 @@
 	border-radius: 5px;
 
 	cursor: pointer;
+	z-index: 2;
 
 	filter: invert(100%);
 	transition: all 200ms ease-in-out;
@@ -87,4 +141,55 @@
 	object-fit: contain;
 	width: 25px;
 	height: 25px;
+}
+
+.PauseScreen-Container .controls-container .icons {
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+
+.PauseScreen-Container .inject-html-style {
+	width: 100vw;
+	height: 100vh;
+	z-index: 1;
+	position: absolute;
+	top: 0;
+	left: 0;
+
+	background: linear-gradient(135deg, #121212 20%, #ffffff00 100%);
+}
+
+.PauseScreen-Container .inject-html-style .controls-container {
+	width: 50%;
+	height: 100%;
+	z-index: 2;
+
+	color: white;
+	font-family: 'VT323', monospace;
+	font-size: 20px;
+	text-align: center;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: flex-start;
+}
+
+.PauseScreen-Container .inject-html-style .controls-container .controls {
+	pointer-events: none;
+}
+
+.PauseScreen-Container .inject-html-style .controls-container video {
+	image-rendering: pixelated;
+}
+
+.PauseScreen-Container .inject-html-style .controls-container video.scaleDown {
+	width: 32px;
+}
+
+.PauseScreen-Container .inject-html-style .controls-container .title {
+	font-size: 30px;
+	font-style: italic;
+	color: tomato;
 }

@@ -27,6 +27,20 @@ export default class PauseScreen {
 		if (e.code === 'Escape') INTERRUPT.set('PAUSE', false);
 		else if (e.code === 'Report')
 			window.open('https://github.com/F28WP-Dubai-Group-6/LunarLander/issues/new');
+		else if (e.code === 'Controls') {
+			const injectPoint = document.querySelector('.inject-html');
+
+			injectPoint.innerHTML = require('./Controls.html');
+
+			document.querySelectorAll('video').forEach((v) => {
+				v.playbackRate = 0.5;
+			});
+			injectPoint.classList.add('inject-html-style');
+			injectPoint.classList.add('slide-opacity');
+			document
+				.querySelector('.PauseScreen-Container .controls-container .icons')
+				.addEventListener('click', () => (injectPoint.innerHTML = ''));
+		}
 	}
 
 	show() {
@@ -43,6 +57,10 @@ export default class PauseScreen {
 			document
 				.querySelector('.PauseScreen-Container .options .item.report')
 				.addEventListener('click', () => this.listener({ code: 'Report' }));
+
+			document
+				.querySelector('.PauseScreen-Container .options .item.controls')
+				.addEventListener('click', () => this.listener({ code: 'Controls' }));
 
 			document
 				.querySelector('.PauseScreen-Container .icons')
