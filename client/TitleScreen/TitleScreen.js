@@ -88,6 +88,20 @@ export default class SplashScreen {
 				break;
 
 			case 2:
+				injectPoint.innerHTML = require('./Components/Objective.html');
+
+				injectPoint.classList.add('inject-html-style');
+				injectPoint.classList.add('slide-opacity');
+				document
+					.querySelector('.SplashScreen-container .objectives-container .icons')
+					.addEventListener(
+						'click',
+						this.closeSubTab.bind(this, ['objectives-container'])
+					);
+
+				break;
+
+			case 3:
 				injectPoint.innerHTML = require('./Components/Credits.html');
 
 				document
