@@ -35,7 +35,7 @@ export class Player {
 		this.force = { x: 0, y: 0 };
 		this.physics = {
 			drag: new Drag(),
-			//wind: new Wind(),
+			wind: new Wind(),
 			gravity: new Gravity(),
 		};
 		//Player fuel value (starts at 100)

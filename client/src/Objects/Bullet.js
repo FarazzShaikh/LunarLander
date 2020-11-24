@@ -109,8 +109,8 @@ export default class Bullet extends Node {
 			}
 		}
 
-		self.position.x += 10 * Math.sin(r);
-		self.position.y += 10 * -Math.cos(r);
+		self.position.x += 30 * Math.sin(r);
+		self.position.y += 30 * -Math.cos(r);
 
 		let skip = false;
 		if (self.getPlayers()) {

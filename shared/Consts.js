@@ -53,7 +53,7 @@ export const DEFAULTS = {
 		SCALE: 0.01,
 		LACUNARITY: 2,
 		PERSISTANCE: 0.5,
-		OCTAVES: 5,
+		OCTAVES: 2,
 
 		N_CRASHED_SHIPS: 20,
 		INTERVAL_CRASHED_SHIPS: 173,
@@ -96,13 +96,13 @@ export const DEFAULTS = {
 		N: 10,
 	},
 	MOVEMENT_STRENGTH: {
-		BOOST: 2.5,
-		P_ROTATE: 0.5,
-		N_ROTATE: -0.5,
+		BOOST: 3,
+		P_ROTATE: 0.2,
+		N_ROTATE: -0.2,
 	},
 	DRAG: {
 		rho: 1.204,
-		cd: 1.05,
+		cd: 0.2,
 		a: (6 * 15 ** 2) / 10000,
 	},
 	GRAVITY: {

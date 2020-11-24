@@ -248,7 +248,8 @@
 
 .SplashScreen-container .controls-container .icons,
 .SplashScreen-container .play-container .icons,
-.SplashScreen-container .credits-container .icons {
+.SplashScreen-container .credits-container .icons,
+.SplashScreen-container .objectives-container .icons {
 	position: absolute;
 	right: 0;
 	top: 0;
@@ -475,4 +476,41 @@
 
 .credits-container .socials img:hover {
 	transform: scale(1.2, 1.2);
+}
+
+.objectives-container {
+	width: 50%;
+	height: 100%;
+	z-index: 2;
+
+	color: white;
+	font-family: 'VT323', monospace;
+	font-size: 20px;
+	text-align: center;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.objectives-container .title {
+	font-size: 30px;
+	font-style: italic;
+	color: tomato;
+	margin: 8px;
+}
+
+.objectives-container table {
+	margin-top: 8px;
+}
+
+.objectives-container table tbody tr td {
+	width: 100px;
+}
+
+.objectives-container p {
+	font-size: 25px;
+	text-decoration: line-through;
+	font-style: italic;
 }
