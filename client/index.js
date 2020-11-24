@@ -6,7 +6,7 @@ import './Shared/CRT.css';
 import DevScreen from './TitleScreen/DevScreen';
 // Entrypoint
 
-const dev_login_bypass = false;
+const dev_login_bypass = true;
 
 const devScreen = new DevScreen();
 devScreen.show(() => {

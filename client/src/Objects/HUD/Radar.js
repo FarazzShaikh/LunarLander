@@ -155,7 +155,7 @@ export default class Radar {
 					};
 
 					if (this.prevResources.w !== r.w || this.prevResources.s !== r.s) {
-						this.resText.innerHTML = `{&nbsp;<p class="strike">W&nbsp;</p><p>:</p>&nbsp;${r.w},&nbsp;<p class="strike">S&nbsp;</p><p>:</p>&nbsp;${r.s}&nbsp;}`;
+						this.resText.innerHTML = `{&nbsp;<p class="strike">W&nbsp;</p><p>:</p>&nbsp;${r.w}&nbsp;}`;
 					}
 
 					this.posText.innerHTML = `{&nbsp;<p>X:</p>&nbsp;${p.x},&nbsp;<p>Y:</p>&nbsp;${p.y}&nbsp;}`;

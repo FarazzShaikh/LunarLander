@@ -182,7 +182,6 @@ export default class Engine {
 								<div>&emsp;{</div>
 								<div>&emsp;&emsp;Fuel: ${s.resources.fuel}</div>
 								<div>&emsp;&emsp;W: ${s.resources.W}</div>
-								<div>&emsp;&emsp;Scrap: ${s.resources.scrap}</div>
 								<div>&emsp;}</div>
 							</div>
 						`,
@@ -246,7 +245,6 @@ export default class Engine {
 								<div>&emsp;{</div>
 								<div>&emsp;&emsp;Fuel: ${s.resources.fuel}</div>
 								<div>&emsp;&emsp;W: ${s.resources.W}</div>
-								<div>&emsp;&emsp;Scrap: ${s.resources.scrap}</div>
 								<div>&emsp;}</div>
 							</div>
 						`,
@@ -309,7 +307,6 @@ export default class Engine {
 								<div>&emsp;{</div>
 								<div>&emsp;&emsp;Fuel: ${s.resources.fuel}</div>
 								<div>&emsp;&emsp;W: ${s.resources.W}</div>
-								<div>&emsp;&emsp;Scrap: ${s.resources.scrap}</div>
 								<div>&emsp;}</div>
 							</div>
 						`,
