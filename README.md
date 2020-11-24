@@ -25,13 +25,19 @@
 | Boost | `Space` | `X` |
 | Rotate Left | `Left Arrow Key` | `L1` |
 | Rotate Right | `Right Arrow Key` | `R1` |
+| Info | `E` | `Triangle` |
+| Shoot | `F` | `Square` |
+| Collect | `W` | `Circle` |
+| Self Destruct | `P` | `PS` |
+| Pause | `Escape` | `Options` |
 
 
 ## **Overview**
 ### What is Lunar Lander?
-Lunar Lander is a multiplayer arcade style, survival shooter, where you collect resources by scanvenging or hunting down players. The goal is to collect the highest amount of curruncy.
+ Lunar Lander is a multiplayer arcade style, survival shooter, where you collect resources by scanvenging or hunting down players. The goal is to collect the highest amount of
+ curruncy.
 
-### Team Roles
+### Who is the team?
 | Name  | HW Username  | Role  | Tasks |
 |---|---|---|---|
 | [Faraz Shaikh](https://github.com/farazzshaikh)  |   fzs3| Lead Developer  | Implimenting Physics, Overseeing and helping Others in the group. |
@@ -39,5 +45,10 @@ Lunar Lander is a multiplayer arcade style, survival shooter, where you collect 
 |  [Gaurav Nayar](https://github.com/GauravNayar) |  gan4 | Front End Developer  | Developing art assets and UI. |
 |  [Mostafa Elsayed](https://github.com/TheChosenSir) |  mme10 | Backend Developer  | Helping impliment serverside code |
 
-### TODO: Rewrite Readme
+### Game Flow
+Player will be placed at a random location in an infinite world. The player must find and scavenge for resources from “Crashed Spaceships.” The ships are generated randomly around the map. The Payer has to conserve their own resources as Fuel is scarce. Fuel can be bought from Recharge Stations using Currency. This fuel lets the player travel to find more resources.
 
+As an alternative source of resources, the player can also hunt down other players and take them on in battle. The losing ship will be destroyed to collect its resources.
+
+### Look and Feel
+Lunar Lander has a distinctive art style blending traditional Sprite work with sleek and modern line art. The look of the terrain is inspired by 1980s arcade games that used vector graphics while the Sprite work is drawn from retro games from the 80s and 90s mainly those on the Nintendo Entertainment System and the Super Nintendo.
