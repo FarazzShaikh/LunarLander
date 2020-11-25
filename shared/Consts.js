@@ -102,7 +102,7 @@ export const DEFAULTS = {
 	},
 	DRAG: {
 		rho: 1.204,
-		cd: 0.2,
+		cd: 0.5,
 		a: (6 * 15 ** 2) / 10000,
 	},
 	GRAVITY: {

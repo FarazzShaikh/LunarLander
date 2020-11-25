@@ -217,11 +217,13 @@ export default class Game {
 
 	playerHasShot(socket) {
 		const player = this.players[socket.id];
-		player.setFire();
+		if (player) {
+			player.setFire();
+		}
 	}
 
 	playerIsShot(id, val) {
-		this.players[id].damage(val);
+		if (this.players[id]) this.players[id].damage(val);
 	}
 
 	killPLayer(socket) {
