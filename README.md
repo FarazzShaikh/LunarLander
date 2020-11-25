@@ -21,8 +21,8 @@
 | Action  | Keyboard  | Dualshock4 |
 |---|---|---|
 | Boost | `Space` | `X` |
-| Rotate Left | `Left Arrow Key` | `L1` |
-| Rotate Right | `Right Arrow Key` | `R1` |
+| Rotate Left | `A` | `L1` |
+| Rotate Right | `D` | `R1` |
 | Info | `E` | `Triangle` |
 | Shoot | `F` | `Square` |
 | Collect | `W` | `Circle` |
@@ -43,6 +43,13 @@
 |  [Gaurav Nayar](https://github.com/GauravNayar) |  gan4 | Front End Developer  | Developing art assets and UI. |
 |  [Mostafa Elsayed](https://github.com/TheChosenSir) |  mme10 | Backend Developer  | Helping impliment serverside code |
 
+### Objectives
+The objective of the game is to collect the highest number of resources and maximize value. Value is calculated based on the total value of fuel and currency. This goal can be reached by:
+- Exploring: Finding and collecting resources form crashed ships.
+- Combat: Engaging in combat with other players.
+- Scavenging: Finding players who have already crashed and scavenging resources.
+
+
 ### Game Flow
 Player will be placed at a random location in an infinite world. The player must find and scavenge for resources from “Crashed Spaceships.” The ships are generated randomly around the map. The Payer has to conserve their own resources as Fuel is scarce. Fuel can be bought from Recharge Stations using Currency. This fuel lets the player travel to find more resources.
 
@@ -50,3 +57,6 @@ As an alternative source of resources, the player can also hunt down other playe
 
 ### Look and Feel
 Lunar Lander has a distinctive art style blending traditional Sprite work with sleek and modern line art. The look of the terrain is inspired by 1980s arcade games that used vector graphics while the Sprite work is drawn from retro games from the 80s and 90s mainly those on the Nintendo Entertainment System and the Super Nintendo.
+
+## **Developers**
+Please Read the [Developer Readme](https://github.com/F28WP-Dubai-Group-6/LunarLander/blob/master/dev-README.MD)
