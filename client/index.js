@@ -7,7 +7,6 @@ import DevScreen from './TitleScreen/DevScreen';
 // Entrypoint
 
 const dev_login_bypass = false;
-
 const devScreen = new DevScreen();
 devScreen.show(() => {
 	devScreen.hide();
