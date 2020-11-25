@@ -63,18 +63,18 @@ export default class FPS {
 				l: document.querySelector('.Gague-container table tbody tr .text.health'),
 			};
 
-			setInterval(() => {
-				if (this.data) {
-					const vel = this.data.velocity();
-					const systems = this.data.systems();
-					if (this.velocityX && this.velocityY) {
-						this.calcShapes(Math.abs(vel.x), this.velocityX, 5);
-						this.calcShapes(Math.abs(vel.y), this.velocityY, 12);
-						this.calcShapes(systems.fuel, this.fuel, 0.22, true);
-						this.calcShapes(systems.health, this.health, 0.22, true);
-					}
-				}
-			}, 100);
+			// setInterval(() => {
+			// 	if (this.data) {
+			// 		const vel = this.data.velocity();
+			// 		const systems = this.data.systems();
+			// 		if (this.velocityX && this.velocityY) {
+			// 			this.calcShapes(Math.abs(vel.x), this.velocityX, 5);
+			// 			this.calcShapes(Math.abs(vel.y), this.velocityY, 12);
+			// 			this.calcShapes(systems.fuel, this.fuel, 0.22, true);
+			// 			this.calcShapes(systems.health, this.health, 0.22, true);
+			// 		}
+			// 	}
+			// }, 100);
 		}, 3000);
 	}
 
