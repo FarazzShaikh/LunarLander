@@ -31,7 +31,7 @@ export default class Collision {
 
 		if (
 			player.position.y + 60 >= noise &&
-			(player.velocity.y > 0.3 || player.velocity.x > 0.3)
+			(player.velocity.y > 0.5 || player.velocity.x > 0.3)
 		) {
 			player.damage(player.velocity.y * DEFAULTS.COLLISION.dmg);
 		}

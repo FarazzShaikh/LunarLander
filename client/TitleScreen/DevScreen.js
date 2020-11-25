@@ -18,7 +18,7 @@ export default class DevScreen {
 			this.HTML.querySelector('.host').textContent =
 				'Host:' + truncate(location.host, 10);
 			setTimeout(() => {
-		  	callback();
+		  		callback();
 			}, 2000);
 		}, 100);
 	}
