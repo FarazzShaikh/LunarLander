@@ -8,7 +8,9 @@ var http = require('http').createServer(app);
 const dotenv = require('dotenv');
 const reload = require('reload');
 const bodyParser = require('body-parser');
-var cors = require('cors');
+const cors = require('cors');
+const favicon = require('serve-favicon');
+const path = require('path');
 
 const port = process.env.PORT || 3000;
 
@@ -18,6 +20,7 @@ app.options('*', cors());
 dotenv.config();
 DB.init();
 app.use(bodyParser.json());
+app.use(favicon(path.join('Assets', 'favicon.ico')));
 
 // Endpoint to get all Scores or Scores with uuid
 app.get('/api/scores/:uuid', async (req, res) => {
@@ -63,8 +66,6 @@ app.use('/', express.static('client'));
 app.get('/', cors(), (req, res) => {
 	res.sendFile(__dirname + '/index.html');
 });
-
-app.get('/favicon.ico', (req, res) => res.status(204));
 
 // app.get('/*', (req, res) => {
 // 	res.sendFile(path.resolve('client/src/Views/404/404.html'));

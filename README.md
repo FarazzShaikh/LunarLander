@@ -15,9 +15,7 @@
 
 [Launch Lunar Lander Pre-Alpha](https://lunar-lander-js.herokuapp.com/)
 
-![TitleDemo](https://github.com/FarazzShaikh/LunarLander/blob/master/Assets/TitleDemo.gif)
-
-![Demo](https://github.com/FarazzShaikh/LunarLander/blob/master/Assets/Demo.gif)
+[![Demo](https://github.com/FarazzShaikh/LunarLander/blob/master/Assets/Demo.gif)](https://www.youtube.com/watch?v=6PbooR1DMcY&feature=youtu.be "Click to view Trailer!")
 
 ## **Controls**
 | Action  | Keyboard  | Dualshock4 |
