@@ -155,7 +155,7 @@ export default function main(radio) {
 				new Sprite({
 					name: 'Earth',
 					position: { x: 70, y: 70 },
-					scale: 6,
+					scale: 3.5,
 					sprite: Sprite_Earth,
 					shadowColor: 'rgba(0, 139, 139, 0.5)',
 					zIndex: 8,
@@ -164,7 +164,7 @@ export default function main(radio) {
 				new Sprite({
 					name: 'Baren',
 					position: { x: 80, y: 75 },
-					scale: 5.5,
+					scale: 3,
 					sprite: Sprite_Baren,
 					shadowColor: 'rgba(255, 255, 255, 0.2)',
 					zIndex: 9,
@@ -173,7 +173,7 @@ export default function main(radio) {
 				new Sprite({
 					name: 'Ice',
 					position: { x: 500, y: 75 },
-					scale: 4.5,
+					scale: 2,
 					sprite: Sprite_Ice,
 					shadowColor: 'rgba(255, 255, 255, 0.2)',
 					zIndex: 8,

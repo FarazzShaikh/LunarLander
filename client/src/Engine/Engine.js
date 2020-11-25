@@ -215,7 +215,7 @@ export default class Engine {
 						name: `${s.name}`,
 						position: {
 							x: s.xPosition + window.innerWidth / 2 - 300,
-							y: Terrain.sample(s.xPosition, this.offset) - 450,
+							y: Terrain.sample(s.xPosition, this.offset) - 300,
 						},
 						hitbox: {
 							w: 300,
@@ -230,7 +230,7 @@ export default class Engine {
 							w: 100,
 							h: 100,
 						},
-						scale: 9,
+						scale: 5,
 						rotation: -0.5 + Math.random() * 0.2,
 						zIndex: 10,
 						sprite: sprite_ships,

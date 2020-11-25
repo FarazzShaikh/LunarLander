@@ -156,7 +156,7 @@ export default class Game {
 			uuid: data.uuid,
 			name: data.name,
 			socket: socket,
-			position: { x: 175163.0671 , y: 0 },
+			position: { x: 10000 + Math.random() * 100000, y: 0 },
 			velocity: { x: 5, y: 0 },
 			rotation: Math.PI / 2,
 			resources: resources,

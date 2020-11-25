@@ -12,15 +12,15 @@ export default class DevScreen {
 	}
 
 	show(callback) {
-		// document.body.appendChild(this.HTML);
-		// setTimeout(() => {
-		// 	this.HTML.style.opacity = '1';
-		// 	this.HTML.querySelector('.host').textContent =
-		// 		'Host:' + truncate(location.host, 10);
-		// 	setTimeout(() => {
+		document.body.appendChild(this.HTML);
+		setTimeout(() => {
+			this.HTML.style.opacity = '1';
+			this.HTML.querySelector('.host').textContent =
+				'Host:' + truncate(location.host, 10);
+			setTimeout(() => {
 		  	callback();
-		// 	}, 2000);
-		// }, 100);
+			}, 2000);
+		}, 100);
 	}
 
 	hide() {
