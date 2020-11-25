@@ -6,8 +6,7 @@ import './Shared/CRT.css';
 import DevScreen from './TitleScreen/DevScreen';
 // Entrypoint
 
-const dev_login_bypass = false;
-
+const dev_login_bypass = true;
 const devScreen = new DevScreen();
 devScreen.show(() => {
 	devScreen.hide();
@@ -17,8 +16,8 @@ devScreen.show(() => {
 
 		if (dev_login_bypass) {
 			Cookies.setCookies({
-				name: 'test7',
-				uuid: 1234,
+				name: 'TEST',
+				uuid: 1606285731272,
 			});
 
 			getMain()
