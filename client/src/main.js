@@ -292,7 +292,7 @@ export default function main(radio) {
 
 	socket.on(REQUEST.REQUEST_DELETE_PLAYER.req, () => {
 		engine.explodePlayer(() => {
-			Cookies.deleteCookies();
+			//Cookies.deleteCookies();
 			INTERRUPT.set('INTERRUPT-PLAYER-DEAD', true);
 		});
 	});

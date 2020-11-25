@@ -31,7 +31,7 @@ export async function GET(uuid, collection) {
 		return client
 			.query(
 				Map(
-					Paginate(Documents(Collection(collection))),
+					Paginate(Documents(Collection(collection)), { size: 100000 }),
 					Lambda((x) => Get(x))
 				)
 			)
