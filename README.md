@@ -15,6 +15,8 @@
 
 [Launch Lunar Lander Beta](https://lunar-lander-js.herokuapp.com/)
 
+[Watch Trailer](https://www.youtube.com/watch?v=6PbooR1DMcY&feature=youtu.be)
+
 [![Demo](https://github.com/FarazzShaikh/LunarLander/blob/master/Assets/Demo.gif)](https://www.youtube.com/watch?v=6PbooR1DMcY&feature=youtu.be "Click to view Trailer!")
 
 ## **Controls**
