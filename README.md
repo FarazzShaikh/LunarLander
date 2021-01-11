@@ -13,7 +13,8 @@
 *A Sci-Fi Survival Shooter, made entirely using the DOM and JavaScript*
 
 
-[Launch Lunar Lander Beta](https://lunar-lander-js.herokuapp.com/)
+~~Launch Lunar Lander Beta~~ Hosting is expensive lol. 
+Find instreuctions to host [here](https://github.com/FarazzShaikh/LunarLander/blob/master/dev-README.MD). 
 
 [Watch Trailer](https://www.youtube.com/watch?v=6PbooR1DMcY&feature=youtu.be)
 
